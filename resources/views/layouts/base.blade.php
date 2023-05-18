@@ -1,3 +1,14 @@
+@php
+    $url = '';
+    
+    try {
+        $url .= $_SERVER['REQUEST_URI'];
+    } catch (Exception $ex) {
+        $error_msg = $ex->getMessage();
+        HalperFunctions::insertLogError('ExceptionGuide', 'GetDataCurrentServer', 'Exception', $error_msg);
+    }
+    $url = str_replace('/', '', $url);
+@endphp
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -50,7 +61,7 @@
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
-                <li class="active"><a href="{{ route('home') }}">Home</a></li>
+                <li class="{{ $url == '' ? 'active' : '' }}"><a href="{{ route('home') }}">Home</a></li>
                 <li><a href="./shop-grid.html">Shop</a></li>
                 <li><a href="#">Pages</a>
                     <ul class="header__menu__dropdown">
@@ -119,7 +130,7 @@
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li class="active"><a href="{{ route('home') }}">Home</a></li>
+                            <li class="{{ $url == '' ? 'active' : '' }}"><a href="{{ route('home') }}">Home</a></li>
                             <li><a href="./shop-grid.html">Shop</a></li>
                             <li><a href="#">Pages</a>
                                 <ul class="header__menu__dropdown">
