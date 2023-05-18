@@ -65,7 +65,7 @@ class LoginComponent extends Component
             RateLimiter::hit($throttleKey);
 
             if($user){
-                if(Hash::check($this->password, $user->password)){
+                if(Hash::check($this->passwordLogin, $user->password)){
                     $getUserAuth = Auth::attempt(['email' => $this->emailLogin, 'password' => $this->passwordLogin]);
                     if($getUserAuth){
                         if(strtolower($user->flag_active) === "y"){
@@ -102,7 +102,7 @@ class LoginComponent extends Component
     public function addRegisterData(){
         $this->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users.email',
+            'email' => 'required|email|unique:users',
             'no_ponsel' => 'required|numeric|digits_between:11,12',
             'password' => 'required|min:6|required_with:co_password',
             'co_password' => 'required|min:6|required_with:password|same:password',

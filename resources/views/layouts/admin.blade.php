@@ -1,420 +1,372 @@
-<!doctype html>
-<html class="no-js" lang="en">
+<!DOCTYPE html>
+<html
+  lang="en"
+  class="light-style layout-menu-fixed"
+  dir="ltr"
+  data-theme="theme-default"
+  data-assets-path="{{ asset('assetz/') }}"
+  data-template="vertical-menu-template-free"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Ogani</title>
-  <meta name="description" content="">
-  <meta name="keywords" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
 
-  <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800" rel="stylesheet">
+    <meta name="description" content="" />
 
-  <link rel="stylesheet" href="{{ asset('assetz/node_modules/bootstrap/dist/css/bootstrap.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assetz/node_modules/@fortawesome/fontawesome-free/css/all.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assetz/node_modules/icon-kit/dist/css/iconkit.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assetz/node_modules/ionicons/dist/css/ionicons.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assetz/node_modules/perfect-scrollbar/css/perfect-scrollbar.css') }}">
-  <link rel="stylesheet" href="{{ asset('assetz/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assetz/node_modules/jvectormap/jquery-jvectormap.css') }}">
-  <link rel="stylesheet" href="{{ asset('assetz/node_modules/tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assetz/node_modules/weather-icons/css/weather-icons.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assetz/node_modules/c3/c3.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assetz/node_modules/perfect-scrollbar/css/perfect-scrollbar.css') }}">
-  <link rel="stylesheet" href="{{ asset('assetz/node_modules/owl.carousel/dist/assets/owl.carousel.css') }}">
-  <link rel="stylesheet" href="{{ asset('assetz/node_modules/owl.carousel/dist/assets/owl.theme.default.css') }}">
-  <link rel="stylesheet" href="{{ asset('assetz/dist/css/theme.min.css') }}">
-  <script src="{{ asset('assetz/src/js/vendor/modernizr-2.8.3.min.js') }}"></script>
-</head>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('assetz/img/favicon/favicon.ico') }}" />
 
-<body>
-  <div class="wrapper">
-    <header class="header-top" header-theme="light">
-      <div class="container-fluid">
-        <div class="d-flex justify-content-between">
-          <div class="top-menu d-flex align-items-center">
-            <button type="button" class="btn-icon mobile-nav-toggle d-lg-none"><span></span></button>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="{{ asset('assetz/vendor/fonts/boxicons.css') }}" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="{{ asset('assetz/vendor/css/core.css') }}" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="{{ asset('assetz/vendor/css/theme-default.css') }}" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="{{ asset('assetz/css/demo.css') }}" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="{{ asset('assetz/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
+
+    <link rel="stylesheet" href="{{ asset('assetz/vendor/libs/apex-charts/apex-charts.css') }}" />
+
+    <!-- Page CSS -->
+
+    <!-- Helpers -->
+    <script src="{{ asset('assetz/vendor/js/helpers.js') }}"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="{{ asset('assetz/js/config.js') }}"></script>
+  </head>
+
+  <body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        <!-- Menu -->
+
+        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+          <div class="app-brand demo">
+            <a href="index.html" class="app-brand-link">
+              <span class="app-brand-logo demo">
+                <img src="{{ asset('assets/img/logo.png') }}" alt="">
+              </span>
+            </a>
+
+            <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+              <i class="bx bx-chevron-left bx-sm align-middle"></i>
+            </a>
           </div>
-          <div class="top-menu d-flex align-items-center">
-            <div class="dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="notiDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false"><i class="ik ik-bell"></i><span
-                  class="badge bg-danger">3</span></a>
-              <div class="dropdown-menu dropdown-menu-right notification-dropdown" aria-labelledby="notiDropdown">
-                <h4 class="header">Notifications</h4>
-                <div class="notifications-wrap">
-                  <a href="#" class="media">
-                    <span class="d-flex">
-                      <i class="ik ik-check"></i>
-                    </span>
-                    <span class="media-body">
-                      <span class="heading-font-family media-heading">Invitation accepted</span>
-                      <span class="media-content">Your have been Invited ...</span>
-                    </span>
+
+          <div class="menu-inner-shadow"></div>
+
+          <ul class="menu-inner py-1">
+            <!-- Dashboard -->
+            <li class="menu-item active">
+              <a href="index.html" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div data-i18n="Analytics">Dashboard</div>
+              </a>
+            </li>
+
+            <!-- Layouts -->
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-layout"></i>
+                <div data-i18n="Layouts">Layouts</div>
+              </a>
+
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="layouts-without-menu.html" class="menu-link">
+                    <div data-i18n="Without menu">Without menu</div>
                   </a>
-                  <a href="#" class="media">
-                    <span class="d-flex">
-                      <img src="{{ asset('assetz/img/users/1.jpg') }}" class="rounded-circle" alt="">
-                    </span>
-                    <span class="media-body">
-                      <span class="heading-font-family media-heading">Steve Smith</span>
-                      <span class="media-content">I slowly updated projects</span>
-                    </span>
+                </li>
+                <li class="menu-item">
+                  <a href="layouts-without-navbar.html" class="menu-link">
+                    <div data-i18n="Without navbar">Without navbar</div>
                   </a>
-                  <a href="#" class="media">
-                    <span class="d-flex">
-                      <i class="ik ik-calendar"></i>
-                    </span>
-                    <span class="media-body">
-                      <span class="heading-font-family media-heading">To Do</span>
-                      <span class="media-content">Meeting with Nathan on Friday 8 AM ...</span>
-                    </span>
+                </li>
+                <li class="menu-item">
+                  <a href="layouts-container.html" class="menu-link">
+                    <div data-i18n="Container">Container</div>
                   </a>
-                </div>
-                <div class="footer"><a href="javascript:void(0);">See all activity</a></div>
-              </div>
-            </div>
-            <button type="button" class="nav-link ml-10 right-sidebar-toggle"><i class="ik ik-message-square"></i><span
-                class="badge bg-success">3</span></button>
-            <span class="ml-20">Hallo, <strong>David Simbolon</strong></span>
-            <div class="dropdown">
-              <a class="dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false"><img class="avatar" src="{{ asset('assetz/img/user.jpg') }}" alt=""></a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="pages/profile.html"><i class="ik ik-user dropdown-icon"></i> Profile</a>
-                <a class="dropdown-item" href="#"><i class="ik ik-settings dropdown-icon"></i> Settings</a>
-                <a class="dropdown-item" href="#"><span class="float-right"><span
-                      class="badge badge-primary">6</span></span><i class="ik ik-mail dropdown-icon"></i> Inbox</a>
-                <a class="dropdown-item" href="#"><i class="ik ik-navigation dropdown-icon"></i> Message</a>
-                <a class="dropdown-item" href="pages/login.html"><i class="ik ik-power dropdown-icon"></i> Logout</a>
-              </div>
+                </li>
+                <li class="menu-item">
+                  <a href="layouts-fluid.html" class="menu-link">
+                    <div data-i18n="Fluid">Fluid</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="layouts-blank.html" class="menu-link">
+                    <div data-i18n="Blank">Blank</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- Forms & Tables -->
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Forms &amp; Tables</span></li>
+            <!-- Forms -->
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-detail"></i>
+                <div data-i18n="Form Elements">Form Elements</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="forms-basic-inputs.html" class="menu-link">
+                    <div data-i18n="Basic Inputs">Basic Inputs</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="forms-input-groups.html" class="menu-link">
+                    <div data-i18n="Input groups">Input groups</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-detail"></i>
+                <div data-i18n="Form Layouts">Form Layouts</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="form-layouts-vertical.html" class="menu-link">
+                    <div data-i18n="Vertical Form">Vertical Form</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="form-layouts-horizontal.html" class="menu-link">
+                    <div data-i18n="Horizontal Form">Horizontal Form</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <!-- Tables -->
+            <li class="menu-item">
+              <a href="tables-basic.html" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-table"></i>
+                <div data-i18n="Tables">Tables</div>
+              </a>
+            </li>
+            <!-- Misc -->
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>
+            <li class="menu-item">
+              <a
+                href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
+                target="_blank"
+                class="menu-link"
+              >
+                <i class="menu-icon tf-icons bx bx-support"></i>
+                <div data-i18n="Support">Support</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{{ route('logout') }}" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-log-out'></i>
+                <div data-i18n="Documentation">Logout</div>
+              </a>
+            </li>
+          </ul>
+        </aside>
+        <!-- / Menu -->
+
+        <!-- Layout container -->
+        <div class="layout-page">
+          <!-- Navbar -->
+
+          <nav
+            class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+            id="layout-navbar"
+          >
+            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+              <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                <i class="bx bx-menu bx-sm"></i>
+              </a>
             </div>
 
+            <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+              <!-- Search -->
+              <div class="navbar-nav align-items-center">
+                <div class="nav-item d-flex align-items-center">
+                  <i class="bx bx-search fs-4 lh-0"></i>
+                  <input
+                    type="text"
+                    class="form-control border-0 shadow-none"
+                    placeholder="Search..."
+                    aria-label="Search..."
+                  />
+                </div>
+              </div>
+              <!-- /Search -->
+
+              <ul class="navbar-nav flex-row align-items-center ms-auto">
+                <!-- Place this tag where you want the button to render. -->
+                <li class="nav-item lh-1 me-3">
+                  <a
+                    class="github-button"
+                    href="https://github.com/themeselection/sneat-html-admin-template-free"
+                    data-icon="octicon-star"
+                    data-size="large"
+                    data-show-count="true"
+                    aria-label="Star themeselection/sneat-html-admin-template-free on GitHub"
+                    >Star</a
+                  >
+                </li>
+
+                <!-- User -->
+                <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                  <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                    <div class="avatar avatar-online">
+                      <img src="{{ asset('assetz/img/avatars/1.png') }}" alt class="w-px-40 h-auto rounded-circle" />
+                    </div>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        <div class="d-flex">
+                          <div class="flex-shrink-0 me-3">
+                            <div class="avatar avatar-online">
+                              <img src="{{ asset('assetz/img/avatars/1.png') }}" alt class="w-px-40 h-auto rounded-circle" />
+                            </div>
+                          </div>
+                          <div class="flex-grow-1">
+                            <span class="fw-semibold d-block">John Doe</span>
+                            <small class="text-muted">Admin</small>
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                    <li>
+                      <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        <i class="bx bx-user me-2"></i>
+                        <span class="align-middle">My Profile</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        <i class="bx bx-cog me-2"></i>
+                        <span class="align-middle">Settings</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        <span class="d-flex align-items-center align-middle">
+                          <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
+                          <span class="flex-grow-1 align-middle">Billing</span>
+                          <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="auth-login-basic.html">
+                        <i class="bx bx-power-off me-2"></i>
+                        <span class="align-middle">Log Out</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <!--/ User -->
+              </ul>
+            </div>
+          </nav>
+
+          <!-- / Navbar -->
+
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+            <div class="container-xxl flex-grow-1 container-p-y">
+              {{ $slot }}
+            </div>
+            <!-- / Content -->
+
+            <!-- Footer -->
+            <footer class="content-footer footer bg-footer-theme">
+              <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+                <div class="mb-2 mb-md-0">
+                  ©
+                  <script>
+                    document.write(new Date().getFullYear());
+                  </script>
+                  , made with ❤️ by
+                  <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
+                </div>
+                <div>
+                  <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
+                  <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
+
+                  <a
+                    href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
+                    target="_blank"
+                    class="footer-link me-4"
+                    >Documentation</a
+                  >
+
+                  <a
+                    href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
+                    target="_blank"
+                    class="footer-link me-4"
+                    >Support</a
+                  >
+                </div>
+              </div>
+            </footer>
+            <!-- / Footer -->
+
+            <div class="content-backdrop fade"></div>
           </div>
+          <!-- Content wrapper -->
         </div>
+        <!-- / Layout page -->
       </div>
-    </header>
 
-    <div class="page-wrap">
-      <div class="app-sidebar colored">
-        <div class="sidebar-header">
-          <a class="header-brand" href="index.html">
-            <div class="logo-img">
-              <img src="{{ asset('assetz/src/img/brand-white.svg') }}" class="header-brand-img" alt="lavalite">
-            </div>
-          </a>
-          <button id="sidebarClose" class="nav-close"><i class="ik ik-x"></i></button>
-        </div>
-
-        <div class="sidebar-content">
-          <div class="nav-container">
-            <nav id="main-menu-navigation" class="navigation-main">
-              <div class="nav-lavel">Navigation</div>
-              <div class="nav-item active">
-                <a href="index.html"><i class="ik ik-bar-chart-2"></i><span>Dashboard</span></a>
-              </div>
-              <div class="nav-item">
-                <a href="pages/navbar.html"><i class="ik ik-menu"></i><span>Navigation</span> <span
-                    class="badge badge-success">New</span></a>
-              </div>
-              <div class="nav-item has-sub">
-                <a href="javascript:void(0)"><i class="ik ik-layers"></i><span>Widgets</span> <span
-                    class="badge badge-danger">150+</span></a>
-                <div class="submenu-content">
-                  <a href="pages/widgets.html" class="menu-item">Basic</a>
-                  <a href="pages/widget-statistic.html" class="menu-item">Statistic</a>
-                  <a href="pages/widget-data.html" class="menu-item">Data</a>
-                  <a href="pages/widget-chart.html" class="menu-item">Chart Widget</a>
-                </div>
-              </div>
-              
-              <div class="nav-lavel">Forms</div>
-              <div class="nav-item has-sub">
-                <a href="#"><i class="ik ik-edit"></i><span>Forms</span></a>
-                <div class="submenu-content">
-                  <a href="pages/form-components.html" class="menu-item">Components</a>
-                  <a href="pages/form-addon.html" class="menu-item">Add-On</a>
-                  <a href="pages/form-advance.html" class="menu-item">Advance</a>
-                </div>
-              </div>
-              <div class="nav-item">
-                <a href="pages/form-picker.html"><i class="ik ik-terminal"></i><span>Form Picker</span> <span
-                    class="badge badge-success">New</span></a>
-              </div>
-
-              <div class="nav-lavel">Other</div>
-              <div class="nav-item">
-                <a href="javascript:void(0)" class="disabled"><i class="ik ik-slash"></i><span>Disabled Menu</span></a>
-              </div>
-              <div class="nav-item">
-                <a href="javascript:void(0)"><i class="ik ik-award"></i><span>Sample Page</span></a>
-              </div>
-            </nav>
-          </div>
-        </div>
-      </div>
-      <div class="main-content">
-        <div class="container-fluid">
-          {{ $slot }}
-        </div>
-      </div>
-
-      <aside class="right-sidebar">
-        <div class="sidebar-chat" data-plugin="chat-sidebar">
-          <div class="sidebar-chat-info">
-            <h6>Chat List</h6>
-            <form class="mr-t-10">
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search for friends ...">
-                <i class="ik ik-search"></i>
-              </div>
-            </form>
-          </div>
-          <div class="chat-list">
-            <div class="list-group row">
-              <a href="javascript:void(0)" class="list-group-item" data-chat-user="Gene Newman">
-                <figure class="user--online">
-                  <img src="{{ asset('assetz/img/users/1.jpg') }}" class="rounded-circle" alt="">
-                </figure><span><span class="name">Gene Newman</span> <span class="username">@gene_newman</span> </span>
-              </a>
-              <a href="javascript:void(0)" class="list-group-item" data-chat-user="Billy Black">
-                <figure class="user--online">
-                  <img src="{{ asset('assetz/img/users/2.jpg') }}" class="rounded-circle" alt="">
-                </figure><span><span class="name">Billy Black</span> <span class="username">@billyblack</span> </span>
-              </a>
-              <a href="javascript:void(0)" class="list-group-item" data-chat-user="Herbert Diaz">
-                <figure class="user--online">
-                  <img src="{{ asset('assetz/img/users/3.jpg') }}" class="rounded-circle" alt="">
-                </figure><span><span class="name">Herbert Diaz</span> <span class="username">@herbert</span> </span>
-              </a>
-              <a href="javascript:void(0)" class="list-group-item" data-chat-user="Sylvia Harvey">
-                <figure class="user--busy">
-                  <img src="{{ asset('assetz/img/users/4.jpg') }}" class="rounded-circle" alt="">
-                </figure><span><span class="name">Sylvia Harvey</span> <span class="username">@sylvia</span> </span>
-              </a>
-              <a href="javascript:void(0)" class="list-group-item active" data-chat-user="Marsha Hoffman">
-                <figure class="user--busy">
-                  <img src="{{ asset('assetz/img/users/5.jpg') }}" class="rounded-circle" alt="">
-                </figure><span><span class="name">Marsha Hoffman</span> <span class="username">@m_hoffman</span> </span>
-              </a>
-              <a href="javascript:void(0)" class="list-group-item" data-chat-user="Mason Grant">
-                <figure class="user--offline">
-                  <img src="{{ asset('assetz/img/users/1.jpg') }}" class="rounded-circle" alt="">
-                </figure><span><span class="name">Mason Grant</span> <span class="username">@masongrant</span> </span>
-              </a>
-              <a href="javascript:void(0)" class="list-group-item" data-chat-user="Shelly Sullivan">
-                <figure class="user--offline">
-                  <img src="{{ asset('assetz/img/users/2.jpg') }}" class="rounded-circle" alt="">
-                </figure><span><span class="name">Shelly Sullivan</span> <span class="username">@shelly</span></span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </aside>
-
-      <div class="chat-panel" hidden>
-        <div class="card">
-          <div class="card-header d-flex justify-content-between">
-            <a href="javascript:void(0);"><i class="ik ik-message-square text-success"></i></a>
-            <span class="user-name">John Doe</span>
-            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">×</span></button>
-          </div>
-          <div class="card-body">
-            <div class="widget-chat-activity flex-1">
-              <div class="messages">
-                <div class="message media reply">
-                  <figure class="user--online">
-                    <a href="#">
-                      <img src="{{ asset('assetz/img/users/3.jpg') }}" class="rounded-circle" alt="">
-                    </a>
-                  </figure>
-                  <div class="message-body media-body">
-                    <p>Epic Cheeseburgers come in all kind of styles.</p>
-                  </div>
-                </div>
-                <div class="message media">
-                  <figure class="user--online">
-                    <a href="#">
-                      <img src="{{ asset('assetz/img/users/1.jpg') }}" class="rounded-circle" alt="">
-                    </a>
-                  </figure>
-                  <div class="message-body media-body">
-                    <p>Cheeseburgers make your knees weak.</p>
-                  </div>
-                </div>
-                <div class="message media reply">
-                  <figure class="user--offline">
-                    <a href="#">
-                      <img src="{{ asset('assetz/img/users/5.jpg') }}" class="rounded-circle" alt="">
-                    </a>
-                  </figure>
-                  <div class="message-body media-body">
-                    <p>Cheeseburgers will never let you down.</p>
-                    <p>They'll also never run around or desert you.</p>
-                  </div>
-                </div>
-                <div class="message media">
-                  <figure class="user--online">
-                    <a href="#">
-                      <img src="{{ asset('assetz/img/users/1.jpg') }}" class="rounded-circle" alt="">
-                    </a>
-                  </figure>
-                  <div class="message-body media-body">
-                    <p>A great cheeseburger is a gastronomical event.</p>
-                  </div>
-                </div>
-                <div class="message media reply">
-                  <figure class="user--busy">
-                    <a href="#">
-                      <img src="{{ asset('assetz/img/users/5.jpg') }}" class="rounded-circle" alt="">
-                    </a>
-                  </figure>
-                  <div class="message-body media-body">
-                    <p>There's a cheesy incarnation waiting for you no matter what you palete preferences are.</p>
-                  </div>
-                </div>
-                <div class="message media">
-                  <figure class="user--online">
-                    <a href="#">
-                      <img src="{{ asset('assetz/img/users/1.jpg') }}" class="rounded-circle" alt="">
-                    </a>
-                  </figure>
-                  <div class="message-body media-body">
-                    <p>If you are a vegan, we are sorry for you loss.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <form action="javascript:void(0)" class="card-footer" method="post">
-            <div class="d-flex justify-content-end">
-              <textarea class="border-0 flex-1" rows="1" placeholder="Type your message here"></textarea>
-              <button class="btn btn-icon" type="submit"><i class="ik ik-arrow-right text-success"></i></button>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <footer class="footer">
-        <div class="w-100 clearfix">
-          <span class="text-center text-sm-left d-md-inline-block">Copyright © 2018 ThemeKit v2.0. All Rights
-            Reserved.</span>
-          <span class="float-none float-sm-right mt-1 mt-sm-0 text-center">Crafted with <i
-              class="fa fa-heart text-danger"></i> by <a href="http://lavalite.org/" class="text-dark"
-              target="_blank">Lavalite</a></span>
-        </div>
-      </footer>
-
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
     </div>
-  </div>
+    <!-- / Layout wrapper -->
 
-  <div class="modal fade apps-modal" id="appsModal" tabindex="-1" role="dialog" aria-labelledby="appsModalLabel"
-    aria-hidden="true" data-backdrop="false">
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="ik ik-x-circle"></i></button>
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="quick-search">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-4 ml-auto mr-auto">
-                <div class="input-wrap">
-                  <input type="text" id="quick-search" class="form-control" placeholder="Search..." />
-                  <i class="ik ik-search"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="modal-body d-flex align-items-center">
-          <div class="container">
-            <div class="apps-wrap">
-              <div class="app-item">
-                <a href="#"><i class="ik ik-bar-chart-2"></i><span>Dashboard</span></a>
-              </div>
-              <div class="app-item dropdown">
-                <a href="#" class="dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false"><i class="ik ik-command"></i><span>Ui</span></a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-              </div>
-              <div class="app-item">
-                <a href="#"><i class="ik ik-mail"></i><span>Message</span></a>
-              </div>
-              <div class="app-item">
-                <a href="#"><i class="ik ik-users"></i><span>Accounts</span></a>
-              </div>
-              <div class="app-item">
-                <a href="#"><i class="ik ik-shopping-cart"></i><span>Sales</span></a>
-              </div>
-              <div class="app-item">
-                <a href="#"><i class="ik ik-briefcase"></i><span>Purchase</span></a>
-              </div>
-              <div class="app-item">
-                <a href="#"><i class="ik ik-server"></i><span>Menus</span></a>
-              </div>
-              <div class="app-item">
-                <a href="#"><i class="ik ik-clipboard"></i><span>Pages</span></a>
-              </div>
-              <div class="app-item">
-                <a href="#"><i class="ik ik-message-square"></i><span>Chats</span></a>
-              </div>
-              <div class="app-item">
-                <a href="#"><i class="ik ik-map-pin"></i><span>Contacts</span></a>
-              </div>
-              <div class="app-item">
-                <a href="#"><i class="ik ik-box"></i><span>Blocks</span></a>
-              </div>
-              <div class="app-item">
-                <a href="#"><i class="ik ik-calendar"></i><span>Events</span></a>
-              </div>
-              <div class="app-item">
-                <a href="#"><i class="ik ik-bell"></i><span>Notifications</span></a>
-              </div>
-              <div class="app-item">
-                <a href="#"><i class="ik ik-pie-chart"></i><span>Reports</span></a>
-              </div>
-              <div class="app-item">
-                <a href="#"><i class="ik ik-layers"></i><span>Tasks</span></a>
-              </div>
-              <div class="app-item">
-                <a href="#"><i class="ik ik-edit"></i><span>Blogs</span></a>
-              </div>
-              <div class="app-item">
-                <a href="#"><i class="ik ik-settings"></i><span>Settings</span></a>
-              </div>
-              <div class="app-item">
-                <a href="#"><i class="ik ik-more-horizontal"></i><span>More</span></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="{{ asset('assetz/vendor/libs/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('assetz/vendor/libs/popper/popper.js') }}"></script>
+    <script src="{{ asset('assetz/vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('assetz/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
 
-  <script src="{{ asset('assetz/src/js/vendor/jquery-3.3.1.min.js') }}"></script>
-  <script src="{{ asset('assetz/node_modules/popper.js/dist/umd/popper.min.js') }}"></script>
-  <script src="{{ asset('assetz/node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-  <script src="{{ asset('assetz/node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js') }}"></script>
-  <script src="{{ asset('assetz/node_modules/screenfull/dist/screenfull.js') }}"></script>
-  <script src="{{ asset('assetz/node_modules/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-  <script src="{{ asset('assetz/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-  <script src="{{ asset('assetz/node_modules/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
-  <script src="{{ asset('assetz/node_modules/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
-  <script src="{{ asset('assetz/node_modules/jvectormap/jquery-jvectormap.min.js') }}"></script>
-  <script src="{{ asset('assetz/node_modules/jvectormap/tests/assets/jquery-jvectormap-world-mill-en.js') }}"></script>
-  <script src="{{ asset('assetz/node_modules/moment/moment.js') }}"></script>
-  <script src="{{ asset('assetz/node_modules/tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.min.js') }}"></script>
-  <script src="{{ asset('assetz/node_modules/d3/dist/d3.min.js') }}"></script>
-  <script src="{{ asset('assetz/node_modules/c3/c3.min.js') }}"></script>
-  <script src="{{ asset('assetz/js/tables.js') }}"></script>
-  <script src="{{ asset('assetz/js/widgets.js') }}"></script>
-  <script src="{{ asset('assetz/js/charts.js') }}"></script>
-  <script src="{{ asset('assetz/dist/js/theme.min.js') }}"></script>
-</body>
+    <script src="{{ asset('assetz/vendor/js/menu.js') }}"></script>
+    <!-- endbuild -->
 
+    <!-- Vendors JS -->
+    <script src="{{ asset('assetz/vendor/libs/apex-charts/apexcharts.js') }}"></script>
+
+    <!-- Main JS -->
+    <script src="{{ asset('assetz/js/main.js') }}"></script>
+
+    <!-- Page JS -->
+    <script src="{{ asset('assetz/js/dashboards-analytics.js') }}"></script>
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
 </html>

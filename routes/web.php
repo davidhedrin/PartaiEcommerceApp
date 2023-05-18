@@ -5,6 +5,7 @@ use App\Http\Livewire\HomeComponent;
 use App\Http\Livewire\ShopComponent;
 use App\Http\Livewire\ContactComponent;
 use App\Http\Livewire\LoginComponent;
+use App\Http\Livewire\LogoutComponent;
 
 use App\Http\Livewire\Admin\DashboardComponent;
 /*
@@ -23,9 +24,13 @@ use App\Http\Livewire\Admin\DashboardComponent;
 // });
 
 Route::get('/', HomeComponent::class)->name('home');
-Route::get('/login', LoginComponent::class)->name('login');
+Route::get('/logout', LogoutComponent::class)->name('logout');
 Route::get('/shop', ShopComponent::class)->name('shop');
 Route::get('/contact-us', ContactComponent::class)->name('contact-us');
+
+Route::middleware('guest')->group(function () {
+  Route::get('/login', LoginComponent::class)->name('login');
+});
 
 // Route for user login
 Route::middleware(['auth:sanctum'])->group(function () {

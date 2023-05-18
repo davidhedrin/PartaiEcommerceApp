@@ -1,82 +1,124 @@
 <div>
-  <div class="row clearfix">
-    <div class="col-lg-3 col-md-6 col-sm-12">
-      <div class="widget">
-        <div class="widget-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="state">
-              <h6>Bookmarks</h6>
-              <h2>1,410</h2>
-            </div>
-            <div class="icon">
-              <i class="ik ik-award"></i>
+
+  <div class="row">
+    <div class="col-lg-12 mb-4 order-0">
+      <div class="card">
+        <div class="d-flex align-items-end row">
+          <div class="col-sm-7">
+            <div class="card-body">
+              <h5 class="card-title text-primary">Congratulations John! 🎉</h5>
+              <p class="mb-4">
+                You have done <span class="fw-bold">72%</span> more sales today. Check your new badge in
+                your profile.
+              </p>
+
+              <a href="javascript:;" class="btn btn-sm btn-outline-primary">View Badges</a>
             </div>
           </div>
-          <small class="text-small mt-10 d-block">6% higher than last month</small>
-        </div>
-        <div class="progress progress-sm">
-          <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="62" aria-valuemin="0"
-            aria-valuemax="100" style="width: 62%;"></div>
+          <div class="col-sm-5 text-end text-sm-left">
+            <div class="card-body pb-0 px-0 px-md-4">
+              <img src="{{ asset('assetz/img/illustrations/man-with-laptop-light.png') }}" height="140"
+                alt="View Badge User" data-app-dark-img="illustrations/man-with-laptop-dark.png"
+                data-app-light-img="illustrations/man-with-laptop-light.png" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-lg-3 col-md-6 col-sm-12">
-      <div class="widget">
-        <div class="widget-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="state">
-              <h6>Likes</h6>
-              <h2>41,410</h2>
+
+    <div class="col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title d-flex align-items-start justify-content-between">
+            <div class="avatar flex-shrink-0">
+              <img src="{{ asset('assetz/img/icons/unicons/wallet-info.png') }}" alt="Credit Card" class="rounded" />
             </div>
-            <div class="icon">
-              <i class="ik ik-thumbs-up"></i>
+            <div class="dropdown">
+              <button class="btn p-0" type="button" id="cardOpt6" data-bs-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                <i class="bx bx-dots-vertical-rounded"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
+                <a class="dropdown-item" href="javascript:void(0);">View More</a>
+                <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+              </div>
             </div>
           </div>
-          <small class="text-small mt-10 d-block">61% higher than last month</small>
-        </div>
-        <div class="progress progress-sm">
-          <div class="progress-bar bg-success" role="progressbar" aria-valuenow="78" aria-valuemin="0"
-            aria-valuemax="100" style="width: 78%;"></div>
+          <span>Sales</span>
+          <h3 class="card-title text-nowrap mb-1">$4,679</h3>
+          <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +28.42%</small>
         </div>
       </div>
     </div>
-    <div class="col-lg-3 col-md-6 col-sm-12">
-      <div class="widget">
-        <div class="widget-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="state">
-              <h6>Events</h6>
-              <h2>410</h2>
+    <div class="col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title d-flex align-items-start justify-content-between">
+            <div class="avatar flex-shrink-0">
+              <img src="{{ asset('assetz/img/icons/unicons/wallet-info.png') }}" alt="Credit Card" class="rounded" />
             </div>
-            <div class="icon">
-              <i class="ik ik-calendar"></i>
+            <div class="dropdown">
+              <button class="btn p-0" type="button" id="cardOpt6" data-bs-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                <i class="bx bx-dots-vertical-rounded"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
+                <a class="dropdown-item" href="javascript:void(0);">View More</a>
+                <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+              </div>
             </div>
           </div>
-          <small class="text-small mt-10 d-block">Total Events</small>
-        </div>
-        <div class="progress progress-sm">
-          <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="31" aria-valuemin="0"
-            aria-valuemax="100" style="width: 31%;"></div>
+          <span>Sales</span>
+          <h3 class="card-title text-nowrap mb-1">$4,679</h3>
+          <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +28.42%</small>
         </div>
       </div>
     </div>
-    <div class="col-lg-3 col-md-6 col-sm-12">
-      <div class="widget">
-        <div class="widget-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="state">
-              <h6>Comments</h6>
-              <h2>41,410</h2>
+    <div class="col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title d-flex align-items-start justify-content-between">
+            <div class="avatar flex-shrink-0">
+              <img src="{{ asset('assetz/img/icons/unicons/wallet-info.png') }}" alt="Credit Card" class="rounded" />
             </div>
-            <div class="icon">
-              <i class="ik ik-message-square"></i>
+            <div class="dropdown">
+              <button class="btn p-0" type="button" id="cardOpt6" data-bs-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                <i class="bx bx-dots-vertical-rounded"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
+                <a class="dropdown-item" href="javascript:void(0);">View More</a>
+                <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+              </div>
             </div>
           </div>
-          <small class="text-small mt-10 d-block">Total Comments</small>
+          <span>Sales</span>
+          <h3 class="card-title text-nowrap mb-1">$4,679</h3>
+          <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +28.42%</small>
         </div>
-        <div class="progress progress-sm">
-          <div class="progress-bar bg-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"
-            style="width: 20%;"></div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title d-flex align-items-start justify-content-between">
+            <div class="avatar flex-shrink-0">
+              <img src="{{ asset('assetz/img/icons/unicons/wallet-info.png') }}" alt="Credit Card" class="rounded" />
+            </div>
+            <div class="dropdown">
+              <button class="btn p-0" type="button" id="cardOpt6" data-bs-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                <i class="bx bx-dots-vertical-rounded"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
+                <a class="dropdown-item" href="javascript:void(0);">View More</a>
+                <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+              </div>
+            </div>
+          </div>
+          <span>Sales</span>
+          <h3 class="card-title text-nowrap mb-1">$4,679</h3>
+          <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +28.42%</small>
         </div>
       </div>
     </div>
