@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\HomeComponent;
+use App\Http\Livewire\ShopComponent;
+use App\Http\Livewire\ContactComponent;
 use App\Http\Livewire\LoginComponent;
 
 /*
@@ -21,3 +23,5 @@ use App\Http\Livewire\LoginComponent;
 
 Route::get('/', HomeComponent::class)->name('home');
 Route::get('/login', LoginComponent::class)->name('login');
+Route::get('/shop', ShopComponent::class)->name('shop');
+Route::get('/contact-us', ContactComponent::class)->name('contact-us');

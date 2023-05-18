@@ -14,14 +14,20 @@
         @endif
       </div>
       @if ($loginOrRegis)
-      <form>
+      <form wire:submit.prevent='loginUser()'>
         <div class="form-group">
           <label for="email_login">Email</label>
-          <input type="text" class="form-control" id="email_login" placeholder="Masukkan alamat email">
+          <input wire:model="emailLogin" type="text" class="form-control" id="email_login" placeholder="Masukkan alamat email">
+          @error('emailLogin')
+              <span class="text-danger">{{ $message }}</span>
+          @enderror
         </div>
         <div class="form-group">
           <label for="password_login">Password</label>
-          <input type="password" class="form-control" id="password_login" placeholder="********">
+          <input wire:model="passwordLogin" type="password" class="form-control" id="password_login" placeholder="********">
+          @error('passwordLogin')
+              <span class="text-danger">{{ $message }}</span>
+          @enderror
         </div>
         <div class="form-group">
           <a href="#" class="color-href">Lupa Password?</a>
@@ -34,30 +40,48 @@
         </div>
       </form>
       @else
-      <form>
+      <form wire:submit.prevent='addRegisterData()'>
         <div class="form-group">
           <label for="nama_lengkap">Nama Lengkap</label>
-          <input type="text" class="form-control" id="nama_lengkap" placeholder="Masukkan nama lengkap">
+          <input wire:model="name" type="text" class="form-control" id="nama_lengkap" placeholder="Masukkan nama lengkap">
+          @error('name')
+              <span class="text-danger">{{ $message }}</span>
+          @enderror
         </div>
         <div class="form-group">
           <label for="email_regis">Email</label>
-          <input type="text" class="form-control" id="email_regis" placeholder="Masukkan alamat email">
+          <input wire:model="email" type="text" class="form-control" id="email_regis" placeholder="Masukkan alamat email">
+          @error('email')
+              <span class="text-danger">{{ $message }}</span>
+          @enderror
         </div>
         <div class="form-group">
           <label for="no_ponsel">No Ponsel</label>
-          <input type="text" class="form-control" id="no_ponsel" placeholder="Masukkan nomor ponsel">
+          <input wire:model="no_ponsel" type="text" class="form-control" id="no_ponsel" placeholder="Masukkan nomor ponsel">
+          @error('no_ponsel')
+              <span class="text-danger">{{ $message }}</span>
+          @enderror
         </div>
         <div class="form-group">
           <label for="password_regis">Password</label>
-          <input type="password" class="form-control" id="password_regis" placeholder="********">
+          <input wire:model="password" type="password" class="form-control" id="password_regis" placeholder="********">
+          @error('password')
+              <span class="text-danger">{{ $message }}</span>
+          @enderror
         </div>
         <div class="form-group">
           <label for="co_password_regis">Konfrimasi Password</label>
-          <input type="password" class="form-control" id="co_password_regis" placeholder="********">
+          <input wire:model="co_password" type="password" class="form-control" id="co_password_regis" placeholder="********">
+          @error('co_password')
+              <span class="text-danger">{{ $message }}</span>
+          @enderror
         </div>
         <div class="form-group">
-          <label for="alamat">Alamat</label>
-          <textarea class="form-control" id="alamat" rows="3" placeholder="Masukkan alamat rumah"></textarea>
+          <label for="alamat_regis">Alamat</label>
+          <textarea wire:model="alamat" class="form-control" id="alamat_regis" rows="3" placeholder="Masukkan alamat rumah"></textarea>
+          @error('alamat')
+              <span class="text-danger">{{ $message }}</span>
+          @enderror
         </div>
         <div class="form-group">
           <button type="submit" class="btn btn-primary btn-block">Daftar</button>
