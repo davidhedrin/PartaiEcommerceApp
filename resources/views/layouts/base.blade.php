@@ -1,16 +1,17 @@
 @php
-$url = '';
+  $url = '';
 
-try {
-$url .= $_SERVER['REQUEST_URI'];
-} catch (Exception $ex) {
-$error_msg = $ex->getMessage();
-HalperFunctions::insertLogError('ExceptionGuide', 'GetDataCurrentServer', 'Exception', $error_msg);
-}
-$url = str_replace('/', '', $url);
+  try {
+    $url .= $_SERVER['REQUEST_URI'];
+  } catch (Exception $ex) {
+    $error_msg = $ex->getMessage();
+    HalperFunctions::insertLogError('ExceptionGuide', 'GetDataCurrentServer', 'Exception', $error_msg);
+  }
+  $url = str_replace('/', '', $url);
 @endphp
+
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">

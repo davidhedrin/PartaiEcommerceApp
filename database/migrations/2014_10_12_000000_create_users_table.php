@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('no_ponsel')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('user_type');
+            $table->string('flag_active')->nullable();
             $table->text('alamat');
             $table->rememberToken();
             $table->timestamps();
