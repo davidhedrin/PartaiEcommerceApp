@@ -1,4 +1,20 @@
 <div>
+  @if (Session::has('msgAlert'))
+    <div id="overlay-bg-toast"></div>
+    <div class="show-toast-alert toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header d-flex justify-content-between">
+        <img src="{{ asset('assets/img/logo.png') }}" class="rounded mr-2" alt="" width="50px">
+        <button onclick="hideToastAlert()" type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="toast-body">
+        <span class="text-{{ strtolower(Session::get('msgStatus')) }}">{{ Session::get('msgStatus') }}</span><br>
+        {{ Session::get('msgAlert') }}
+      </div>
+    </div>
+  @endif
+  
   <section class="breadcrumb-section set-bg" data-setbg="{{ asset('assets/img/breadcrumb.jpg') }}">
     <div class="container">
       <div class="row">

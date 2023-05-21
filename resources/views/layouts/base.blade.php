@@ -33,14 +33,35 @@
   <link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.min.css') }}" type="text/css">
   <link rel="stylesheet" href="{{ asset('assets/css/slicknav.min.css') }}" type="text/css">
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" type="text/css">
+  <style>
+    .show-toast-alert{
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 99;
+      width: 300px;
+    }
+
+    #overlay-bg-toast {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 1;
+      pointer-events: none;
+    }
+  </style>
   @livewireStyles
 </head>
 
 <body>
   <!-- Page Preloder -->
-  <div id="preloder">
+  {{-- <div id="preloder">
     <div class="loader"></div>
-  </div>
+  </div> --}}
 
   <!-- Humberger Begin -->
   <div class="humberger__menu__overlay"></div>
@@ -53,11 +74,24 @@
         <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
         <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
       </ul>
-      <div class="header__cart__price">Hallo: <span>David Simbolon</span></div>
+      @if (Auth::user())
+        <div class="header__cart__price">Hallo, <span>{{ Auth::user()->name }}</span></div>
+      @else
+        <div class="header__cart__price">Hallo, <span>Selamat datang!</span></div>
+      @endif
     </div>
     <div class="humberger__menu__widget">
       <div class="header__top__right__auth">
-        <a href="{{ route('login') }}"><i class="fa fa-user"></i> Login</a>
+        @if (Auth::user())
+          <a href="{{ route('adm-dashboard') }}"><i class="fa fa-tachometer"></i> Dashboard</a>
+        @endif
+      </div>
+      <div class="header__top__right__auth">
+        @if (Auth::user())
+          <a href="{{ route('logout') }}"><i class="fa fa-sign-out ml-3"></i> Logout</a>
+        @else
+          <a href="{{ route('login') }}"><i class="fa fa-user"></i> Login</a>
+        @endif
       </div>
     </div>
     <nav class="humberger__menu__nav mobile-menu">
@@ -106,7 +140,16 @@
                 <a href="#"><i class="fa fa-pinterest-p"></i></a>
               </div>
               <div class="header__top__right__auth">
-                <a href="{{ route('login') }}"><i class="fa fa-user"></i> Login</a>
+                @if (Auth::user())
+                  <a href="{{ route('adm-dashboard') }}"><i class="fa fa-tachometer"></i> Dashboard</a>
+                @endif
+              </div>
+              <div class="header__top__right__auth">
+                @if (Auth::user())
+                  <a href="{{ route('logout') }}"><i class="fa fa-sign-out ml-3"></i> Logout</a>
+                @else
+                  <a href="{{ route('login') }}"><i class="fa fa-user"></i> Login</a>
+                @endif
               </div>
             </div>
           </div>
@@ -136,7 +179,11 @@
               <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
               <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
             </ul>
-            <div class="header__cart__price">Hallo: <span>David Simbolon</span></div>
+            @if (Auth::user())
+              <div class="header__cart__price">Hallo, <span>{{ Auth::user()->name }}</span></div>
+            @else
+              <div class="header__cart__price">Hallo, <span>Selamat datang!</span></div>
+            @endif
           </div>
         </div>
       </div>
@@ -283,6 +330,12 @@
   <script src="{{ asset('assets/js/mixitup.min.js') }}"></script>
   <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
   <script src="{{ asset('assets/js/main.js') }}"></script>
+  <script>
+    function hideToastAlert(){
+      $('.toast').toast('hide');
+      $('#overlay-bg-toast').hide();
+    }
+  </script>
   @livewireScripts
 </body>
 

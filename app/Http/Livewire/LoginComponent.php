@@ -32,16 +32,18 @@ class LoginComponent extends Component
     }
 
     public function resetFormAdd(){
-        $this->loginOrRegis = true;
         $this->name = null;
         $this->email = null;
         $this->no_ponsel = null;
         $this->password = null;
         $this->co_password = null;
         $this->alamat = null;
+        $this->emailLogin = null;
+        $this->passwordLogin = null;
     }
 
     public function changeLoginOrRegis(){
+        $this->resetFormAdd();
         $this->loginOrRegis = !$this->loginOrRegis;
     }
 
@@ -57,8 +59,8 @@ class LoginComponent extends Component
 
             if(RateLimiter::tooManyAttempts($throttleKey, 3)){
                 $seconds  = RateLimiter::availableIn($throttleKey);
-                // session()->flash('msgAlert', 'Maaf, percobaan login telah melewati batas! Coba lagi dalam waktu '.$seconds);
-                // session()->flash('msgStatus', 'warning');
+                session()->flash('msgAlert', 'Maaf, percobaan login telah melewati batas! Coba lagi dalam waktu 1 Menit');
+                session()->flash('msgStatus', 'Warning');
                 return;
             }
             
@@ -69,33 +71,33 @@ class LoginComponent extends Component
                     $getUserAuth = Auth::attempt(['email' => $this->emailLogin, 'password' => $this->passwordLogin]);
                     if($getUserAuth){
                         if(strtolower($user->flag_active) === "y"){
-                            if(strtolower($user->user_type) === "adm"){
+                            if($user->role->id === 1){
                                 return redirect()->route('adm-dashboard');
                             }else{
                                 return redirect()->route('home');
                             }
                         }else{
-                            // session()->flash('msgAlert', 'Ops... Akun anda telah di Non-aktifkan, Hubungi admin. Terimakasih!');
-                            // session()->flash('msgStatus', 'warning');
+                            session()->flash('msgAlert', 'Ops... Akun anda telah di Non-aktifkan, Hubungi admin. Terimakasih!');
+                            session()->flash('msgStatus', 'Warning');
                         }
                     }else{
-                        // session()->flash('msgAlert', 'Opss.., Telah terjadi kesalahan, mohon tunggu beberapa saat lagi!');
-                        // session()->flash('msgStatus', 'warning');
+                        session()->flash('msgAlert', 'Opss.., Telah terjadi kesalahan, mohon tunggu beberapa saat lagi!');
+                        session()->flash('msgStatus', 'Warning');
                     }
                 }else{
-                    // session()->flash('msgAlert', 'Maaf, password yang anda masukkan tidak sesuai!');
-                    // session()->flash('msgStatus', 'warning');
+                    session()->flash('msgAlert', 'Maaf, password yang anda masukkan tidak sesuai!');
+                    session()->flash('msgStatus', 'Warning');
                 }
             }else{
-                // session()->flash('msgAlert', 'Maaf, email atau password yang anda masukkan tidak terdaftar!');
-                // session()->flash('msgStatus', 'warning');
+                session()->flash('msgAlert', 'Maaf, email atau password yang anda masukkan tidak terdaftar!');
+                session()->flash('msgStatus', 'Warning');
             }
         }catch(Exception $e){
             $error_msg = $e->getMessage();
             $stackTrace = HalperFunctions::getTraceException($e);
             HalperFunctions::insertLogError($this->email, "loginUser", "GET", $error_msg." | ".$stackTrace);
-            // session()->flash('msgAlert', 'Telah terjadi kesalahan pada sistem. Mohon tunggu atau hubungi Admin, dan Coba beberapa saat lagi. Terimakasih!');
-            // session()->flash('msgStatus', 'warning');
+            session()->flash('msgAlert', 'Telah terjadi kesalahan pada sistem. Mohon tunggu atau hubungi Admin, dan Coba beberapa saat lagi. Terimakasih!');
+            session()->flash('msgStatus', 'Warning');
         }
     }
 
@@ -113,8 +115,8 @@ class LoginComponent extends Component
             $throttleKey = request()->ip();
             if(RateLimiter::tooManyAttempts($throttleKey, 3)){
                 $seconds  = RateLimiter::availableIn($throttleKey);
-                // session()->flash('msgAlert', 'Maaf, percobaan mendaftar telah melewati batas '.$seconds);
-                // session()->flash('msgStatus', 'warning');
+                session()->flash('msgAlert', 'Maaf, percobaan mendaftar telah melewati batas '.$seconds);
+                session()->flash('msgStatus', 'Warning');
                 return;
             }
             
@@ -126,19 +128,20 @@ class LoginComponent extends Component
             $user->email = $this->email;
             $user->password = $passHash;
             $user->no_ponsel = $this->no_ponsel;
-            $user->user_type = "USR";
             $user->alamat = $this->alamat;
             $user->save();
 
-            // session()->flash('msgAlert', 'Perndaftaran telah berhasil, silahkan login dan selamat bergabung. Terimakasih');
-            // session()->flash('msgStatus', 'success');
+            session()->flash('msgAlert', 'Perndaftaran telah berhasil, silahkan login dan selamat bergabung. Terimakasih');
+            session()->flash('msgStatus', 'Success');
+            
+            $this->loginOrRegis = true;
             $this->resetFormAdd();
         }catch(Exception $e){
             $error_msg = $e->getMessage();
             $stackTrace = HalperFunctions::getTraceException($e);
             HalperFunctions::insertLogError("Registere's", "addRegisterData", "POST", $error_msg." | ".$stackTrace);
-            // session()->flash('msgAlert', 'Telah terjadi kesalahan pada sistem. Mohon tunggu atau hubungi Admin, dan Coba beberapa saat lagi. Terimakasih!');
-            // session()->flash('msgStatus', 'warning');
+            session()->flash('msgAlert', 'Telah terjadi kesalahan pada sistem. Mohon tunggu atau hubungi Admin, dan Coba beberapa saat lagi. Terimakasih!');
+            session()->flash('msgStatus', 'Warning');
         }
     }
 

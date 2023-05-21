@@ -16,12 +16,13 @@ class AuthAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->user_type === 'ADM' && Auth::user()->flag_active === 'Y'){
+        if(Auth::user()->role->id === 1 && Auth::user()->flag_active === 'Y'){
             return $next($request);
         }
         else{
             session()->flush();
-            //session()->flash('msgExcLogin', 'Ops... Anda tidak diijinkan untuk mengakses halaman tersebut. Maaf, kami harus mengeluarkan anda. Terimakasih!');
+            session()->flash('msgAlert', 'Ops... Anda tidak diijinkan untuk mengakses halaman tersebut. Maaf, kami harus mengeluarkan anda. Terimakasih!');
+            session()->flash('msgStatus', 'Info');
             return redirect()->route('login');
         }
         return $next($request);

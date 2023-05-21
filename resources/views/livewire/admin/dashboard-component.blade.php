@@ -6,7 +6,7 @@
         <div class="d-flex align-items-end row">
           <div class="col-sm-7">
             <div class="card-body">
-              <h5 class="card-title text-primary">Congratulations John! 🎉</h5>
+              <h5 class="card-title text-primary">Selamat datang, {{ Auth::user()->name }}</h5>
               <p class="mb-4">
                 You have done <span class="fw-bold">72%</span> more sales today. Check your new badge in
                 your profile.
@@ -31,7 +31,9 @@
         <div class="card-body">
           <div class="card-title d-flex align-items-start justify-content-between">
             <div class="avatar flex-shrink-0">
-              <img src="{{ asset('assetz/img/icons/unicons/wallet-info.png') }}" alt="Credit Card" class="rounded" />
+              <span class="avatar-initial rounded bg-label-primary">
+                <i class='bx bx-time' style="font-size: 23px;"></i>
+              </span>
             </div>
             <div class="dropdown">
               <button class="btn p-0" type="button" id="cardOpt6" data-bs-toggle="dropdown" aria-haspopup="true"
@@ -55,7 +57,9 @@
         <div class="card-body">
           <div class="card-title d-flex align-items-start justify-content-between">
             <div class="avatar flex-shrink-0">
-              <img src="{{ asset('assetz/img/icons/unicons/wallet-info.png') }}" alt="Credit Card" class="rounded" />
+              <span class="avatar-initial rounded bg-label-primary">
+                <i class='bx bx-time' style="font-size: 23px;"></i>
+              </span>
             </div>
             <div class="dropdown">
               <button class="btn p-0" type="button" id="cardOpt6" data-bs-toggle="dropdown" aria-haspopup="true"
@@ -79,7 +83,9 @@
         <div class="card-body">
           <div class="card-title d-flex align-items-start justify-content-between">
             <div class="avatar flex-shrink-0">
-              <img src="{{ asset('assetz/img/icons/unicons/wallet-info.png') }}" alt="Credit Card" class="rounded" />
+              <span class="avatar-initial rounded bg-label-primary">
+                <i class='bx bx-time' style="font-size: 23px;"></i>
+              </span>
             </div>
             <div class="dropdown">
               <button class="btn p-0" type="button" id="cardOpt6" data-bs-toggle="dropdown" aria-haspopup="true"
@@ -103,7 +109,9 @@
         <div class="card-body">
           <div class="card-title d-flex align-items-start justify-content-between">
             <div class="avatar flex-shrink-0">
-              <img src="{{ asset('assetz/img/icons/unicons/wallet-info.png') }}" alt="Credit Card" class="rounded" />
+              <span class="avatar-initial rounded bg-label-primary">
+                <i class='bx bx-time' style="font-size: 23px;"></i>
+              </span>
             </div>
             <div class="dropdown">
               <button class="btn p-0" type="button" id="cardOpt6" data-bs-toggle="dropdown" aria-haspopup="true"

@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('no_ponsel')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('user_type');
+            $table->unsignedBigInteger('user_type')->default(2);// Default user
+            $table->foreign('user_type')->references('id')->on('roles')->onDelete('cascade');
             $table->string('flag_active')->nullable();
             $table->text('alamat');
             $table->rememberToken();
