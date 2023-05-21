@@ -71,8 +71,22 @@
     </div>
     <div class="humberger__menu__cart">
       <ul>
-        <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-        <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+        <li>
+          <a href="#">
+            <i class="fa fa-heart"></i>
+            @if (Auth::user())
+            <span>1</span>
+            @endif
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa fa-shopping-bag"></i>
+            @if (Auth::user())
+            <span>3</span>
+            @endif
+          </a>
+        </li>
       </ul>
       @if (Auth::user())
         <div class="header__cart__price">Hallo, <span>{{ Auth::user()->name }}</span></div>
@@ -176,8 +190,22 @@
         <div class="col-lg-3">
           <div class="header__cart">
             <ul>
-              <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-              <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+              <li>
+                <a href="#">
+                  <i class="fa fa-heart"></i>
+                  @if (Auth::user())
+                  <span>1</span>
+                  @endif
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <i class="fa fa-shopping-bag"></i>
+                  @if (Auth::user())
+                  <span>3</span>
+                  @endif
+                </a>
+              </li>
             </ul>
             @if (Auth::user())
               <div class="header__cart__price">Hallo, <span>{{ Auth::user()->name }}</span></div>

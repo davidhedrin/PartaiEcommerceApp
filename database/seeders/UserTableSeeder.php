@@ -17,13 +17,14 @@ class UserTableSeeder extends Seeder
         $passHash = Hash::make('admin123');
         //User::truncate();
         User::create([
-            'name' => 'David Simbolon',
+            'name' => 'Admin Ecommerce',
             'email' => 'admin123@gmail.com',
             'no_ponsel' => '082110863133',
             'password' => $passHash,
             'user_type' => 1, //1 As admin
             'flag_active' => 'Y',
             'alamat' => 'Admin ecommerce app laravel',
+            'email_verified_at' => now(),
         ]);
     }
 }

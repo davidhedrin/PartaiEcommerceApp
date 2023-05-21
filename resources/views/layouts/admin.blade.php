@@ -21,7 +21,6 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('assetz/img/favicon/favicon.ico') }}" />
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -29,27 +28,15 @@
       rel="stylesheet"
     />
 
-    <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="{{ asset('assetz/vendor/fonts/boxicons.css') }}" />
-
-    <!-- Core CSS -->
     <link rel="stylesheet" href="{{ asset('assetz/vendor/css/core.css') }}" class="template-customizer-core-css" />
     <link rel="stylesheet" href="{{ asset('assetz/vendor/css/theme-default.css') }}" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="{{ asset('assetz/css/demo.css') }}" />
-
-    <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ asset('assetz/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
-
     <link rel="stylesheet" href="{{ asset('assetz/vendor/libs/apex-charts/apex-charts.css') }}" />
-
-    <!-- Page CSS -->
-
-    <!-- Helpers -->
     <script src="{{ asset('assetz/vendor/js/helpers.js') }}"></script>
-
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{ asset('assetz/js/config.js') }}"></script>
+    @livewireStyles
   </head>
 
   <body>
@@ -318,26 +305,15 @@
     </div>
     <!-- / Layout wrapper -->
 
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
     <script src="{{ asset('assetz/vendor/libs/jquery/jquery.js') }}"></script>
     <script src="{{ asset('assetz/vendor/libs/popper/popper.js') }}"></script>
     <script src="{{ asset('assetz/vendor/js/bootstrap.js') }}"></script>
     <script src="{{ asset('assetz/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
-
     <script src="{{ asset('assetz/vendor/js/menu.js') }}"></script>
-    <!-- endbuild -->
-
-    <!-- Vendors JS -->
     <script src="{{ asset('assetz/vendor/libs/apex-charts/apexcharts.js') }}"></script>
-
-    <!-- Main JS -->
     <script src="{{ asset('assetz/js/main.js') }}"></script>
-
-    <!-- Page JS -->
     <script src="{{ asset('assetz/js/dashboards-analytics.js') }}"></script>
-
-    <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    @livewireScripts
   </body>
 </html>
