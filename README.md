@@ -6,5 +6,6 @@
 5. Buka cmd ketik 'php artisan key:generate' untuk generate random key di file env
 6. Atur nama database / koneksi di file env yg sudah dicopy
 7. Buka cmd ketik 'php artisan migrate' migrage semua table ke database
-8. Ketik printah 'php artisan db:seed' untuk menjalankan semua seeder yg ada di DatabseSeeder secara berurutan atau 'php artisan db:seed --class=*namaSeederDiDatabaseSeeder*' untuk seeder tertentu saja
-9. Jalankan printah 'php artisan serve'
+8. Buka cmd ketik 'composer dump-autoload' jika ada menambahkan file halper
+9. Ketik printah 'php artisan db:seed' untuk menjalankan semua seeder yg ada di DatabseSeeder secara berurutan atau 'php artisan db:seed --class=*namaSeederDiDatabaseSeeder*' untuk seeder tertentu saja
+10. Jalankan printah 'php artisan serve'
