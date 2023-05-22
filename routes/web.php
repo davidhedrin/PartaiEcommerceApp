@@ -8,6 +8,7 @@ use App\Http\Livewire\LoginComponent;
 use App\Http\Livewire\LogoutComponent;
 
 use App\Http\Livewire\Admin\DashboardComponent;
+use App\Http\Livewire\Admin\CategoryComponent;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,5 +40,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 // Route for admin login
 Route::middleware(['auth:sanctum', 'auth_admin'])->group(function () {
-  Route::get('/dashboard', DashboardComponent::class)->name('adm-dashboard');
+  Route::get('/adm-dashboard', DashboardComponent::class)->name('adm-dashboard');
+  Route::get('/adm-category', CategoryComponent::class)->name('adm-category');
 });

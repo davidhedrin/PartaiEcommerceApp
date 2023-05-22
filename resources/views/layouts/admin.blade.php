@@ -1,3 +1,15 @@
+@php
+  $url = '';
+
+  try {
+    $url .= $_SERVER['REQUEST_URI'];
+  } catch (Exception $ex) {
+    $error_msg = $ex->getMessage();
+    HalperFunctions::insertLogError('ExceptionGuide', 'GetDataCurrentServer', 'Exception', $error_msg);
+  }
+  $url = str_replace('/', '', $url);
+@endphp
+
 <!DOCTYPE html>
 <html
   lang="en"
@@ -47,7 +59,7 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
-            <a href="index.html" class="app-brand-link">
+            <a href="{{ route('home') }}" class="app-brand-link">
               <span class="app-brand-logo demo">
                 <img src="{{ asset('assets/img/logo.png') }}" alt="">
               </span>
@@ -61,77 +73,88 @@
           <div class="menu-inner-shadow"></div>
 
           <ul class="menu-inner py-1">
-            <!-- Dashboard -->
-            <li class="menu-item active">
-              <a href="index.html" class="menu-link">
+            <li class="menu-item {{ $url == 'adm-dashboard' ? 'active' : '' }}">
+              <a href="{{ route('adm-dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Dashboard</div>
               </a>
             </li>
-
             <li class="menu-item">
               <a href="{{ route('home') }}" class="menu-link">
-                <i class='menu-icon tf-icons bx bx-store'></i>
+                <i class='menu-icon tf-icons bx bx-store-alt bx-tada' ></i>
                 <div data-i18n="Analytics">Ke Toko</div>
               </a>
             </li>
 
-            <!-- Forms & Tables -->
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Forms &amp; Tables</span></li>
-            <!-- Forms -->
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Ecommerce</span></li>
             <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-detail"></i>
-                <div data-i18n="Form Elements">Form Elements</div>
+              <a href="javascript:void(0);" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-basket'></i>
+                <div data-i18n="Tables">Pesanan <span class="badge rounded-pill bg-danger">12</span></div>
               </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="forms-basic-inputs.html" class="menu-link">
-                    <div data-i18n="Basic Inputs">Basic Inputs</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="forms-input-groups.html" class="menu-link">
-                    <div data-i18n="Input groups">Input groups</div>
-                  </a>
-                </li>
-              </ul>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-package'></i>
+                <div data-i18n="Tables">Produk</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-street-view'></i>
+                <div data-i18n="Tables">Seller</div>
+              </a>
+            </li>
+            
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Component</span></li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-card'></i>
+                <div data-i18n="Tables">Banner</div>
+              </a>
+            </li>
+            <li class="menu-item {{ $url == 'adm-category' ? 'active' : '' }}">
+              <a href="{{ route('adm-category') }}" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-category'></i>
+                <div data-i18n="Tables">Kategori</div>
+              </a>
             </li>
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-detail"></i>
-                <div data-i18n="Form Layouts">Form Layouts</div>
+                <i class='menu-icon tf-icons bx bxs-discount'></i>
+                <div data-i18n="Form Layouts">Voucher</div>
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
                   <a href="form-layouts-vertical.html" class="menu-link">
-                    <div data-i18n="Vertical Form">Vertical Form</div>
+                    <div data-i18n="Vertical Form">Ongkir</div>
                   </a>
                 </li>
                 <li class="menu-item">
                   <a href="form-layouts-horizontal.html" class="menu-link">
-                    <div data-i18n="Horizontal Form">Horizontal Form</div>
+                    <div data-i18n="Horizontal Form">Diskon</div>
                   </a>
                 </li>
               </ul>
             </li>
-            <!-- Tables -->
             <li class="menu-item">
-              <a href="tables-basic.html" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-table"></i>
-                <div data-i18n="Tables">Tables</div>
+              <a href="javascript:void(0);" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-comment-detail'></i>
+                <div data-i18n="Tables">Testimonial</div>
               </a>
             </li>
-            <!-- Misc -->
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>
+            
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Pengaturan</span></li>
             <li class="menu-item">
-              <a
-                href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
-                target="_blank"
-                class="menu-link"
-              >
-                <i class="menu-icon tf-icons bx bx-support"></i>
-                <div data-i18n="Support">Support</div>
+              <a href="javascript:void(0);" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-group'></i>
+                <div data-i18n="Tables">User Management</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-cog' ></i>
+                <div data-i18n="Tables">My Profile</div>
               </a>
             </li>
             <li class="menu-item">
