@@ -30,15 +30,13 @@
 
     <meta name="description" content="" />
 
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('assetz/img/favicon/favicon.ico') }}" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-      rel="stylesheet"
-    />
+      rel="stylesheet" />
 
     <link rel="stylesheet" href="{{ asset('assetz/vendor/fonts/boxicons.css') }}" />
     <link rel="stylesheet" href="{{ asset('assetz/vendor/css/core.css') }}" class="template-customizer-core-css" />
@@ -52,11 +50,26 @@
   </head>
 
   <body>
-    <!-- Layout wrapper -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" style="display: none;" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <img src="{{ asset('assets/img/logo.png') }}" width="70px" alt="">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center">
+            <span>Yakin ingin keluar dari aplikasi?</span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+            <a href="{{ route('logout') }}" class="btn btn-primary">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
-        <!-- Menu -->
-
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
             <a href="{{ route('home') }}" class="app-brand-link">
@@ -158,23 +171,17 @@
               </a>
             </li>
             <li class="menu-item">
-              <a href="{{ route('logout') }}" class="menu-link">
+              <div class="menu-link cursor-pointer" data-bs-toggle="modal" data-bs-target="#logoutModal">
                 <i class='menu-icon tf-icons bx bx-log-out'></i>
                 <div data-i18n="Documentation">Logout</div>
-              </a>
+              </div>
             </li>
           </ul>
         </aside>
-        <!-- / Menu -->
-
-        <!-- Layout container -->
+        
         <div class="layout-page">
-          <!-- Navbar -->
-
-          <nav
-            class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
-            id="layout-navbar"
-          >
+          <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+            id="layout-navbar">
             <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
               <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
                 <i class="bx bx-menu bx-sm"></i>
@@ -182,7 +189,6 @@
             </div>
 
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-              <!-- Search -->
               <div class="navbar-nav align-items-center">
                 <div class="nav-item d-flex align-items-center">
                   <i class="bx bx-search fs-4 lh-0"></i>
@@ -194,10 +200,8 @@
                   />
                 </div>
               </div>
-              <!-- /Search -->
 
               <ul class="navbar-nav flex-row align-items-center ms-auto">
-                <!-- Place this tag where you want the button to render. -->
                 <li class="nav-item lh-1 me-3">
                   <a
                     class="github-button"
@@ -206,11 +210,10 @@
                     data-size="large"
                     data-show-count="true"
                     aria-label="Star themeselection/sneat-html-admin-template-free on GitHub"
-                    >Star</a
-                  >
+                    >Star
+                  </a>
                 </li>
 
-                <!-- User -->
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
                   <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
@@ -261,30 +264,24 @@
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="{{ route('logout') }}">
+                      <div class="dropdown-item cursor-pointer" data-bs-toggle="modal" data-bs-target="#logoutModal">
                         <i class="bx bx-power-off me-2"></i>
                         <span class="align-middle">Logout</span>
-                      </a>
+                      </div>
                     </li>
                   </ul>
                 </li>
-                <!--/ User -->
               </ul>
             </div>
           </nav>
 
-          <!-- / Navbar -->
-
-          <!-- Content wrapper -->
           <div class="content-wrapper">
-            <!-- Content -->
             <div class="container-xxl flex-grow-1 container-p-y">
               {{ $slot }}
             </div>
-            <!-- / Content -->
 
             <!-- Footer -->
-            <footer class="content-footer footer bg-footer-theme">
+            <footer class="content-footer footer bg-light">
               <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
                 <div class="mb-2 mb-md-0">
                   ©
@@ -318,15 +315,10 @@
 
             <div class="content-backdrop fade"></div>
           </div>
-          <!-- Content wrapper -->
         </div>
-        <!-- / Layout page -->
       </div>
-
-      <!-- Overlay -->
       <div class="layout-overlay layout-menu-toggle"></div>
     </div>
-    <!-- / Layout wrapper -->
 
     <script src="{{ asset('assetz/vendor/libs/jquery/jquery.js') }}"></script>
     <script src="{{ asset('assetz/vendor/libs/popper/popper.js') }}"></script>

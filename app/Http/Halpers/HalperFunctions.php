@@ -5,6 +5,15 @@ use App\Models\LogError;
 use Exception;
 
 class HalperFunctions{
+    public static function colName($key){
+        $allCollName = [
+            'ct' => 'category',
+            'pr' => 'product',
+        ];
+        
+        return $allCollName[$key] ?? null;
+    }
+
     public static function insertLogError($submit_by, $action, $method_name, $msg_error)
     {
         $log_error = new LogError;
