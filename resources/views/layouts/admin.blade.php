@@ -26,11 +26,11 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>{{ env('APP_NAME') }}Dashboard</title>
+    <title>{{ env('APP_NAME') }} - Dashboard</title>
 
     <meta name="description" content="" />
 
-    <link rel="icon" type="image/x-icon" href="{{ asset('assetz/img/favicon/favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('logo/logoSmJT.png') }}" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -54,7 +54,7 @@
       <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <img src="{{ asset('assets/img/logo.png') }}" width="70px" alt="">
+            <img src="{{ asset('logo/logoTextJT.png') }}" width="70px" alt="">
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body text-center">
@@ -74,7 +74,7 @@
           <div class="app-brand demo">
             <a href="{{ route('home') }}" class="app-brand-link">
               <span class="app-brand-logo demo">
-                <img src="{{ asset('assets/img/logo.png') }}" alt="">
+                <img src="{{ asset('logo/logoTextJT.png') }}" width="140px" alt="">
               </span>
             </a>
 

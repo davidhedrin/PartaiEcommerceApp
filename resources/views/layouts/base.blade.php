@@ -19,6 +19,7 @@
   <meta name="keywords" content="Ogani, unica, creative, html">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="icon" type="image/x-icon" href="{{ asset('logo/logoSmJT.png') }}" />
   <title>{{ env('APP_NAME') }}</title>
 
   <!-- Google Font -->
@@ -53,6 +54,17 @@
       z-index: 1;
       pointer-events: none;
     }
+
+    .col-button-img {
+        position: relative;
+        padding: 15 px 30px;
+    }
+
+    .col-button-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
   </style>
   @livewireStyles
 </head>
@@ -67,7 +79,7 @@
   <div class="humberger__menu__overlay"></div>
   <div class="humberger__menu__wrapper">
     <div class="humberger__menu__logo">
-      <a href="#"><img src="{{ asset('assets/img/logo.png') }}" alt=""></a>
+      <a href="#"><img src="{{ asset('logo/logoJT.png') }}" alt="" height="70px"></a>
     </div>
     <div class="humberger__menu__cart">
       <ul>
@@ -174,7 +186,7 @@
       <div class="row">
         <div class="col-lg-3">
           <div class="header__logo">
-            <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo.png') }}" alt=""></a>
+            <a href="{{ route('home') }}"><img src="{{ asset('logo/logoTextJT.png') }}" alt="" height="70px"></a>
           </div>
         </div>
         <div class="col-lg-6">
@@ -279,10 +291,32 @@
   <footer class="footer spad mt-4">
     <div class="container">
       <div class="row">
+        <div class="col-lg-3 text-center col-button-img">
+          <a href="http://www.bkpm.go.id" target="_blank">
+            <img src="http://djpen.kemendag.go.id/app_frontend/images/kementrian/bkpm.jpg" alt="">
+          </a>
+        </div>
+        <div class="col-lg-3 text-center col-button-img">
+          <a href="http://www.kemenperin.go.id" target="_blank">
+            <img src="http://djpen.kemendag.go.id/app_frontend/images/kementrian/deperin.jpg" alt="">
+          </a>
+        </div>
+        <div class="col-lg-3 text-center col-button-img">
+          <a href="http://www.kemenkeu.go.id" target="_blank">
+            <img src="http://djpen.kemendag.go.id/app_frontend/images/kementrian/depkeu.jpg" alt="">
+          </a>
+        </div>
+        <div class="col-lg-3 text-center col-button-img">
+          <a href="http://www.deptan.go.id" target="_balnk">
+            <img src="http://djpen.kemendag.go.id/app_frontend/images/kementrian/deptan.jpg" alt="">
+          </a>
+        </div>
+      </div>
+      <div class="row mt-5">
         <div class="col-lg-3 col-md-6 col-sm-6">
           <div class="footer__about">
             <div class="footer__about__logo">
-              <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo.png') }}" alt=""></a>
+              <a href="{{ route('home') }}"><img src="{{ asset('logo/logoJT.png') }}" alt=""></a>
             </div>
             <ul>
               <li>Address: 60-49 Road 11378 New York</li>
