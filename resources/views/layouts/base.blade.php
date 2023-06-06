@@ -19,7 +19,7 @@
   <meta name="keywords" content="Ogani, unica, creative, html">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="icon" type="image/x-icon" href="{{ asset('logo/logoSmJT.png') }}" />
+  <link rel="icon" type="image/x-icon" href="{{ asset('logo/logo3.png') }}" />
   <title>{{ env('APP_NAME') }}</title>
 
   <!-- Google Font -->
@@ -79,7 +79,7 @@
   <div class="humberger__menu__overlay"></div>
   <div class="humberger__menu__wrapper">
     <div class="humberger__menu__logo">
-      <a href="#"><img src="{{ asset('logo/logoJT.png') }}" alt="" height="70px"></a>
+      <a href="#"><img src="{{ asset('logo/logo2.png') }}" alt="" width="250px"></a>
     </div>
     <div class="humberger__menu__cart">
       <ul>
@@ -186,7 +186,7 @@
       <div class="row">
         <div class="col-lg-3">
           <div class="header__logo">
-            <a href="{{ route('home') }}"><img src="{{ asset('logo/logoTextJT.png') }}" alt="" height="70px"></a>
+            <a href="{{ route('home') }}"><img src="{{ asset('logo/logo2.png') }}" alt="" width="260px"></a>
           </div>
         </div>
         <div class="col-lg-6">
@@ -316,7 +316,7 @@
         <div class="col-lg-3 col-md-6 col-sm-6">
           <div class="footer__about">
             <div class="footer__about__logo">
-              <a href="{{ route('home') }}"><img src="{{ asset('logo/logoJT.png') }}" alt=""></a>
+              <a href="{{ route('home') }}"><img src="{{ asset('logo/logo1.png') }}" alt=""></a>
             </div>
             <ul>
               <li>Address: 60-49 Road 11378 New York</li>
