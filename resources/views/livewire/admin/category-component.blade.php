@@ -148,7 +148,7 @@
           <h5 class="modal-title" id="modalAddTitle">Ubah Kategori</h5>
           <button wire:click='resetFormValue' type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form wire:submit.prevent="">
+        <form wire:submit.prevent="updateCategory">
           <div class="modal-body">
             <div class="row">
               <div class="col mb-3">

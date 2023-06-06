@@ -20,7 +20,7 @@ class CategoryComponent extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $name, $image, $cat_code, $newimage, $viewImage;
-    public $idForDelete;
+    public $idForDelete, $idForUpdate;
 
     public function updated($fields)
     {
@@ -38,6 +38,7 @@ class CategoryComponent extends Component
         $this->viewImage = null;
         $this->cat_code = null;
         $this->idForDelete = null;
+        $this->idForUpdate = null;
     }
 
     public function resetImageVal()
@@ -67,12 +68,21 @@ class CategoryComponent extends Component
 
     public function openModalEdit($id)
     {
+        $this->idForUpdate = $id;
         $category = Category::find($id);
         $this->name = $category->name;
         $this->viewImage = $category->image;
         $this->cat_code = $category->code;
         
         $this->dispatchBrowserEvent('open-edit-modal');
+    }
+
+    public function updateCategory(){
+        $category = Category::find($this->idForUpdate);
+
+
+        Storage::delete(HalperFunctions::colName('ct') . '/' . $category->image);
+        $this->dispatchBrowserEvent('close-form-modal');
     }
 
     public function openModalDelete($id){
