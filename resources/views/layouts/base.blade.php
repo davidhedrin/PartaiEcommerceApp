@@ -1,13 +1,23 @@
 @php
   $url = '';
-
+  
   try {
-    $url .= $_SERVER['REQUEST_URI'];
+      $url .= $_SERVER['REQUEST_URI'];
   } catch (Exception $ex) {
-    $error_msg = $ex->getMessage();
-    HalperFunctions::insertLogError('ExceptionGuide', 'GetDataCurrentServer', 'Exception', $error_msg);
+      $error_msg = $ex->getMessage();
+      HalperFunctions::insertLogError('ExceptionGuide', 'GetDataCurrentServer', 'Exception', $error_msg);
   }
   $url = str_replace('/', '', $url);
+
+  $logicHeader = false;
+  $logicNavCateg = false;
+
+  if($url != 'login' && $url != 'forgot-password'){
+    $logicHeader = true;
+  }
+  if($url != 'login' && $url != 'forgot-password' && $url != "email-verify"){
+    $logicNavCateg = true;
+  }
 @endphp
 
 <!DOCTYPE html>
@@ -35,7 +45,7 @@
   <link rel="stylesheet" href="{{ asset('assets/css/slicknav.min.css') }}" type="text/css">
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" type="text/css">
   <style>
-    .show-toast-alert{
+    .show-toast-alert {
       position: fixed;
       top: 50%;
       left: 50%;
@@ -56,14 +66,14 @@
     }
 
     .col-button-img {
-        position: relative;
-        padding: 15 px 30px;
+      position: relative;
+      padding: 15 px 30px;
     }
 
     .col-button-img img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   </style>
   @livewireStyles
@@ -74,6 +84,14 @@
   {{-- <div id="preloder">
     <div class="loader"></div>
   </div> --}}
+  
+  <link rel="stylesheet" href="{{ asset('spinner/loading.css') }}">
+  <div class="loading" style="display: none">
+    <div>
+      <img src="{{ asset('spinner/doubleRing.gif') }}" width="40px">
+      <h5 style="padding-top: 10px; color: white">loading...</h5>
+    </div>
+  </div>
 
   <!-- Humberger Begin -->
   <div class="humberger__menu__overlay"></div>
@@ -87,7 +105,7 @@
           <a href="#">
             <i class="fa fa-heart"></i>
             @if (Auth::user())
-            <span>1</span>
+              <span>1</span>
             @endif
           </a>
         </li>
@@ -95,7 +113,7 @@
           <a href="#">
             <i class="fa fa-shopping-bag"></i>
             @if (Auth::user())
-            <span>3</span>
+              <span>3</span>
             @endif
           </a>
         </li>
@@ -109,14 +127,16 @@
     <div class="humberger__menu__widget">
       <div class="header__top__right__auth">
         @if (Auth::user())
-          <a href="{{ route('adm-dashboard') }}"><i class="fa fa-tachometer"></i> Dashboard</a>
+          @if (Auth::user()->user_type == 1)
+            <a href="{{ route('adm-dashboard') }}"><i class="fa fa-tachometer"></i> Dashboard</a>
+          @endif
         @endif
       </div>
       <div class="header__top__right__auth">
         @if (Auth::user())
-          <a href="{{ route('logout') }}"><i class="fa fa-sign-out ml-3"></i> Logout</a>
+          <a href="{{ route('logout') }}"><i class="fa fa-sign-out {{ Auth::user()->user_type == 1 ? "ml-3" : "" }}"></i> Logout</a>
         @else
-          <a href="{{ route('login') }}"><i class="fa fa-user"></i> Login</a>
+          <a href="{{ route('login') }}"><i class="fa fa-user"></i> Login/Register</a>
         @endif
       </div>
     </div>
@@ -167,14 +187,16 @@
               </div>
               <div class="header__top__right__auth">
                 @if (Auth::user())
-                  <a href="{{ route('adm-dashboard') }}"><i class="fa fa-tachometer"></i> Dashboard</a>
+                  @if (Auth::user()->user_type == 1)
+                    <a href="{{ route('adm-dashboard') }}"><i class="fa fa-tachometer"></i> Dashboard</a>
+                  @endif
                 @endif
               </div>
               <div class="header__top__right__auth">
                 @if (Auth::user())
-                  <a href="{{ route('logout') }}"><i class="fa fa-sign-out ml-3"></i> Logout</a>
+                  <a href="{{ route('logout') }}"><i class="fa fa-sign-out {{ Auth::user()->user_type == 1 ? "ml-3" : "" }}"></i> Logout</a>
                 @else
-                  <a href="{{ route('login') }}"><i class="fa fa-user"></i> Login</a>
+                  <a href="{{ route('login') }}"><i class="fa fa-user"></i> Login/Register</a>
                 @endif
               </div>
             </div>
@@ -182,60 +204,65 @@
         </div>
       </div>
     </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-3">
-          <div class="header__logo">
-            <a href="{{ route('home') }}"><img src="{{ asset('logo/logo1.png') }}" alt="" width="260px"></a>
+
+    @if ($logicHeader)
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3">
+            <div class="header__logo">
+              <a href="{{ route('home') }}"><img src="{{ asset('logo/logo1.png') }}" alt=""
+                  width="260px"></a>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <nav class="header__menu">
+              <ul>
+                <li class="{{ $url == '' ? 'active' : '' }}"><a href="{{ route('home') }}">Home</a></li>
+                <li class="{{ $url == 'shop' ? 'active' : '' }}"><a href="{{ route('shop') }}">Shop</a></li>
+                <li><a href="./blog.html">About US</a></li>
+                <li class="{{ $url == 'contact-us' ? 'active' : '' }}"><a
+                    href="{{ route('contact-us') }}">Contact</a></li>
+              </ul>
+            </nav>
+          </div>
+          <div class="col-lg-3">
+            <div class="header__cart">
+              <ul>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-heart"></i>
+                    @if (Auth::user())
+                      <span>1</span>
+                    @endif
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-shopping-bag"></i>
+                    @if (Auth::user())
+                      <span>3</span>
+                    @endif
+                  </a>
+                </li>
+              </ul>
+              @if (Auth::user())
+                <div class="header__cart__price">Hallo, <span>{{ Auth::user()->name }}</span></div>
+              @else
+                <div class="header__cart__price">Hallo, <span>Selamat datang!</span></div>
+              @endif
+            </div>
           </div>
         </div>
-        <div class="col-lg-6">
-          <nav class="header__menu">
-            <ul>
-              <li class="{{ $url == '' ? 'active' : '' }}"><a href="{{ route('home') }}">Home</a></li>
-              <li class="{{ $url == 'shop' ? 'active' : '' }}"><a href="{{ route('shop') }}">Shop</a></li>
-              <li><a href="./blog.html">About US</a></li>
-              <li class="{{ $url == 'contact-us' ? 'active' : '' }}"><a href="{{ route('contact-us') }}">Contact</a></li>
-            </ul>
-          </nav>
-        </div>
-        <div class="col-lg-3">
-          <div class="header__cart">
-            <ul>
-              <li>
-                <a href="#">
-                  <i class="fa fa-heart"></i>
-                  @if (Auth::user())
-                  <span>1</span>
-                  @endif
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <i class="fa fa-shopping-bag"></i>
-                  @if (Auth::user())
-                  <span>3</span>
-                  @endif
-                </a>
-              </li>
-            </ul>
-            @if (Auth::user())
-              <div class="header__cart__price">Hallo, <span>{{ Auth::user()->name }}</span></div>
-            @else
-              <div class="header__cart__price">Hallo, <span>Selamat datang!</span></div>
-            @endif
-          </div>
+        <div class="humberger__open">
+          <i class="fa fa-bars"></i>
         </div>
       </div>
-      <div class="humberger__open">
-        <i class="fa fa-bars"></i>
-      </div>
-    </div>
+    @endif
   </header>
   <!-- Header Section End -->
-  
-  @if ($url != "login")
-    <section class="hero hero-normal"> 
+
+  @if ($logicNavCateg)
+    <section class="hero hero-normal">
       <div class="container">
         <div class="row">
           <div class="col-lg-3">
@@ -369,13 +396,15 @@
             <div class="footer__copyright__text">
               <p>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;<script>
+                Copyright &copy;
+                <script>
                   document.write(new Date().getFullYear());
                 </script> by Felix Tobing</a>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
               </p>
             </div>
-            <div class="footer__copyright__payment"><img src="{{ asset('assets/img/payment-item') }}.png" alt=""></div>
+            <div class="footer__copyright__payment"><img src="{{ asset('assets/img/payment-item') }}.png"
+                alt=""></div>
           </div>
         </div>
       </div>
@@ -393,10 +422,19 @@
   <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
   <script src="{{ asset('assets/js/main.js') }}"></script>
   <script>
-    function hideToastAlert(){
+    function hideToastAlert() {
       $('.toast').toast('hide');
       $('#overlay-bg-toast').hide();
     }
+    
+    window.addEventListener('action-loading', event => {
+      var action = event.detail.actionFor;
+      if(action){
+        $('.loading').show();
+      }else{
+        $('.loading').hide();
+      }
+    });
   </script>
   @livewireScripts
 </body>

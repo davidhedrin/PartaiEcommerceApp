@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->unsignedBigInteger('user_type')->default(2);// Default user
             $table->foreign('user_type')->references('id')->on('roles')->onDelete('cascade');
-            $table->string('flag_active')->nullable();
+            $table->string('flag_active')->nullable()->default("Y");
             $table->text('alamat');
             $table->rememberToken();
             $table->timestamps();

@@ -21,7 +21,7 @@ class LoginComponent extends Component
         $this->validateOnly($fields, [
             'name' => 'required',
             'email' => 'required|email|unique:users',
-            'no_ponsel' => 'required|numeric|digits_between:11,12',
+            'no_ponsel' => 'required|numeric|unique:users|digits_between:11,12',
             'password' => 'required|min:6|required_with:co_password',
             'co_password' => 'required|min:6|required_with:password|same:password',
             'alamat' => 'required',
@@ -53,6 +53,7 @@ class LoginComponent extends Component
             'passwordLogin' => 'required|min:6'
         ]);
 
+        $this->dispatchBrowserEvent('action-loading', ['actionFor' => true]);
         try{
             $user = User::where('email', $this->emailLogin)->first();
             $throttleKey = $this->emailLogin;
@@ -96,6 +97,8 @@ class LoginComponent extends Component
             $error_msg = $e->getMessage();
             $stackTrace = HalperFunctions::getTraceException($e);
             HalperFunctions::insertLogError($this->email, "loginUser", "GET", $error_msg." | ".$stackTrace);
+            
+            $this->dispatchBrowserEvent('action-loading', ['actionFor' => false]);
             session()->flash('msgAlert', 'Telah terjadi kesalahan pada sistem. Mohon tunggu atau hubungi Admin, dan Coba beberapa saat lagi. Terimakasih!');
             session()->flash('msgStatus', 'Warning');
         }
@@ -105,12 +108,13 @@ class LoginComponent extends Component
         $this->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
-            'no_ponsel' => 'required|numeric|digits_between:11,12',
+            'no_ponsel' => 'required|numeric|unique:users|digits_between:11,12',
             'password' => 'required|min:6|required_with:co_password',
             'co_password' => 'required|min:6|required_with:password|same:password',
             'alamat' => 'required'
         ]);
 
+        $this->dispatchBrowserEvent('action-loading', ['actionFor' => true]);
         try{
             $throttleKey = request()->ip();
             if(RateLimiter::tooManyAttempts($throttleKey, 3)){
@@ -130,16 +134,19 @@ class LoginComponent extends Component
             $user->no_ponsel = $this->no_ponsel;
             $user->alamat = $this->alamat;
             $user->save();
-
-            session()->flash('msgAlert', 'Perndaftaran telah berhasil, silahkan login dan selamat bergabung. Terimakasih');
-            session()->flash('msgStatus', 'Success');
             
             $this->loginOrRegis = true;
             $this->resetFormAdd();
+            
+            $this->dispatchBrowserEvent('action-loading', ['actionFor' => false]);
+            session()->flash('msgAlert', 'Perndaftaran telah berhasil, silahkan login dan selamat bergabung. Terimakasih');
+            session()->flash('msgStatus', 'Success');
         }catch(Exception $e){
             $error_msg = $e->getMessage();
             $stackTrace = HalperFunctions::getTraceException($e);
             HalperFunctions::insertLogError("Registere's", "addRegisterData", "POST", $error_msg." | ".$stackTrace);
+            
+            $this->dispatchBrowserEvent('action-loading', ['actionFor' => false]);
             session()->flash('msgAlert', 'Telah terjadi kesalahan pada sistem. Mohon tunggu atau hubungi Admin, dan Coba beberapa saat lagi. Terimakasih!');
             session()->flash('msgStatus', 'Warning');
         }

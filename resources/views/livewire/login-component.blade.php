@@ -21,13 +21,26 @@
     </div>
   @endif
 
-  <div class="row justify-content-center mt-3">
+  <div class="row justify-content-center mt-5">
     <div class="col-md-5" wire:ignore.self>
-      <div class="section-title from-blog__title">
+      <div class="text-center mb-3">
+        <a href="{{ route('home') }}">
+          <img src="{{ asset('logo/logo1.png') }}" width="400px" alt="">
+        </a>
+      </div>
+      <div class="section-title">
         @if ($loginOrRegis)
         <h2>Login</h2>
         @else
         <h2>Register</h2>
+        @endif
+      </div>
+      <div class="text-center mb-4">
+        <span>Selamat datang di Jakarta Trading.</span><br>
+        @if ($loginOrRegis)
+        <span>Masukkan Email dan Password.</span>
+        @else
+        <span>Mulailah jadi bagian dari kami dan nikmati pelayanan terbaik dari Jakarta Trading.</span>
         @endif
       </div>
       @if ($loginOrRegis)
@@ -47,7 +60,7 @@
           @enderror
         </div>
         <div class="form-group">
-          <a href="#" class="color-href">Lupa Password?</a>
+          <a href="{{ route('forgot.pass') }}" class="color-href">Lupa Password?</a>
         </div>
         <div class="form-group">
           <button type="submit" class="btn btn-primary btn-block">Login</button>
