@@ -37,5 +37,3 @@ Route::middleware(['auth:sanctum', 'verified', 'auth_admin'])->group(function ()
   Route::get('/adm-dashboard', DashboardComponent::class)->name('adm-dashboard');
   Route::get('/adm-category', CategoryComponent::class)->name('adm-category');
 });
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
