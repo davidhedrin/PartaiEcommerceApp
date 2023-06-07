@@ -79,7 +79,7 @@
   <div class="humberger__menu__overlay"></div>
   <div class="humberger__menu__wrapper">
     <div class="humberger__menu__logo">
-      <a href="#"><img src="{{ asset('logo/logo2.png') }}" alt="" width="250px"></a>
+      <a href="#"><img src="{{ asset('logo/logo1.png') }}" alt="" width="250px"></a>
     </div>
     <div class="humberger__menu__cart">
       <ul>
@@ -186,7 +186,7 @@
       <div class="row">
         <div class="col-lg-3">
           <div class="header__logo">
-            <a href="{{ route('home') }}"><img src="{{ asset('logo/logo2.png') }}" alt="" width="260px"></a>
+            <a href="{{ route('home') }}"><img src="{{ asset('logo/logo1.png') }}" alt="" width="260px"></a>
           </div>
         </div>
         <div class="col-lg-6">
@@ -291,28 +291,28 @@
   <footer class="footer spad mt-4">
     <div class="container">
       <div class="row">
-        <div class="col-lg-3 text-center col-button-img">
+        <div class="col-lg-3 text-center mb-3 col-button-img">
           <a href="http://www.bkpm.go.id" target="_blank">
             <img src="http://djpen.kemendag.go.id/app_frontend/images/kementrian/bkpm.jpg" alt="">
           </a>
         </div>
-        <div class="col-lg-3 text-center col-button-img">
+        <div class="col-lg-3 text-center mb-3 col-button-img">
           <a href="http://www.kemenperin.go.id" target="_blank">
             <img src="http://djpen.kemendag.go.id/app_frontend/images/kementrian/deperin.jpg" alt="">
           </a>
         </div>
-        <div class="col-lg-3 text-center col-button-img">
+        <div class="col-lg-3 text-center mb-3 col-button-img">
           <a href="http://www.kemenkeu.go.id" target="_blank">
             <img src="http://djpen.kemendag.go.id/app_frontend/images/kementrian/depkeu.jpg" alt="">
           </a>
         </div>
-        <div class="col-lg-3 text-center col-button-img">
+        <div class="col-lg-3 text-center mb-3 col-button-img">
           <a href="http://www.deptan.go.id" target="_balnk">
             <img src="http://djpen.kemendag.go.id/app_frontend/images/kementrian/deptan.jpg" alt="">
           </a>
         </div>
       </div>
-      <div class="row mt-5">
+      <div class="row mt-3">
         <div class="col-lg-3 col-md-6 col-sm-6">
           <div class="footer__about">
             <div class="footer__about__logo">
