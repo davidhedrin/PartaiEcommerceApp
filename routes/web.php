@@ -12,6 +12,7 @@ use App\Http\Livewire\EmailVerifyComponent;
 use App\Http\Livewire\Admin\DashboardComponent;
 use App\Http\Livewire\Admin\CategoryComponent;
 
+Auth::routes(['verify' => true]);
 Route::get('/email-verify', EmailVerifyComponent::class)->middleware('auth')->name('verification.notice');
     
 Route::get('/logout', LogoutComponent::class)->name('logout');
