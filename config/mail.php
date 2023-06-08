@@ -34,28 +34,28 @@ return [
     */
 
     'mailers' => [
-        // 'smtp' => [
-        //     'transport' => 'smtp',
-        //     'url' => env('MAIL_URL'),
-        //     'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-        //     'port' => env('MAIL_PORT', 587),
-        //     'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-        //     'username' => env('MAIL_USERNAME'),
-        //     'password' => env('MAIL_PASSWORD'),
-        //     'timeout' => null,
-        //     'local_domain' => env('MAIL_EHLO_DOMAIN'),
-        // ],
         'smtp' => [
             'transport' => 'smtp',
             'url' => env('MAIL_URL'),
-            'host' => 'smtp.gmail.com',
-            'port' => 587,
-            'encryption' => 'tls',
-            'username' => 'jakartatrading.my@gmail.com',
-            'password' => 'wvhddyjfkwylcwvw',
+            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+            'port' => env('MAIL_PORT', 587),
+            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+            'username' => env('MAIL_USERNAME'),
+            'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],
+        // 'smtp' => [
+        //     'transport' => 'smtp',
+        //     'url' => env('MAIL_URL'),
+        //     'host' => 'smtp.gmail.com',
+        //     'port' => 587,
+        //     'encryption' => 'tls',
+        //     'username' => 'jakartatrading.my@gmail.com',
+        //     'password' => 'wvhddyjfkwylcwvw',
+        //     'timeout' => null,
+        //     'local_domain' => env('MAIL_EHLO_DOMAIN'),
+        // ],
 
         'ses' => [
             'transport' => 'ses',
@@ -109,14 +109,14 @@ return [
     |
     */
 
-    // 'from' => [
-    //     'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-    //     'name' => env('MAIL_FROM_NAME', 'Example'),
-    // ],
     'from' => [
-        'address' => 'admin@jakartatrading.my.id',
-        'name' => env('APP_NAME'),
+        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
+    // 'from' => [
+    //     'address' => 'admin@jakartatrading.my.id',
+    //     'name' => env('APP_NAME'),
+    // ],
 
     /*
     |--------------------------------------------------------------------------
