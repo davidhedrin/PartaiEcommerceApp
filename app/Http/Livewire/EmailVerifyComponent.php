@@ -19,6 +19,7 @@ class EmailVerifyComponent extends Component
         $user = Auth::user();
         $throttleKey = $user->email. '|' .request()->ip();
         if(RateLimiter::tooManyAttempts($throttleKey, 3)){
+            $this->dispatchBrowserEvent('action-loading', ['actionFor' => false]);
             $seconds  = RateLimiter::availableIn($throttleKey);
             session()->flash('msgAlert', 'Maaf, percobaan login telah melewati batas! Coba lagi dalam waktu 1 Menit');
             session()->flash('msgStatus', 'Warning');

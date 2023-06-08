@@ -33,12 +33,15 @@
         <h2>Verifikasi Email</h2>
       </div>
       <div class="text-center mb-4">
-        <span>Kami akan kirimkan link verifikasi email untuk melanjutkan proses pendaftaran.</span>
+        <span>Terimakasih telah mendaftar, verifikasi email untuk melanjutkan proses pendaftaran.</span>
       </div>
 
       <h5 class="text-center mb-3" style="font-weight: bold; text-decoration: underline">{{ Auth::user()->email }}</h5>
       <div class="form-group">
-        <button type="button" class="btn btn-primary btn-block" wire:click='sendEmailVerify'>Kirim Verifikasi</button>
+        <button type="button" class="btn btn-primary btn-block" wire:click='sendEmailVerify'>
+          <span wire:loading.remove>Kirim Verifikasi</span>
+          <span wire:loading>loading...</span>
+        </button>
       </div>
     </div>
   </div>

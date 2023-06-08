@@ -82,17 +82,18 @@
 
 <body>
   <!-- Page Preloder -->
-  {{-- <div id="preloder">
+  <div class="loading" id="preloder">
     <div class="loader"></div>
-  </div> --}}
+    <h5 style="padding-top: 10px; color: white">loading...</h5>
+  </div>
   
-  <link rel="stylesheet" href="{{ asset('spinner/loading.css') }}">
-  <div class="loading" style="display: none">
+  {{-- <link rel="stylesheet" href="{{ asset('spinner/loading.css') }}">
+  <div class="loading">
     <div>
-      <img src="{{ asset('spinner/doubleRing.gif') }}" width="40px">
+      <div class="loader"></div>
       <h5 style="padding-top: 10px; color: white">loading...</h5>
     </div>
-  </div>
+  </div> --}}
 
   <!-- Humberger Begin -->
   <div class="humberger__menu__overlay"></div>
@@ -427,15 +428,6 @@
       $('.toast').toast('hide');
       $('#overlay-bg-toast').hide();
     }
-    
-    window.addEventListener('action-loading', event => {
-      var action = event.detail.actionFor;
-      if(action){
-        $('.loading').show();
-      }else{
-        $('.loading').hide();
-      }
-    });
   </script>
   @livewireScripts
 </body>
