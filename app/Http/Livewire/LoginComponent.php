@@ -135,12 +135,13 @@ class LoginComponent extends Component
             $user->alamat = $this->alamat;
             $user->save();
             
-            $this->loginOrRegis = true;
-            $this->resetFormAdd();
+            // $this->loginOrRegis = true;
+            // $this->resetFormAdd();
+            // session()->flash('msgAlert', 'Perndaftaran telah berhasil, silahkan login dan selamat bergabung. Terimakasih');
+            // session()->flash('msgStatus', 'Success');
             
-            $this->dispatchBrowserEvent('action-loading', ['actionFor' => false]);
-            session()->flash('msgAlert', 'Perndaftaran telah berhasil, silahkan login dan selamat bergabung. Terimakasih');
-            session()->flash('msgStatus', 'Success');
+            $getUserAuth = Auth::attempt(['email' => $this->email, 'password' => $this->password]);
+            return redirect()->route('home');
         }catch(Exception $e){
             $error_msg = $e->getMessage();
             $stackTrace = HalperFunctions::getTraceException($e);

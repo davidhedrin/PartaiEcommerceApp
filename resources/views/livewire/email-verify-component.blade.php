@@ -40,7 +40,7 @@
       <div class="form-group">
         <button type="button" class="btn btn-primary btn-block" wire:click='sendEmailVerify'>
           <span wire:loading.remove>Kirim Verifikasi</span>
-          <span wire:loading>loading...</span>
+          <span wire:loading>Mengirim Email...</span>
         </button>
       </div>
     </div>

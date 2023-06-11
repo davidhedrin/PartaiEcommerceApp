@@ -13,8 +13,9 @@ class LogoutComponent extends Component
     {
         Auth::logout();
         session()->flush();
-        return redirect()->route('home');
+        return redirect()->route('login');
     }
+
     public function render()
     {
         $this->hitLogout();

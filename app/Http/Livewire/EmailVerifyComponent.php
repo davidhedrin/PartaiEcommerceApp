@@ -26,9 +26,9 @@ class EmailVerifyComponent extends Component
             return;
         }
 
-        RateLimiter::hit($throttleKey);
         try{
             event(new Registered($user));
+            RateLimiter::hit($throttleKey);
 
             $this->dispatchBrowserEvent('action-loading', ['actionFor' => false]);
             session()->flash('msgAlert', 'Verifikasi Email berhasil dikirim! Periksa email anda dan verifikasi email.');

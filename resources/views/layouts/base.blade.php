@@ -102,7 +102,7 @@
       <a href="#"><img src="{{ asset('logo/logo1.png') }}" alt="" width="250px"></a>
     </div>
     <div class="humberger__menu__cart">
-      <ul>
+      <ul class="mb-2">
         <li>
           <a href="#">
             <i class="fa fa-heart"></i>
@@ -119,6 +119,13 @@
             @endif
           </a>
         </li>
+        @if (Auth::user())
+        <li>
+          <a href="#">
+            <i class="fa fa-user-circle-o"></i>
+          </a>
+        </li>
+        @endif
       </ul>
       @if (Auth::user())
         <div class="header__cart__price">Hallo, <span>{{ Auth::user()->name }}</span></div>
@@ -136,7 +143,7 @@
       </div>
       <div class="header__top__right__auth">
         @if (Auth::user())
-          <a href="{{ route('logout') }}"><i class="fa fa-sign-out {{ Auth::user()->user_type == 1 ? "ml-3" : "" }}"></i> Logout</a>
+          <a href="javascript:void(0)" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out {{ Auth::user()->user_type == 1 ? "ml-3" : "" }}"></i> Logout</a>
         @else
           <a href="{{ route('login') }}"><i class="fa fa-user"></i> Login/Register</a>
         @endif
@@ -196,7 +203,7 @@
               </div>
               <div class="header__top__right__auth">
                 @if (Auth::user())
-                  <a href="{{ route('logout') }}"><i class="fa fa-sign-out {{ Auth::user()->user_type == 1 ? "ml-3" : "" }}"></i> Logout</a>
+                  <a href="javascript:void(0)" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out {{ Auth::user()->user_type == 1 ? "ml-3" : "" }}"></i> Logout</a>
                 @else
                   <a href="{{ route('login') }}"><i class="fa fa-user"></i> Login/Register</a>
                 @endif
@@ -216,7 +223,7 @@
                   width="260px"></a>
             </div>
           </div>
-          <div class="col-lg-6">
+          <div class="col-lg-5">
             <nav class="header__menu">
               <ul>
                 <li class="{{ $url == '' ? 'active' : '' }}"><a href="{{ route('home') }}">Home</a></li>
@@ -227,7 +234,7 @@
               </ul>
             </nav>
           </div>
-          <div class="col-lg-3">
+          <div class="col-lg-4">
             <div class="header__cart">
               <ul>
                 <li>
@@ -246,6 +253,13 @@
                     @endif
                   </a>
                 </li>
+                @if (Auth::user())
+                <li>
+                  <a href="#">
+                    <i class="fa fa-user-circle-o"></i>
+                  </a>
+                </li>
+                @endif
               </ul>
               @if (Auth::user())
                 <div class="header__cart__price">Hallo, <span>{{ Auth::user()->name }}</span></div>
@@ -413,6 +427,27 @@
     </div>
   </footer>
   <!-- Footer Section End -->
+
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          
+          <img src="{{ asset('logo/logo2.png') }}" class="rounded mr-2" alt="" width="160px">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-center">
+          Yakin ingin keluar mengakhiri?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Batal</button>
+          <a href="{{ route('logout') }}" type="button" class="btn btn-secondary btn-sm">Keluar</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Js Plugins -->
   <script src="{{ asset('assets/js/jquery-3.3.1.min.js') }}"></script>
