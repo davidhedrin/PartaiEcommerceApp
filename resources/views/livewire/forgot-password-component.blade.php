@@ -35,15 +35,17 @@
       <div class="text-center mb-4">
         <span>Jika email terdaftar, maka kami akan kirimkan link untuk merubah password melalui email.</span>
       </div>
-      <form wire:submit.prevent='' wire:ignore.self>
+      <form wire:submit.prevent='sendLinkResetPass' wire:ignore.self>
         <div class="form-group">
-          <input wire:model="emailLogin" type="text" class="form-control" id="email_login" placeholder="Masukkan alamat email">
-          @error('emailLogin')
+          <input wire:model="email" type="text" class="form-control" id="email_login" placeholder="Masukkan alamat email">
+          @error('email')
               <span class="text-danger">{{ $message }}</span>
           @enderror
         </div>
         <div class="form-group">
-          <button type="submit" class="btn btn-primary btn-block">Verifikasi</button>
+          <button type="submit" class="btn btn-primary btn-block">
+            Verifikasi
+          </button>
         </div>
         <div class="form-group">
           <p>Kembali kehalaman <a class="color-href" href="{{ route('login') }}">Login</a></p>

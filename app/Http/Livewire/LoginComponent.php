@@ -119,7 +119,7 @@ class LoginComponent extends Component
             $throttleKey = request()->ip();
             if(RateLimiter::tooManyAttempts($throttleKey, 3)){
                 $seconds  = RateLimiter::availableIn($throttleKey);
-                session()->flash('msgAlert', 'Maaf, percobaan mendaftar telah melewati batas '.$seconds);
+                session()->flash('msgAlert', 'Maaf, percobaan login telah melewati batas! Coba lagi dalam waktu 1 Menit');
                 session()->flash('msgStatus', 'Warning');
                 return;
             }
@@ -145,7 +145,7 @@ class LoginComponent extends Component
         }catch(Exception $e){
             $error_msg = $e->getMessage();
             $stackTrace = HalperFunctions::getTraceException($e);
-            HalperFunctions::insertLogError("Registere's", "addRegisterData", "POST", $error_msg." | ".$stackTrace);
+            HalperFunctions::insertLogError("Registere's ".request()->ip(), "addRegisterData", "POST", $error_msg." | ".$stackTrace);
             
             $this->dispatchBrowserEvent('action-loading', ['actionFor' => false]);
             session()->flash('msgAlert', 'Telah terjadi kesalahan pada sistem. Mohon tunggu atau hubungi Admin, dan Coba beberapa saat lagi. Terimakasih!');

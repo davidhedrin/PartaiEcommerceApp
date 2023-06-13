@@ -9,13 +9,14 @@
   }
   $url = str_replace('/', '', $url);
 
+  $curRouteName = Route::currentRouteName();
   $logicHeader = false;
   $logicNavCateg = false;
 
-  if($url != 'login' && $url != 'forgot-password'){
+  if($curRouteName != 'login' && $curRouteName != 'forgot.pass'){
     $logicHeader = true;
   }
-  if($url != 'login' && $url != 'forgot-password' && $url != "email-verify"){
+  if($curRouteName != 'login' && $curRouteName != 'forgot.pass' && $curRouteName != "verification.notice" && $curRouteName != 'password.reset'){
     $logicNavCateg = true;
   }
 @endphp

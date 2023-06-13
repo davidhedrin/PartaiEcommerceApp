@@ -7,18 +7,30 @@ use App\Http\Livewire\ContactComponent;
 use App\Http\Livewire\LoginComponent;
 use App\Http\Livewire\LogoutComponent;
 use App\Http\Livewire\ForgotPasswordComponent;
+use App\Http\Livewire\FormForgotPasswordComponent;
 use App\Http\Livewire\EmailVerifyComponent;
 
 use App\Http\Livewire\Admin\DashboardComponent;
 use App\Http\Livewire\Admin\CategoryComponent;
 
-Auth::routes(['login' => false, 'logout' => false, 'forgot.pass' => false, 'verify' => true]);
+Auth::routes([
+  'login' => false,
+  'logout' => false,
+  'forgot.pass' => false,
+  'password.reset' => false,
+  'password.update' => false,
+  'password.request' => false,
+  'verify' => true
+]);
+
 Route::get('/email-verify', EmailVerifyComponent::class)->middleware('auth')->name('verification.notice');
     
 Route::get('/logout', LogoutComponent::class)->name('logout');
 Route::middleware('guest')->group(function () {
   Route::get('/login', LoginComponent::class)->name('login');
   Route::get('/forgot-password', ForgotPasswordComponent::class)->name('forgot.pass');
+  Route::get('/password/reset/{token}', FormForgotPasswordComponent::class)->name('password.reset');
+  Route::get('/password/reset/', FormForgotPasswordComponent::class)->name('password.request');
 });
 
 // Route for user login or not but check email verify
