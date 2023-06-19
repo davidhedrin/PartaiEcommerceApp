@@ -8,6 +8,8 @@
     HalperFunctions::insertLogError('ExceptionGuide', 'GetDataCurrentServer', 'Exception', $error_msg);
   }
   $url = str_replace('/', '', $url);
+  
+  $curRouteName = Route::currentRouteName();
 @endphp
 
 <!DOCTYPE html>
@@ -86,7 +88,7 @@
           <div class="menu-inner-shadow"></div>
 
           <ul class="menu-inner py-1">
-            <li class="menu-item {{ $url == 'adm-dashboard' ? 'active' : '' }}">
+            <li class="menu-item {{ $curRouteName == 'adm-dashboard' ? 'active' : '' }}">
               <a href="{{ route('adm-dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Dashboard</div>
@@ -106,8 +108,8 @@
                 <div data-i18n="Tables">Pesanan <span class="badge rounded-pill bg-danger">12</span></div>
               </a>
             </li>
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link">
+            <li class="menu-item {{ $curRouteName == 'adm-product' ? 'active' : '' }}">
+              <a href="{{ route('adm-product') }}" class="menu-link">
                 <i class='menu-icon tf-icons bx bx-package'></i>
                 <div data-i18n="Tables">Produk</div>
               </a>
@@ -329,6 +331,27 @@
     <script src="{{ asset('assetz/js/main.js') }}"></script>
     <script src="{{ asset('assetz/js/dashboards-analytics.js') }}"></script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    
+    <script>
+      document.querySelectorAll('input[type-currency="IDR"]').forEach((element) => {
+          element.addEventListener('keyup', function(e) {
+              let cursorPostion = this.selectionStart;
+              let value = parseInt(this.value.replace(/[^,\d]/g, ''));
+              let originalLenght = this.value.length;
+              if (isNaN(value)) {
+                  this.value = "";
+              } else {    
+                  this.value = value.toLocaleString('id-ID', {
+                      currency: 'IDR',
+                      style: 'currency',
+                      minimumFractionDigits: 0
+                  });
+                  cursorPostion = this.value.length - originalLenght + cursorPostion;
+                  this.setSelectionRange(cursorPostion, cursorPostion);
+              }
+          });
+      });
+  </script>
     @livewireScripts
   </body>
 </html>

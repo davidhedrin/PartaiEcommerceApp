@@ -57,7 +57,14 @@
             </div>
           </div>
           <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block">Simpan Password</button>
+            <button type="submit" class="btn btn-primary btn-block">
+              <span wire:loading.remove wire:loading.attr='disabled' wire:target='saveNewPassword'>
+                Simpan Password
+              </span>
+              <span wire:loading wire:target='saveNewPassword'>
+                Menyimpan...
+              </span>
+            </button>
           </div>
           <div class="form-group">
             <p>Kembali kehalaman <a class="color-href" href="{{ route('login') }}">Login</a></p>

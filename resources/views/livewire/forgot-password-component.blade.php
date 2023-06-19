@@ -44,7 +44,12 @@
         </div>
         <div class="form-group">
           <button type="submit" class="btn btn-primary btn-block">
-            Verifikasi
+            <span wire:loading.remove wire:loading.attr='disabled' wire:target='sendLinkResetPass'>
+              Kirim
+            </span>
+            <span wire:loading wire:target='sendLinkResetPass'>
+              Verifikasi...
+            </span>
           </button>
         </div>
         <div class="form-group">

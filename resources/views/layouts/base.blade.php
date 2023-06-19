@@ -8,16 +8,16 @@
       HalperFunctions::insertLogError('ExceptionGuide', 'GetDataCurrentServer', 'Exception', $error_msg);
   }
   $url = str_replace('/', '', $url);
-
+  
   $curRouteName = Route::currentRouteName();
   $logicHeader = false;
   $logicNavCateg = false;
-
-  if($curRouteName != 'login' && $curRouteName != 'forgot.pass'){
-    $logicHeader = true;
+  
+  if ($curRouteName != 'login' && $curRouteName != 'forgot.pass') {
+      $logicHeader = true;
   }
-  if($curRouteName != 'login' && $curRouteName != 'forgot.pass' && $curRouteName != "verification.notice" && $curRouteName != 'password.reset'){
-    $logicNavCateg = true;
+  if ($curRouteName != 'login' && $curRouteName != 'forgot.pass' && $curRouteName != 'verification.notice' && $curRouteName != 'password.reset') {
+      $logicNavCateg = true;
   }
 @endphp
 
@@ -68,14 +68,19 @@
 
     .col-button-img {
       position: relative;
-      padding: 15 px 30px;
+      margin: 15px 0;
     }
 
     .col-button-img img {
       width: 100%;
-      height: 100%;
       object-fit: cover;
       mix-blend-mode: multiply;
+    }
+
+    @media only screen and (max-width: 600px) {
+      .col-button-img img {
+        width: 150px;
+      }
     }
   </style>
   @livewireStyles
@@ -87,7 +92,7 @@
     <div class="loader"></div>
     <h5 style="padding-top: 10px; color: white">loading...</h5>
   </div>
-  
+
   {{-- <link rel="stylesheet" href="{{ asset('spinner/loading.css') }}">
   <div class="loading">
     <div>
@@ -121,11 +126,11 @@
           </a>
         </li>
         @if (Auth::user())
-        <li>
-          <a href="#">
-            <i class="fa fa-user-circle-o"></i>
-          </a>
-        </li>
+          <li>
+            <a href="#">
+              <i class="fa fa-user-circle-o"></i>
+            </a>
+          </li>
         @endif
       </ul>
       @if (Auth::user())
@@ -144,7 +149,8 @@
       </div>
       <div class="header__top__right__auth">
         @if (Auth::user())
-          <a href="javascript:void(0)" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out {{ Auth::user()->user_type == 1 ? "ml-3" : "" }}"></i> Logout</a>
+          <a href="javascript:void(0)" data-toggle="modal" data-target="#logoutModal"><i
+              class="fa fa-sign-out {{ Auth::user()->user_type == 1 ? 'ml-3' : '' }}"></i> Logout</a>
         @else
           <a href="{{ route('login') }}"><i class="fa fa-user"></i> Login/Register</a>
         @endif
@@ -204,7 +210,8 @@
               </div>
               <div class="header__top__right__auth">
                 @if (Auth::user())
-                  <a href="javascript:void(0)" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out {{ Auth::user()->user_type == 1 ? "ml-3" : "" }}"></i> Logout</a>
+                  <a href="javascript:void(0)" data-toggle="modal" data-target="#logoutModal"><i
+                      class="fa fa-sign-out {{ Auth::user()->user_type == 1 ? 'ml-3' : '' }}"></i> Logout</a>
                 @else
                   <a href="{{ route('login') }}"><i class="fa fa-user"></i> Login/Register</a>
                 @endif
@@ -255,11 +262,11 @@
                   </a>
                 </li>
                 @if (Auth::user())
-                <li>
-                  <a href="#">
-                    <i class="fa fa-user-circle-o"></i>
-                  </a>
-                </li>
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-user-circle-o"></i>
+                    </a>
+                  </li>
                 @endif
               </ul>
               @if (Auth::user())
@@ -334,25 +341,30 @@
   <!-- Footer Section Begin -->
   <footer class="footer spad mt-4">
     <div class="container">
-      <div class="row">
-        <div class="col-lg-3 text-center col-button-img">
+      <div class="row d-flex justify-content-center">
+        <div class="col-lg-2 mx-2 text-center col-button-img">
+          <a href="https://www.kemendag.go.id/" target="_blank">
+            <img src="{{ asset('assets/img/footer_sponsor/perdagangan.jpeg') }}" alt="">
+          </a>
+        </div>
+        <div class="col-lg-2 mx-2 text-center col-button-img">
           <a href="http://www.bkpm.go.id" target="_blank">
-            <img src="http://djpen.kemendag.go.id/app_frontend/images/kementrian/bkpm.jpg" alt="">
+            <img src="{{ asset('assets/img/footer_sponsor/bkpm.jpeg') }}" alt="">
           </a>
         </div>
-        <div class="col-lg-3 text-center col-button-img">
+        <div class="col-lg-2 mx-2 text-center col-button-img">
           <a href="http://www.kemenperin.go.id" target="_blank">
-            <img src="http://djpen.kemendag.go.id/app_frontend/images/kementrian/deperin.jpg" alt="">
+            <img src="{{ asset('assets/img/footer_sponsor/ministriofindustri.jpeg') }}" alt="">
           </a>
         </div>
-        <div class="col-lg-3 text-center col-button-img">
+        <div class="col-lg-2 mx-2 text-center col-button-img">
           <a href="http://www.kemenkeu.go.id" target="_blank">
-            <img src="http://djpen.kemendag.go.id/app_frontend/images/kementrian/depkeu.jpg" alt="">
+            <img src="{{ asset('assets/img/footer_sponsor/kemenkeu.jpeg') }}" alt="">
           </a>
         </div>
-        <div class="col-lg-3 text-center col-button-img">
+        <div class="col-lg-2 mx-2 text-center col-button-img">
           <a href="http://www.deptan.go.id" target="_balnk">
-            <img src="http://djpen.kemendag.go.id/app_frontend/images/kementrian/deptan.jpg" alt="">
+            <img src="{{ asset('assets/img/footer_sponsor/deptan.jpeg') }}" alt="">
           </a>
         </div>
       </div>
@@ -429,11 +441,12 @@
   </footer>
   <!-- Footer Section End -->
 
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalTitle" aria-hidden="true">
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalTitle"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          
+
           <img src="{{ asset('logo/logo2.png') }}" class="rounded mr-2" alt="" width="160px">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>

@@ -12,6 +12,7 @@ use App\Http\Livewire\EmailVerifyComponent;
 
 use App\Http\Livewire\Admin\DashboardComponent;
 use App\Http\Livewire\Admin\CategoryComponent;
+use App\Http\Livewire\Admin\ProductComponent;
 
 Auth::routes([
   'login' => false,
@@ -49,4 +50,5 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 Route::middleware(['auth:sanctum', 'verified', 'auth_admin'])->group(function () {
   Route::get('/adm-dashboard', DashboardComponent::class)->name('adm-dashboard');
   Route::get('/adm-category', CategoryComponent::class)->name('adm-category');
+  Route::get('/admin-product', ProductComponent::class)->name('adm-product');
 });

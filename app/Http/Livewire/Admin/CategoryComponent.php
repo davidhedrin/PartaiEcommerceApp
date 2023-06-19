@@ -78,10 +78,17 @@ class CategoryComponent extends Component
     }
 
     public function updateCategory(){
+        $imageName;
         $category = Category::find($this->idForUpdate);
+        $category->name = $this->name;
+        if($this->newimage){
+            Storage::delete(HalperFunctions::colName('ct') . $category->image);
+            $imageName = Carbon::now()->timestamp. '.' . $this->newimage->extension();
+            $category->image = $imageName;
+        }
+        $category->save();
+        $this->newimage->storseAs(HalperFunctions::colName('ct'), $imageName);
 
-
-        Storage::delete(HalperFunctions::colName('ct') . '/' . $category->image);
         $this->dispatchBrowserEvent('close-form-modal');
     }
 
@@ -92,8 +99,8 @@ class CategoryComponent extends Component
     public function deleteCategory()
     {
         $category = Category::find($this->idForDelete);
-        Storage::delete(HalperFunctions::colName('ct') . '/' . $category->image);
         $category->delete();
+        Storage::delete(HalperFunctions::colName('ct') . $category->image);
 
         $this->dispatchBrowserEvent('close-form-modal');
         session()->flash('msgAlert', 'Category telah berhasil dihapus');

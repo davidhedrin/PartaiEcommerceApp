@@ -7,8 +7,8 @@ use Exception;
 class HalperFunctions{
     public static function colName($key){
         $allCollName = [
-            'ct' => 'category',
-            'pr' => 'product',
+            'ct' => 'img_category/',
+            'pr' => 'img_product/',
         ];
         
         return $allCollName[$key] ?? null;
@@ -34,6 +34,16 @@ class HalperFunctions{
         catch(Exception $ex){
         }
 
+        return $result;
+    }
+
+    public static function currencyIDR($value) {
+        $result = "Rp. " . number_format($value, 0, '.' . '.');
+        return $result;
+    }
+
+    public static function currencyToNumber($value){
+        $result = preg_replace('/\D/', '', $value);
         return $result;
     }
 }
