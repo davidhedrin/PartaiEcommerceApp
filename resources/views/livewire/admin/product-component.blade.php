@@ -49,56 +49,57 @@
     </button>
   @endif
 
-  @if (count($allProduct) > 0)
-    <div class="card">
-      <h5 class="card-header">All Product</h5>
-      <div class="table-responsive text-nowrap">
-        <table class="table">
-          <thead>
-            <tr class="text-nowrap">
-              <th>#</th>
-              <th>Table heading</th>
-              <th>Table heading</th>
-              <th>Table heading</th>
-              <th>Table heading</th>
-              <th>Table heading</th>
-              <th>Table heading</th>
+  <div class="card mb-5">
+    <h5 class="card-header">All Product</h5>
+    <div class="table-responsive text-nowrap">
+      <table class="table">
+        <thead>
+          <tr class="text-nowrap">
+            <th>SKU-Produk</th>
+            <th>Gambar</th>
+            <th>Produk</th>
+            <th>Harga Jual</th>
+            <th>Harga Diskon</th>
+            <th>Stok</th>
+            <th>Kategori</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          @forelse ($allProduct as $product)
+            <tr>
+              <td>{{ $product->sku }}</td>
+              <td>
+                <img src="{{ asset('storage/' . colName('pr') . $product->image->image) }}" class="d-block rounded imageShow">
+              </td>
+              <td>{{ $product->name }}</td>
+              <td>{{ currency_IDR($product->regular_price)  }}</td>
+              <td>{{ currency_IDR($product->sale_price)  }}</td>
+              <td>{{ $product->quantity }}</td>
+              <td>{{ $product->category ? $product->category->name : "" }}</td>
+              <td><i class="bx bx-dots-vertical-rounded"></i></td>
             </tr>
-          </thead>
-          <tbody>
-            @foreach ($allProduct as $product)
-              <tr>
-                <th scope="row">1</th>
-                <td>Table cell</td>
-                <td>Table cell</td>
-                <td>Table cell</td>
-                <td>Table cell</td>
-                <td>Table cell</td>
-                <td>Table cell</td>
-              </tr>
-            @endforeach
-          </tbody>
-        </table>
-      </div>
+          @empty
+            <tr>
+              <td colspan="8" class="text-center py-5">
+                <div class="misc-wrapper text-center">
+                  <h2 class="mb-2 mx-2">Daftar Product</h2>
+                  <p class="mb-4 mx-2">
+                    Daftar product produk masih kosong, silahkan tambah product.
+                  </p>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAdd">Tambah
+                    Product</button>
+                  <div class="mt-4">
+                    <i class='tf-icons bx bx-package' style="font-size: 150px"></i>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          @endforelse
+        </tbody>
+      </table>
     </div>
-  @else
-    <div class="card">
-      <div class="card-body">
-        <div class="misc-wrapper text-center">
-          <h2 class="mb-2 mx-2">Daftar Product</h2>
-          <p class="mb-4 mx-2">
-            Daftar product produk masih kosong, silahkan tambah product.
-          </p>
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAdd">Tambah
-            Product</button>
-          <div class="mt-4">
-            <i class='tf-icons bx bx-package' style="font-size: 150px"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  @endif
-
+  </div>
 
   <div wire:ignore.self class="modal fade" id="modalAdd" tabindex="-1" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">

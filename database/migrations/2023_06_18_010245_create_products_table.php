@@ -22,8 +22,6 @@ return new class extends Migration
             $table->boolean('featured')->default(false);
             $table->unsignedInteger('quantity')->default(0);
             $table->enum('product_for', ['i', 'e'])->nullable()->comment('i for Import and e for Export product');
-            // $table->string('image')->nullable();
-            // $table->json('images')->nullable();
             $table->bigInteger('category_id')->unsigned()->nullable();
             $table->bigInteger('image_id')->unsigned()->nullable();
             $table->timestamps();

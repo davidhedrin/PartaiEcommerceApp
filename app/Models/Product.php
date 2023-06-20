@@ -15,7 +15,7 @@ class Product extends Model
     protected $table = 'products';
 
     public function image(){
-        return $this->hasOne(ImageProduct::class);
+        return $this->hasOne(ImageProduct::class, 'id');
     }
 
     public function category(){

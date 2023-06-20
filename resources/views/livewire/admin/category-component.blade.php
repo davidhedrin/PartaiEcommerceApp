@@ -48,7 +48,7 @@
       @foreach ($allCategory as $category)
         <div class="col">
           <div class="card">
-            <img class="card-img-top image-category" src="{{ asset('storage/category/' . $category->image) }}"
+            <img class="card-img-top image-category" src="{{ asset('storage/'. colName('ct') . $category->image) }}"
               alt="Card image cap">
             <div class="card-img-overlay px-2 py-2 d-flex justify-content-end">
               <div class="px-1">
@@ -186,7 +186,7 @@
                   @if ($newimage)
                     <img src="{{ $newimage->temporaryUrl() }}" class="d-block rounded imageShow">
                   @else
-                    <img src="{{ asset('storage/category/' . $viewImage) }}" class="d-block rounded imageShow">
+                    <img src="{{ asset('storage/' . colName('ct') . $viewImage) }}" class="d-block rounded imageShow">
                   @endif
                   <div class="button-wrapper">
                     <div wire:loading.remove wire:loading.attr='disabled' wire:target='newimage'>
