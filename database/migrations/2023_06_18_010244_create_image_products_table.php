@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('folder_name')->nullable();
             $table->json('images')->nullable();
+            $table->boolean('flag_active')->default(true);
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
         });
     }

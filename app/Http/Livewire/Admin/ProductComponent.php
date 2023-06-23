@@ -4,6 +4,8 @@ namespace App\Http\Livewire\Admin;
 
 use Livewire\Component;
 use App\Http\Halpers\HalperFunctions;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Exception;
 
 use App\Models\Product;
@@ -22,14 +24,14 @@ class ProductComponent extends Component
 
     public $name, $image, $short_desc, $description, $regular_price, $sale_price;
     public $sku, $featured = false, $quantity, $images = [], $category_id, $product_for;
-    public $initProductFor =  false, $loadingSku = false, $setImg;
+    public $initProductFor =  false, $initProductBtn = false, $loadingSku = false, $setImg, $setImgEdit;
+    public $imageEdit, $imageEditView, $imagesEdit = [], $imagesEditView = [];
+    public $folderName;
 
     public function updated($fields) {
         $this->validateOnly($fields, [
             'name' => 'required',
             'product_for' => 'required',
-            'regular_price' => 'required',
-            'quantity' => 'required',
             'description' => 'required',
             'image' => 'required',
         ]);
@@ -37,6 +39,10 @@ class ProductComponent extends Component
         if($this->setImg){
             $this->images[] = $this->setImg;
             $this->setImg = null;
+        }
+        if($this->setImgEdit){
+            $this->imagesEdit[] = $this->setImgEdit;
+            $this->setImgEdit = null;
         }
     }
 
@@ -59,7 +65,15 @@ class ProductComponent extends Component
         $this->product_for = null;
         $this->setImg = null;
         $this->initProductFor = false;
+        $this->initProductBtn = false;
         $this->loadingSku = false;
+
+        $this->imageEdit = null;
+        $this->imagesEdit = null;
+        $this->imageEditView = null;
+        $this->imagesEditView = null;
+        $this->setImgEdit = null;
+        $this->folderName = null;
     }
 
     public function generateSkuProduct($value = null) {
@@ -70,17 +84,21 @@ class ProductComponent extends Component
                     $for = $this->product_for == "i" ? "IMP" : "EXP";
                     $code = strtoupper(Str::random(6));
                     $this->sku = $for . "-" . Carbon::now()->timestamp . "-" . $code;
+                    $this->initProductBtn = true;
                     return;
                 }
 
-                $arrayCode = explode("-", $this->sku);
-                $arrayCode[0] = $this->product_for == "i" ? "IMP" : "EXP";
-                $this->sku = implode("-", $arrayCode);
+                if($this->initProductBtn){
+                    $arrayCode = explode("-", $this->sku);
+                    $arrayCode[0] = $this->product_for == "i" ? "IMP" : "EXP";
+                    $this->sku = implode("-", $arrayCode);
+                }
             }
             $this->initProductFor = true;
         }else{
             $this->sku = null;
             $this->initProductFor = false;
+            $this->initProductBtn = false;
         }
         $this->loadingSku = false;
     }
@@ -89,50 +107,152 @@ class ProductComponent extends Component
         $this->validate([
             'name' => 'required',
             'product_for' => 'required',
-            'regular_price' => 'required',
-            'quantity' => 'required',
             'description' => 'required',
             'image' => 'required',
         ]);
 
-        $imgProduct = new ImageProduct;
-        $uniqImage = Carbon::now()->timestamp;
-        $imageName = $uniqImage . '.' . $this->image->extension();
-        $imgProduct->image = $imageName;
+        HalperFunctions::SaveWithTransaction(
+            function (){
+                $imgProduct = new ImageProduct;
+                $uniqImage = Carbon::now()->timestamp . Str::random(6);
+                $imageName = $uniqImage . '.' . $this->image->extension();
+                $imgProduct->image = $imageName;
+                $allNameImages = array_map(function ($item) {
+                    return Carbon::now()->timestamp . Str::random(6) . '.' . $item->extension();;
+                }, $this->images);
+                $jsonImages = json_encode($allNameImages);
+                $imgProduct->images = $jsonImages;
+                $imgProduct->folder_name = $uniqImage;
+                $imgProduct->created_by = Auth::user()->email;
+                $imgProduct->save();
 
-        $allNameImages = array_map(function ($item) {
-            return Carbon::now()->timestamp. '.' . $item->extension();;
-        }, $this->images);
-        $jsonImages = json_encode($allNameImages);
+                $product = new Product;
+                $product->name = $this->name;
+                $product->short_desc = $this->short_desc;
+                $product->description = $this->description;
+                $product->regular_price = $this->regular_price ? HalperFunctions::currencyToNumber($this->regular_price) : null;
+                $product->sale_price = $this->sale_price ? HalperFunctions::currencyToNumber($this->sale_price) : null;
+                $product->sku = $this->sku;
+                $product->featured = $this->featured;
+                $product->quantity = $this->quantity;
+                $product->stock_status = $this->quantity > 0;
+                $product->product_for = $this->product_for;
+                $product->category_id = $this->category_id;
+                $product->image_id = $imgProduct->id;
+                $product->created_by = Auth::user()->email;
+                
+                $product->save();
 
-        $imgProduct->images = $jsonImages;
-        $imgProduct->folder_name = $uniqImage;
-        $imgProduct->save();
-
-        $product = new Product;
-        $product->name = $this->name;
-        $product->short_desc = $this->short_desc;
-        $product->description = $this->description;
-        $product->regular_price = $this->regular_price ? HalperFunctions::currencyToNumber($this->regular_price) : null;
-        $product->sale_price = $this->sale_price ? HalperFunctions::currencyToNumber($this->sale_price) : null;
-        $product->sku = $this->sku;
-        $product->featured = $this->featured;
-        $product->quantity = $this->quantity;
-        $product->product_for = $this->product_for;
-        $product->category_id = $this->category_id;
-        $product->image_id = $imgProduct->id;
+                $this->image->storeAs(HalperFunctions::colName('pr'), $imageName);
+                for ($i = 0; $i < count($allNameImages); $i++) {
+                    $this->images[$i]->storeAs(HalperFunctions::colName('pr') . $uniqImage, $allNameImages[$i]);
+                }
         
-        $this->image->storeAs(HalperFunctions::colName('pr'), $imageName);
-        for ($i = 0; $i < count($allNameImages); $i++) {
-            $this->images[$i]->storeAs(HalperFunctions::colName('pr') . $uniqImage, $allNameImages[$i]);
-        }
+                $this->dispatchBrowserEvent('close-form-modal');
+                session()->flash('msgAlert', 'Product telah berhasil ditambahkan');
+                session()->flash('msgStatus', 'Success');
+            },
+            'storeProductToDb',
+            'close-form-modal'
+        );
+    }
 
-        $product->save();
+    public function openModelForEdit($id) {
+        $this->initProductFor = true;
+        $this->initProductBtn = true;
 
-        $this->dispatchBrowserEvent('close-form-modal');
+        $product = Product::find($id);
+        $this->name = $product->name;
+        $this->imageEditView = $product->image->image;
+        $this->short_desc = $product->short_desc;
+        $this->description = $product->description;
+        $this->regular_price = $product->regular_price ? intval($product->regular_price) : null;
+        $this->sale_price = $product->sale_price ? intval($product->sale_price) : null;
+        $this->sku = $product->sku;
+        $this->quantity = $product->quantity;
+        $this->imagesEditView = json_decode($product->image->images, true);
+        $this->category_id = $product->category_id;
+        $this->product_for = $product->product_for;
+        $this->featured = $product->featured;
+        $this->folderName = $product->image->folder_name;
 
-        session()->flash('msgAlert', 'Category telah berhasil dihapus');
-        session()->flash('msgStatus', 'Success');
+        $this->dispatchBrowserEvent('open-form-modal');
+    }
+
+    public function saveUpdateProdut($id) {
+        HalperFunctions::SaveWithTransaction(
+            function () use ($id) {
+                $product = Product::find($id);
+                $imgProduct = ImageProduct::find($product->image_id);
+
+                $allNameImages = $this->imagesEditView;
+                if($this->imagesEdit){
+                    foreach($this->imagesEdit as $img){
+                        $nameImg = Carbon::now()->timestamp . Str::random(6) . '.' . $img->extension();
+                        $allNameImages[] = $nameImg;
+                    }
+                }
+                $jsonImages = json_encode($allNameImages);
+                $imgProduct->images = $jsonImages;
+                $imgProduct->updated_by = Auth::user()->email;
+                $imgProduct->save();
+
+                $product->name = $this->name;
+                $product->short_desc = $this->short_desc;
+                $product->description = $this->description;
+                $product->regular_price = $this->regular_price ? HalperFunctions::currencyToNumber($this->regular_price) : null;
+                $product->sale_price = $this->sale_price ? HalperFunctions::currencyToNumber($this->sale_price) : null;
+                $product->sku = $this->sku;
+                $product->featured = $this->featured;
+                $product->quantity = $this->quantity;
+                $product->stock_status = $this->quantity > 0;
+                $product->product_for = $this->product_for;
+                $product->category_id = $this->category_id;
+                $product->updated_by = Auth::user()->email;
+                $product->save();
+                
+                if($this->imageEdit){
+                    Storage::delete(HalperFunctions::colName('pr') . $imgProduct->image);
+                    $this->imageEdit->storseAs(HalperFunctions::colName('pr'), $imgProduct->image);
+                }
+                if($this->imagesEdit){
+                    for ($i = 0; $i < count($allNameImages); $i++) {
+                        Storage::delete(HalperFunctions::colName('pr') . $imgProduct->folder_name . '/' . $allNameImages[$i]);
+                        $this->imagesEdit[$i]->storeAs(HalperFunctions::colName('pr') . $imgProduct->folder_name, $allNameImages[$i]);
+                    }
+                }
+            },
+            'saveUpdateProdut',
+            'close-form-modal'
+        );
+    }
+
+    public $idForDelete;
+    public function openModelForDelete($id) {
+        $this->idForDelete = null;
+        $this->idForDelete = $id;
+    }
+
+    public function activeInActiveProduct($id, $action) {
+        $flag_active = $action == 1 ? false : true;
+        HalperFunctions::SaveWithTransaction(
+            function () use ($id, $flag_active){
+                $product = Product::find($id);
+                $image = ImageProduct::find($product->image_id);
+    
+                $image->flag_active = $flag_active;
+                $product->flag_active = $flag_active;
+                $image->save();
+                $product->save();
+
+                $this->dispatchBrowserEvent('close-form-modal');
+                $status = $flag_active ? 'Aktifkan' : 'NonAktifkan';
+                session()->flash('msgAlert', 'Product telah berhasil di ' . $status);
+                session()->flash('msgStatus', 'Success');
+            },
+            'confirmDeleteProduct',
+            'close-form-modal'
+        );
     }
 
     public function loadAddData() {

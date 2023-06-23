@@ -4,6 +4,8 @@ namespace App\Http\Livewire\Admin;
 
 use Livewire\Component;
 use App\Http\Halpers\HalperFunctions;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Exception;
 
 use App\Models\Category;
@@ -53,17 +55,28 @@ class CategoryComponent extends Component
             'image' => 'required',
         ]);
 
-        $category = new Category;
-        $category->code = Str::random(6);
-        $category->name = $this->name;
-        $imageName = Carbon::now()->timestamp. '.' . $this->image->extension();
-        $category->image = $imageName;
-        $category->save();
-        $this->image->storeAs(HalperFunctions::colName('ct'), $imageName);
-
-        $this->dispatchBrowserEvent('close-form-modal');
-        session()->flash('msgAlert', 'Category baru telah berhasil ditambahkan');
-        session()->flash('msgStatus', 'Success');
+        try{
+            $category = new Category;
+            $category->code = Str::random(6);
+            $category->name = $this->name;
+            $imageName = Carbon::now()->timestamp. '.' . $this->image->extension();
+            $category->image = $imageName;
+            $category->created_by = Auth::user()->email;
+            $category->save();
+            $this->image->storeAs(HalperFunctions::colName('ct'), $imageName);
+    
+            $this->dispatchBrowserEvent('close-form-modal');
+            session()->flash('msgAlert', 'Category baru telah berhasil ditambahkan');
+            session()->flash('msgStatus', 'Success');
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            $stackTrace = HalperFunctions::getTraceException($e);
+            $insertError = HalperFunctions::insertLogError(Auth::user()->email, "saveKagetoriToDb", "POST", $error_msg." | ".$stackTrace);
+    
+            $this->dispatchBrowserEvent('close-form-modal');
+            session()->flash('msgAlert', 'Category gagal disimpan! Error ID: ' . $insertError);
+            session()->flash('msgStatus', 'Danger');
+        }
     }
 
     public function openModalEdit($id)
@@ -78,18 +91,31 @@ class CategoryComponent extends Component
     }
 
     public function updateCategory(){
-        $imageName;
-        $category = Category::find($this->idForUpdate);
-        $category->name = $this->name;
-        if($this->newimage){
-            Storage::delete(HalperFunctions::colName('ct') . $category->image);
-            $imageName = Carbon::now()->timestamp. '.' . $this->newimage->extension();
-            $category->image = $imageName;
-        }
-        $category->save();
-        $this->newimage->storseAs(HalperFunctions::colName('ct'), $imageName);
+        try{
+            $imageName;
+            $category = Category::find($this->idForUpdate);
+            $category->name = $this->name;
+            $category->updated_by = Auth::user()->email;
+            $category->save();
+            if($this->newimage){
+                Storage::delete(HalperFunctions::colName('ct') . $category->image);
+                $imageName = Carbon::now()->timestamp. '.' . $this->newimage->extension();
+                $category->image = $imageName;
+            }
+            $this->newimage->storseAs(HalperFunctions::colName('ct'), $imageName);
 
-        $this->dispatchBrowserEvent('close-form-modal');
+            $this->dispatchBrowserEvent('close-form-modal');
+            session()->flash('msgAlert', 'Category telah berhasil diperhaharui');
+            session()->flash('msgStatus', 'Success');
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            $stackTrace = HalperFunctions::getTraceException($e);
+            $insertError = HalperFunctions::insertLogError(Auth::user()->email, "updateCategory", "POST", $error_msg." | ".$stackTrace);
+    
+            $this->dispatchBrowserEvent('close-form-modal');
+            session()->flash('msgAlert', 'Category gagal diperbaharui! Error ID: ' . $insertError);
+            session()->flash('msgStatus', 'Danger');
+        }
     }
 
     public function openModalDelete($id){
@@ -98,13 +124,23 @@ class CategoryComponent extends Component
     
     public function deleteCategory()
     {
-        $category = Category::find($this->idForDelete);
-        $category->delete();
-        Storage::delete(HalperFunctions::colName('ct') . $category->image);
-
-        $this->dispatchBrowserEvent('close-form-modal');
-        session()->flash('msgAlert', 'Category telah berhasil dihapus');
-        session()->flash('msgStatus', 'Success');
+        try{
+            $category = Category::find($this->idForDelete);
+            $category->delete();
+            Storage::delete(HalperFunctions::colName('ct') . $category->image);
+    
+            $this->dispatchBrowserEvent('close-form-modal');
+            session()->flash('msgAlert', 'Category telah berhasil dihapus');
+            session()->flash('msgStatus', 'Success');
+        }catch(Exception $e){
+            $error_msg = $e->getMessage();
+            $stackTrace = HalperFunctions::getTraceException($e);
+            $insertError = HalperFunctions::insertLogError(Auth::user()->email, "deleteCategory", "DELETE", $error_msg." | ".$stackTrace);
+    
+            $this->dispatchBrowserEvent('close-form-modal');
+            session()->flash('msgAlert', 'Category gagal dihapus! Error ID: ' . $insertError);
+            session()->flash('msgStatus', 'Danger');
+        }
     }
 
     public function loadAllData()

@@ -2,6 +2,8 @@
 
 namespace App\Http\Halpers;
 use App\Models\LogError;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Exception;
 
 class HalperFunctions{
@@ -22,6 +24,8 @@ class HalperFunctions{
         $log_error->method_name = $method_name;
         $log_error->msg_error = $msg_error;
         $log_error->save();
+
+        return $log_error->id;
     }
     
     public static function getTraceException(Exception $traceExc){
@@ -45,5 +49,32 @@ class HalperFunctions{
     public static function currencyToNumber($value){
         $result = preg_replace('/\D/', '', $value);
         return $result;
+    }
+
+    public static function SaveWithTransaction(\Closure $trans, $function = null, $eventName = null) {
+        try {
+            DB::beginTransaction();
+            
+            $trans();
+            
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+
+            $error_msg = $e->getMessage();
+            $stackTrace = HalperFunctions::getTraceException($e);
+            $insertError = HalperFunctions::insertLogError(
+                Auth::check() ? Auth::user()->email : "UNKNOWN_USER", 
+                $function ? $function : "UNKNOWN_FUNCTION", 
+                "POST", 
+                $error_msg." | ".$stackTrace
+            );
+    
+            if ($eventName) {
+                event(new \App\Events\BrowserEvent($eventName));
+            }
+            session()->flash('msgAlert', 'Data gagal disimpan! Error ID: ' . $insertError);
+            session()->flash('msgStatus', 'Danger');
+        }
     }
 }
