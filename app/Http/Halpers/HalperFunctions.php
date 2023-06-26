@@ -70,11 +70,13 @@ class HalperFunctions{
                 $error_msg." | ".$stackTrace
             );
     
-            if ($eventName) {
-                event(new \App\Events\BrowserEvent($eventName));
-            }
+            // if ($eventName) {
+            //     event(new \App\Events\BrowserEvent($eventName));
+            // }
             session()->flash('msgAlert', 'Data gagal disimpan! Error ID: ' . $insertError);
             session()->flash('msgStatus', 'Danger');
+
+            return;
         }
     }
 }

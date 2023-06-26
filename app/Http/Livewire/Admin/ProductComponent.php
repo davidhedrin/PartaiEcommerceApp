@@ -118,7 +118,7 @@ class ProductComponent extends Component
                 $imageName = $uniqImage . '.' . $this->image->extension();
                 $imgProduct->image = $imageName;
                 $allNameImages = array_map(function ($item) {
-                    return Carbon::now()->timestamp . Str::random(6) . '.' . $item->extension();;
+                    return Carbon::now()->timestamp . Str::random(6) . '.' . $item->extension();
                 }, $this->images);
                 $jsonImages = json_encode($allNameImages);
                 $imgProduct->images = $jsonImages;
@@ -157,7 +157,9 @@ class ProductComponent extends Component
         );
     }
 
+    public $idForUpdate;
     public function openModelForEdit($id) {
+        $this->idForUpdate = $id;
         $this->initProductFor = true;
         $this->initProductBtn = true;
 
@@ -212,6 +214,8 @@ class ProductComponent extends Component
                 $product->save();
                 
                 if($this->imageEdit){
+                    $uniqImage = Carbon::now()->timestamp . Str::random(6);
+                    $imageName = $uniqImage . '.' . $this->imageEdit->extension();
                     Storage::delete(HalperFunctions::colName('pr') . $imgProduct->image);
                     $this->imageEdit->storseAs(HalperFunctions::colName('pr'), $imgProduct->image);
                 }
@@ -221,6 +225,10 @@ class ProductComponent extends Component
                         $this->imagesEdit[$i]->storeAs(HalperFunctions::colName('pr') . $imgProduct->folder_name, $allNameImages[$i]);
                     }
                 }
+                
+                $this->dispatchBrowserEvent('close-form-modal');
+                session()->flash('msgAlert', 'Product telah berhasil diperbaharui');
+                session()->flash('msgStatus', 'Success');
             },
             'saveUpdateProdut',
             'close-form-modal'

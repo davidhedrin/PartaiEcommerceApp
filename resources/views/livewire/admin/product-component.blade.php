@@ -477,7 +477,7 @@
           <button wire:click='reselFormValue' type="button" class="btn btn-outline-secondary"
             data-bs-dismiss="modal">Batal</button>
           <div wire:loading.remove wire:loading.attr='disabled' wire:target='imageEdit, setImgEdit'>
-            <button wire:click.prevent='' type="button" class="btn btn-primary">Simpan</button>
+            <button wire:click.prevent='saveUpdateProdut({{ $idForUpdate }})' type="button" class="btn btn-primary">Simpan</button>
           </div>
           <div wire:loading wire:target='imageEdit, setImgEdit'>
             <button type="button" class="btn btn-primary" disabled>Simpan</button>
