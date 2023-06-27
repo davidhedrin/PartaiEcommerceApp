@@ -25,8 +25,9 @@ class ProductComponent extends Component
     public $name, $image, $short_desc, $description, $regular_price, $sale_price;
     public $sku, $featured = false, $quantity, $images = [], $category_id, $product_for;
     public $initProductFor =  false, $initProductBtn = false, $loadingSku = false, $setImg, $setImgEdit;
-    public $imageEdit, $imageEditView, $imagesEdit = [], $imagesEditView = [];
+    public $imageEdit, $imageEditView, $imagesEdit = [], $imagesEditView = [], $imagesEditMap = [];
     public $folderName;
+    public $model_image_id = "image_id", $model_image = "image";
 
     public function updated($fields) {
         $this->validateOnly($fields, [
@@ -37,11 +38,17 @@ class ProductComponent extends Component
         ]);
         
         if($this->setImg){
-            $this->images[] = $this->setImg;
+            $this->images[] = [
+                $this->model_image_id => Str::random(10),
+                $this->model_image => $this->setImg
+            ];
             $this->setImg = null;
         }
         if($this->setImgEdit){
-            $this->imagesEdit[] = $this->setImgEdit;
+            $this->imagesEdit[] = [
+                $this->model_image_id => Str::random(10),
+                $this->model_image => $this->setImgEdit
+            ];
             $this->setImgEdit = null;
         }
     }
@@ -72,6 +79,7 @@ class ProductComponent extends Component
         $this->imagesEdit = null;
         $this->imageEditView = null;
         $this->imagesEditView = null;
+        $this->imagesEditMap = null;
         $this->setImgEdit = null;
         $this->folderName = null;
     }
@@ -152,8 +160,7 @@ class ProductComponent extends Component
                 session()->flash('msgAlert', 'Product telah berhasil ditambahkan');
                 session()->flash('msgStatus', 'Success');
             },
-            'storeProductToDb',
-            'close-form-modal'
+            'storeProductToDb'
         );
     }
 
@@ -178,7 +185,44 @@ class ProductComponent extends Component
         $this->featured = $product->featured;
         $this->folderName = $product->image->folder_name;
 
+        $this->imagesEditMap = collect($this->imagesEditView)->map(function ($item) {
+            $result = [
+                $this->model_image_id => Str::random(10),
+                $this->model_image => $item
+            ];
+            return $result;
+        });
+        
         $this->dispatchBrowserEvent('open-form-modal');
+    }
+
+    public function delViewImagesEdit($id) {
+        $filteredImages = $this->imagesEditMap->filter(function ($image) use ($id) {
+            return $image[$this->model_image_id] !== $id;
+        });
+        
+        $this->imagesEditMap = collect($filteredImages)->map(function ($item) {
+            return $item;
+        });
+    }
+
+    public function delImages($id, $delete_for){
+        if($delete_for === 1){
+            $this->images = collect($this->images)->filter(function ($image) use ($id) {
+                if($image[$this->model_image_id] === $id){
+                    Storage::delete("livewire-tmp/" . $image[$this->model_image]->getFilename());
+                }
+                return $image[$this->model_image_id] !== $id;
+            });
+        }
+        else if($delete_for === 2){
+            $this->imagesEdit = collect($this->imagesEdit)->filter(function ($image) use ($id) {
+                if($image[$this->model_image_id] === $id){
+                    Storage::delete("livewire-tmp/" . $image[$this->model_image]->getFilename());
+                }
+                return $image[$this->model_image_id] !== $id;
+            });
+        }
     }
 
     public function saveUpdateProdut($id) {
@@ -187,13 +231,18 @@ class ProductComponent extends Component
                 $product = Product::find($id);
                 $imgProduct = ImageProduct::find($product->image_id);
 
-                $allNameImages = $this->imagesEditView;
-                if($this->imagesEdit){
+                $allNameImages = collect($this->imagesEditMap)->map(function ($img){
+                    return $img[$this->model_image];
+                });
+                $nameImages = [];
+                if(!empty($this->imagesEdit)){
                     foreach($this->imagesEdit as $img){
                         $nameImg = Carbon::now()->timestamp . Str::random(6) . '.' . $img->extension();
                         $allNameImages[] = $nameImg;
+                        $nameImages[] = $nameImg;
                     }
                 }
+                
                 $jsonImages = json_encode($allNameImages);
                 $imgProduct->images = $jsonImages;
                 $imgProduct->updated_by = Auth::user()->email;
@@ -214,15 +263,12 @@ class ProductComponent extends Component
                 $product->save();
                 
                 if($this->imageEdit){
-                    $uniqImage = Carbon::now()->timestamp . Str::random(6);
-                    $imageName = $uniqImage . '.' . $this->imageEdit->extension();
-                    Storage::delete(HalperFunctions::colName('pr') . $imgProduct->image);
-                    $this->imageEdit->storseAs(HalperFunctions::colName('pr'), $imgProduct->image);
+                    $this->imageEdit->storeAs(HalperFunctions::colName('pr'), $imgProduct->image);
                 }
-                if($this->imagesEdit){
-                    for ($i = 0; $i < count($allNameImages); $i++) {
-                        Storage::delete(HalperFunctions::colName('pr') . $imgProduct->folder_name . '/' . $allNameImages[$i]);
-                        $this->imagesEdit[$i]->storeAs(HalperFunctions::colName('pr') . $imgProduct->folder_name, $allNameImages[$i]);
+                if(!empty($this->imagesEdit)){
+                    for ($i = 0; $i < count($nameImages); $i++) {
+                        $this->imagesEdit[$i]->storeAs(HalperFunctions::colName('pr') . $imgProduct->folder_name, $nameImages[$i]);
+                        // Storage::delete(HalperFunctions::colName('pr') . $imgProduct->folder_name . '/' . $nameImages[$i]);
                     }
                 }
                 
@@ -230,8 +276,7 @@ class ProductComponent extends Component
                 session()->flash('msgAlert', 'Product telah berhasil diperbaharui');
                 session()->flash('msgStatus', 'Success');
             },
-            'saveUpdateProdut',
-            'close-form-modal'
+            'saveUpdateProdut'
         );
     }
 

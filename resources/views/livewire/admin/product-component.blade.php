@@ -28,6 +28,32 @@
       height: 100%;
       object-fit: cover !important;
     }
+
+    .image-container-product {
+      position: relative;
+      width: 100%;
+      padding-top: 100%;
+      overflow: hidden;
+      display: inline-block;
+    }
+
+    .image-container-product img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover !important;
+    }
+
+    .image-container-product .close-button {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      font-size: 18px;
+      padding: 3px 5px;
+      cursor: pointer;
+    }
   </style>
 
   @if (Session::has('msgAlert'))
@@ -253,7 +279,7 @@
               @enderror
             </div>
             <div class="col-md-12 mb-3">
-              <label for="gambar_lalinnya" class="form-label">Upload Sampai 10 Gambar</label>
+              <label for="gambar_lalinnya" class="form-label">Upload Sampai 6 Gambar</label>
               <div class="button-wrapper">
                 <div>
                   <label wire:loading.remove wire:loading.attr='disabled' wire:target='setImg' for="gambar_lainnya"
@@ -271,9 +297,10 @@
             <div class="row px-4">
               @if ($images)
                 @foreach ($images as $img)
-                  <div class="col-md-2 px-2 py-2">
-                    <div class="square-image-container">
-                      <img src="{{ $img->temporaryUrl() }}" class="d-block rounded imageShowLainnya" alt="Preview">
+                  <div class="col-md-2 px-2 py-2" id="col_img_{{ $img['image_id'] }}">
+                    <div class="image-container-product">
+                      <img src="{{ $img['image']->temporaryUrl() }}" class="d-block rounded" alt="Preview">
+                      <button type="button" class="btn badge rounded-pill btn-danger close-button" wire:click.prevent="delImages('{{ $img['image_id'] }}', 1)">&times;</button>
                     </div>
                   </div>
                 @endforeach
@@ -426,7 +453,7 @@
               @enderror
             </div>
             <div class="col-md-12 mb-3">
-              <label for="gambar_lalinnya" class="form-label">Upload Sampai 10 Gambar</label>
+              <label for="gambar_lalinnya" class="form-label">Upload Sampai 6 Gambar</label>
               <div class="button-wrapper">
                 <div>
                   <label wire:loading.remove wire:loading.attr='disabled' wire:target='setImgEdit'
@@ -445,19 +472,20 @@
               @if ($imagesEditView)
                 @if ($imagesEdit)
                   @foreach ($imagesEdit as $img)
-                    <div class="col-md-2 px-2 py-2">
-                      <div class="square-image-container">
-                        <img src="{{ $img->temporaryUrl() }}" class="d-block rounded imageShowLainnya"
-                          alt="Preview">
+                    <div class="col-md-2 px-2 py-2" id="col_img_{{ $img['image_id'] }}">
+                      <div class="image-container-product">
+                        <img src="{{ $img['image']->temporaryUrl() }}" class="d-block rounded" alt="Preview">
+                        <button type="button" class="btn badge rounded-pill btn-danger close-button" wire:click.prevent="delImages('{{ $img['image_id'] }}', 2)">&times;</button>
                       </div>
                     </div>
                   @endforeach
                 @endif
-                @foreach ($imagesEditView as $img)
-                  <div class="col-md-2 px-2 py-2">
-                    <div class="square-image-container">
-                      <img src="{{ asset('storage/' . colName('pr') . $folderName . '/' . $img) }}"
-                        class="d-block rounded imageShowLainnya" alt="Preview">
+                @foreach ($imagesEditMap as $img)
+                  <div class="col-md-2 px-2 py-2" id="col_img_{{ $img['image_id'] }}">
+                    <div class="image-container-product">
+                      <img src="{{ asset('storage/' . colName('pr') . $folderName . '/' . $img['image']) }}"
+                        class="d-block rounded" alt="Preview">
+                      <button type="button" class="btn badge rounded-pill btn-danger close-button" wire:click.prevent="delViewImagesEdit('{{ $img['image_id'] }}')">&times;</button>
                     </div>
                   </div>
                 @endforeach
