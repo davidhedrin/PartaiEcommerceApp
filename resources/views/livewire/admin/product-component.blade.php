@@ -83,6 +83,16 @@
 
   <div class="card mb-5">
     <h5 class="card-header">All Product</h5>
+    <div class="row mb-3 px-3">
+      <div class="col-md-2">
+        <select wire:model="countShowProduct" class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
+          <option value="5" selected>5 Product</option>
+          <option value="10">10 Product</option>
+          <option value="50">50 Product</option>
+          <option value="100">100 Product</option>
+        </select>
+      </div>
+    </div>
     <div class="table-responsive text-nowrap">
       <table class="table">
         <thead>
@@ -146,6 +156,9 @@
           @endforelse
         </tbody>
       </table>
+      <div class="px-3 mt-3">
+          {{ $allProduct->links() }}
+      </div>
     </div>
   </div>
 
@@ -320,10 +333,16 @@
           <button wire:click='reselFormValue' type="button" class="btn btn-outline-secondary"
             data-bs-dismiss="modal">Batal</button>
           <div wire:loading.remove wire:loading.attr='disabled' wire:target='image, setImg'>
-            <button wire:click.prevent='storeProductToDb' type="button" class="btn btn-primary">Tambahkan</button>
+            <button wire:click.prevent='storeProductToDb(false)' type="button" class="btn btn-info">Tambah & Lagi</button>
+          </div>
+          <div wire:loading.remove wire:loading.attr='disabled' wire:target='image, setImg'>
+            <button wire:click.prevent='storeProductToDb()' type="button" class="btn btn-primary">Tambah</button>
           </div>
           <div wire:loading wire:target='image, setImg'>
-            <button type="button" class="btn btn-primary" disabled>Tambahkan</button>
+            <button type="button" class="btn btn-secondary" disabled>Tambah & Lagi</button>
+          </div>
+          <div wire:loading wire:target='image, setImg'>
+            <button type="button" class="btn btn-secondary" disabled>Tambah</button>
           </div>
         </div>
       </div>
@@ -508,7 +527,7 @@
             <button wire:click.prevent='saveUpdateProdut({{ $idForUpdate }})' type="button" class="btn btn-primary">Simpan</button>
           </div>
           <div wire:loading wire:target='imageEdit, setImgEdit'>
-            <button type="button" class="btn btn-primary" disabled>Simpan</button>
+            <button type="button" class="btn btn-secondary" disabled>Simpan</button>
           </div>
         </div>
       </div>

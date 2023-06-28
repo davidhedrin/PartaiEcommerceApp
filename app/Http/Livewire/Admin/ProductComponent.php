@@ -12,6 +12,7 @@ use App\Models\Product;
 use App\Models\ImageProduct;
 use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
@@ -22,11 +23,12 @@ class ProductComponent extends Component
     use WithFileUploads;
     use WithPagination;
 
+    protected $paginationTheme = 'bootstrap';
     public $name, $image, $short_desc, $description, $regular_price, $sale_price;
     public $sku, $featured = false, $quantity, $images = [], $category_id, $product_for;
     public $initProductFor =  false, $initProductBtn = false, $loadingSku = false, $setImg, $setImgEdit;
     public $imageEdit, $imageEditView, $imagesEdit = [], $imagesEditView = [], $imagesEditMap = [];
-    public $folderName;
+    public $folderName, $countShowProduct = 5;
     public $model_image_id = "image_id", $model_image = "image";
 
     public function updated($fields) {
@@ -35,6 +37,7 @@ class ProductComponent extends Component
             'product_for' => 'required',
             'description' => 'required',
             'image' => 'required',
+            'sku' => 'required',
         ]);
         
         if($this->setImg){
@@ -111,30 +114,34 @@ class ProductComponent extends Component
         $this->loadingSku = false;
     }
 
-    public function storeProductToDb() {
+    public function storeProductToDb($action = true) {
         $this->validate([
             'name' => 'required',
             'product_for' => 'required',
             'description' => 'required',
             'image' => 'required',
+            'sku' => 'required',
         ]);
 
         HalperFunctions::SaveWithTransaction(
-            function (){
+            function() use($action) {
                 $imgProduct = new ImageProduct;
                 $uniqImage = Carbon::now()->timestamp . Str::random(6);
                 $imageName = $uniqImage . '.' . $this->image->extension();
                 $imgProduct->image = $imageName;
-                $allNameImages = array_map(function ($item) {
-                    return Carbon::now()->timestamp . Str::random(6) . '.' . $item->extension();
-                }, $this->images);
+                $allNameImages = [];
+                if(!empty($this->images)){
+                    $allNameImages = array_map(function ($item) {
+                        return Carbon::now()->timestamp . Str::random(6) . '.' . $item[$this->model_image]->extension();
+                    }, $this->images);
+                }
                 $jsonImages = json_encode($allNameImages);
                 $imgProduct->images = $jsonImages;
                 $imgProduct->folder_name = $uniqImage;
                 $imgProduct->created_by = Auth::user()->email;
                 $imgProduct->save();
 
-                $product = new Product;
+                $product = new Product; 
                 $product->name = $this->name;
                 $product->short_desc = $this->short_desc;
                 $product->description = $this->description;
@@ -146,22 +153,29 @@ class ProductComponent extends Component
                 $product->stock_status = $this->quantity > 0;
                 $product->product_for = $this->product_for;
                 $product->category_id = $this->category_id;
-                $product->image_id = $imgProduct->id;
+                $product->image_id = !empty($this->images) ? $imgProduct->id : null;
                 $product->created_by = Auth::user()->email;
                 
                 $product->save();
 
                 $this->image->storeAs(HalperFunctions::colName('pr'), $imageName);
-                for ($i = 0; $i < count($allNameImages); $i++) {
-                    $this->images[$i]->storeAs(HalperFunctions::colName('pr') . $uniqImage, $allNameImages[$i]);
+                if(!empty($this->images)){
+                    for ($i = 0; $i < count($allNameImages); $i++) {
+                        $setImg = $this->images[$i];
+                        $setImg[$this->model_image]->storeAs(HalperFunctions::colName('pr') . $uniqImage, $allNameImages[$i]);
+                    }
                 }
         
-                $this->dispatchBrowserEvent('close-form-modal');
+                if($action){
+                    $this->dispatchBrowserEvent('close-form-modal');
+                }
                 session()->flash('msgAlert', 'Product telah berhasil ditambahkan');
                 session()->flash('msgStatus', 'Success');
             },
             'storeProductToDb'
         );
+
+        $this->reselFormValue();
     }
 
     public $idForUpdate;
@@ -213,7 +227,7 @@ class ProductComponent extends Component
                     Storage::delete("livewire-tmp/" . $image[$this->model_image]->getFilename());
                 }
                 return $image[$this->model_image_id] !== $id;
-            });
+            })->values()->all();
         }
         else if($delete_for === 2){
             $this->imagesEdit = collect($this->imagesEdit)->filter(function ($image) use ($id) {
@@ -221,7 +235,7 @@ class ProductComponent extends Component
                     Storage::delete("livewire-tmp/" . $image[$this->model_image]->getFilename());
                 }
                 return $image[$this->model_image_id] !== $id;
-            });
+            })->values()->all();
         }
     }
 
@@ -237,7 +251,7 @@ class ProductComponent extends Component
                 $nameImages = [];
                 if(!empty($this->imagesEdit)){
                     foreach($this->imagesEdit as $img){
-                        $nameImg = Carbon::now()->timestamp . Str::random(6) . '.' . $img->extension();
+                        $nameImg = Carbon::now()->timestamp . Str::random(6) . '.' . $img[$this->model_image]->extension();
                         $allNameImages[] = $nameImg;
                         $nameImages[] = $nameImg;
                     }
@@ -261,14 +275,29 @@ class ProductComponent extends Component
                 $product->category_id = $this->category_id;
                 $product->updated_by = Auth::user()->email;
                 $product->save();
+
+                $currentImages = collect($this->imagesEditMap)->map(function ($img){
+                    return $img[$this->model_image];
+                })->values()->all();
+                $getAllImages = storage_path('app/'. HalperFunctions::colName('pr') . $imgProduct->folder_name);
+                $files = File::allFiles($getAllImages);
+                $allImages = collect($files)->map(function ($file){
+                    return $file->getFilename();
+                })->values()->all();
+
+                $resultImages = array_diff($allImages, $currentImages);
+
+                foreach($resultImages as $img){
+                    Storage::delete(HalperFunctions::colName('pr') . $imgProduct->folder_name . '/' . $img);
+                }
                 
                 if($this->imageEdit){
                     $this->imageEdit->storeAs(HalperFunctions::colName('pr'), $imgProduct->image);
                 }
                 if(!empty($this->imagesEdit)){
                     for ($i = 0; $i < count($nameImages); $i++) {
-                        $this->imagesEdit[$i]->storeAs(HalperFunctions::colName('pr') . $imgProduct->folder_name, $nameImages[$i]);
-                        // Storage::delete(HalperFunctions::colName('pr') . $imgProduct->folder_name . '/' . $nameImages[$i]);
+                        $setImg = $this->imagesEdit[$i];
+                        $setImg[$this->model_image]->storeAs(HalperFunctions::colName('pr') . $imgProduct->folder_name, $nameImages[$i]);
                     }
                 }
                 
@@ -310,7 +339,7 @@ class ProductComponent extends Component
 
     public function loadAddData() {
         $allCategory = Category::all();
-        $allProduct = Product::all();
+        $allProduct = Product::orderBy('created_at', 'desc')->paginate($this->countShowProduct);
         return [
             'allProduct' => $allProduct,
             'allCategory' => $allCategory,
