@@ -7,10 +7,20 @@ use Illuminate\Support\Facades\DB;
 use Exception;
 
 class HalperFunctions{
+    public static $desiredPermissions = 0755;
+    public static function desiredPermissions($imagePath){
+        if (file_exists($imagePath)) {
+            // $folderPermissions = fileperms($imagePath);
+            // $octalPermissions = substr(sprintf('%o', $folderPermissions), -4);
+            chmod($imagePath, 0755);
+        }
+    }
+    
     public static function colName($key){
         $allCollName = [
             'ct' => 'img_category/',
             'pr' => 'img_product/',
+            'tes' => 'testing_folder/',
         ];
         
         return $allCollName[$key] ?? null;

@@ -158,12 +158,19 @@ class ProductComponent extends Component
                 
                 $product->save();
 
+                $checkCurrentPath = storage_path('app/'. HalperFunctions::colName('pr'));
+                $existCurrentPath = file_exists($checkCurrentPath);
                 $this->image->storeAs(HalperFunctions::colName('pr'), $imageName);
+                if (!$existCurrentPath){
+                    HalperFunctions::desiredPermissions($checkCurrentPath);
+                }
                 if(!empty($this->images)){
                     for ($i = 0; $i < count($allNameImages); $i++) {
                         $setImg = $this->images[$i];
                         $setImg[$this->model_image]->storeAs(HalperFunctions::colName('pr') . $uniqImage, $allNameImages[$i]);
                     }
+                    $imagePath = storage_path('app/'. HalperFunctions::colName('pr') . $uniqImage);
+                    HalperFunctions::desiredPermissions($imagePath);
                 }
         
                 if($action){

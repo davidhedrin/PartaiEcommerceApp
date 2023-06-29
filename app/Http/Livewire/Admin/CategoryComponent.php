@@ -63,7 +63,13 @@ class CategoryComponent extends Component
             $category->image = $imageName;
             $category->created_by = Auth::user()->email;
             $category->save();
+
+            $checkCurrentPath = storage_path('app/'. HalperFunctions::colName('ct'));
+            $existCurrentPath = file_exists($checkCurrentPath);
             $this->image->storeAs(HalperFunctions::colName('ct'), $imageName);
+            if (!$existCurrentPath){
+                HalperFunctions::desiredPermissions($checkCurrentPath);
+            }
     
             $this->dispatchBrowserEvent('close-form-modal');
             session()->flash('msgAlert', 'Category baru telah berhasil ditambahkan');
