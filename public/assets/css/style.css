@@ -735,6 +735,16 @@ ol {
 	padding-left: 75px;
 }
 
+.hero__item__right {
+	height: 431px;
+	display: flex;
+	align-items: center;
+	justify-content: end;
+	text-align: end;
+	padding-left: 75px;
+	padding-right: 75px;
+}
+
 .hero__text span {
 	font-size: 14px;
 	text-transform: uppercase;
