@@ -18,6 +18,10 @@ class HomeComponent extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    public function detailProductExport($id) {
+        return redirect()->route('product.detail', ['product_id' => $id]);
+    }
+
     public function loadAllData() {
         $allProductImport = Product::where('product_for', 'i')->paginate();
         $allProductExport = Product::where('product_for', 'e')->paginate(8);

@@ -30,7 +30,7 @@
   <meta name="keywords" content="Ogani, unica, creative, html">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="icon" type="image/x-icon" href="{{ asset('logo/logo3.png') }}" />
+  <link rel="icon" type="image/x-icon" href="{{ asset('logo/logoPng.png') }}" />
   <title>{{ env('APP_NAME') }}</title>
 
   <!-- Google Font -->

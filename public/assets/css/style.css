@@ -137,7 +137,7 @@ ol {
 .set-bg {
 	background-repeat: no-repeat;
 	background-size: cover;
-	background-position: top center;
+	background-position: center;
 }
 
 .spad {
@@ -1548,6 +1548,15 @@ ol {
 
 .product__item__pic {
 	height: 270px;
+	position: relative;
+	overflow: hidden;
+}
+
+.product__item:hover .product__item__pic2 .product__item__pic__hover {
+	bottom: 20px;
+}
+.product__item__pic2 {
+	height: 200px;
 	position: relative;
 	overflow: hidden;
 }

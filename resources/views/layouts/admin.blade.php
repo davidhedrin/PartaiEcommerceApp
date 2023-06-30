@@ -25,7 +25,7 @@
 
   <meta name="description" content="" />
 
-  <link rel="icon" type="image/x-icon" href="{{ asset('logo/logo3.png') }}" />
+  <link rel="icon" type="image/x-icon" href="{{ asset('logo/logoPng.png') }}" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -153,13 +153,23 @@
             </a>
           </li>
 
+          @if (Auth::user()->user_type == 1)
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Admin Panel</span></li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-news'></i>
+                <div data-i18n="Tables">Ecom Setting</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-group'></i>
+                <div data-i18n="Tables">User Management</div>
+              </a>
+            </li>
+          @endif
+
           <li class="menu-header small text-uppercase"><span class="menu-header-text">Pengaturan</span></li>
-          <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link">
-              <i class='menu-icon tf-icons bx bx-group'></i>
-              <div data-i18n="Tables">User Management</div>
-            </a>
-          </li>
           <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link">
               <i class='menu-icon tf-icons bx bx-cog'></i>

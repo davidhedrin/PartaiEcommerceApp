@@ -9,6 +9,7 @@ use App\Http\Livewire\LogoutComponent;
 use App\Http\Livewire\ForgotPasswordComponent;
 use App\Http\Livewire\FormForgotPasswordComponent;
 use App\Http\Livewire\EmailVerifyComponent;
+use App\Http\Livewire\ProductDetailComponent;
 
 use App\Http\Livewire\Admin\DashboardComponent;
 use App\Http\Livewire\Admin\CategoryComponent;
@@ -39,6 +40,7 @@ Route::middleware(['verify_email'])->group(function () {
   Route::get('/', HomeComponent::class)->name('home');
   Route::get('/shop', ShopComponent::class)->name('shop');
   Route::get('/contact-us', ContactComponent::class)->name('contact-us');
+  Route::get('/detail-product/{product_id}', ProductDetailComponent::class)->name('product.detail');
 });
 
 // Route for user login

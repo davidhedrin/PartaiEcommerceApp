@@ -15,11 +15,11 @@
     </div>
   @endif
   
-  <div class="hero__item set-bg" data-setbg="{{ asset('banner/banner.png') }}">
+  <div class="hero__item__right set-bg" data-setbg="{{ asset('banner/banner.png') }}">
     <div class="hero__text">
-      <span>FRUIT FRESH</span>
-      <h2>Vegetable <br />100% Organic</h2>
-      <p>Free Pickup and Delivery Available</p>
+      <span>Welcome To</span>
+      <h2>JAKARTA TRADING</h2>
+      <p>Good Price, Good Quality, and Good Service</p>
       <a href="#" class="primary-btn">SHOP NOW</a>
     </div>
   </div>
@@ -33,13 +33,13 @@
     </div>
   </div>
   {{-- Slider product --}}
-  @if (!empty($allProductImport))
+  @if (count($allProductImport) > 0)
     <div class="row pb-4">
       <div class="categories__slider owl-carousel">
         @foreach ($allProductImport as $product)
           <div class="col-lg-3">
             <div class="categories__item set-bg" data-setbg="{{ asset('storage/'. colName('pr') . $product->image->image) }}">
-              <h5><a href="#">{{ $product->name }}</a></h5>
+              <h5><a href="{{ route('product.detail', ['product_id' =>$product->id]) }}">{{ $product->name }}</a></h5>
             </div>
           </div>
         @endforeach
@@ -50,7 +50,7 @@
     </div>
   @endif
 
-  @if (!empty($allProductExport))
+  @if (count($allProductExport) > 0)
     {{-- Future Product --}}
     <div class="row mt-5">
       <div class="col-lg-12">
@@ -72,7 +72,7 @@
       @foreach ($allProductExport as $product)
         <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
           <div class="featured__item">
-            <div wire:click="" style="cursor: pointer" class="featured__item__pic set-bg" data-setbg="{{ asset('storage/'. colName('pr') . $product->image->image) }}">
+            <div wire:click="detailProductExport({{ $product->id }})" style="cursor: pointer" class="featured__item__pic set-bg" data-setbg="{{ asset('storage/'. colName('pr') . $product->image->image) }}">
               <ul class="featured__item__pic__hover">
                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
                 <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
