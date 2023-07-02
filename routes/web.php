@@ -14,6 +14,7 @@ use App\Http\Livewire\ProductDetailComponent;
 use App\Http\Livewire\Admin\DashboardComponent;
 use App\Http\Livewire\Admin\CategoryComponent;
 use App\Http\Livewire\Admin\ProductComponent;
+use App\Http\Livewire\Admin\EcomSettingComponent;
 
 Auth::routes([
   'login' => false,
@@ -50,7 +51,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 // Route for admin login
 Route::middleware(['auth:sanctum', 'verified', 'auth_admin'])->group(function () {
-  Route::get('/adm-dashboard', DashboardComponent::class)->name('adm-dashboard');
-  Route::get('/adm-category', CategoryComponent::class)->name('adm-category');
+  Route::get('/admin-dashboard', DashboardComponent::class)->name('adm-dashboard');
+  Route::get('/admin-category', CategoryComponent::class)->name('adm-category');
   Route::get('/admin-product', ProductComponent::class)->name('adm-product');
+  Route::get('/admin-ecomsetting', EcomSettingComponent::class)->name('adm-ecomsetting');
 });

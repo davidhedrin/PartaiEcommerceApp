@@ -122,7 +122,7 @@
               <div data-i18n="Tables">Banner</div>
             </a>
           </li>
-          <li class="menu-item {{ $url == 'adm-category' ? 'active' : '' }}">
+          <li class="menu-item {{ $curRouteName == 'adm-category' ? 'active' : '' }}">
             <a href="{{ route('adm-category') }}" class="menu-link">
               <i class='menu-icon tf-icons bx bx-category'></i>
               <div data-i18n="Tables">Kategori</div>
@@ -155,8 +155,8 @@
 
           @if (Auth::user()->user_type == 1)
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Admin Panel</span></li>
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link">
+            <li class="menu-item {{ $curRouteName == 'adm-ecomsetting' ? 'active' : '' }}">
+              <a href="{{ route('adm-ecomsetting') }}" class="menu-link">
                 <i class='menu-icon tf-icons bx bx-news'></i>
                 <div data-i18n="Tables">Ecom Setting</div>
               </a>
