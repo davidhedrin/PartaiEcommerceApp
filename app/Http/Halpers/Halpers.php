@@ -1,4 +1,5 @@
 <?php
+use Carbon\Carbon;
 
 if (!function_exists('colName')){
     function colName($key)
@@ -23,5 +24,18 @@ if (!function_exists('currencyIDRToNumeric')){
     function currencyIDRToNumeric($value)
     {
         return preg_replace('/\D/', '', $value);
+    }
+}
+
+if (!function_exists('formatDate')){
+    function formatDate($id, $value)
+    {
+        $result = $value;
+
+        if($id == "in"){
+            $result = Carbon::parse($value)->format('d/m/Y');
+        }
+
+        return $result;
     }
 }

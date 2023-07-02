@@ -25,7 +25,7 @@ class ProductComponent extends Component
 
     protected $paginationTheme = 'bootstrap';
     public $name, $image, $short_desc, $description, $regular_price, $sale_price;
-    public $sku, $featured = false, $quantity, $images = [], $category_id, $product_for;
+    public $sku, $featured = false, $quantity, $images = [], $category_id, $product_for, $exp_date;
     public $initProductFor =  false, $initProductBtn = false, $loadingSku = false, $setImg, $setImgEdit;
     public $imageEdit, $imageEditView, $imagesEdit = [], $imagesEditView = [], $imagesEditMap = [];
     public $folderName, $countShowProduct = 5;
@@ -73,6 +73,7 @@ class ProductComponent extends Component
         $this->images = null;
         $this->category_id = null;
         $this->product_for = null;
+        $this->exp_date = null;
         $this->setImg = null;
         $this->initProductFor = false;
         $this->initProductBtn = false;
@@ -153,8 +154,9 @@ class ProductComponent extends Component
                 $product->stock_status = $this->quantity > 0;
                 $product->product_for = $this->product_for;
                 $product->category_id = $this->category_id;
-                $product->image_id = !empty($this->images) ? $imgProduct->id : null;
+                $product->image_id = $imgProduct->id;
                 $product->created_by = Auth::user()->email;
+                $product->exp_date = $this->exp_date;
                 
                 $product->save();
 
@@ -205,6 +207,7 @@ class ProductComponent extends Component
         $this->product_for = $product->product_for;
         $this->featured = $product->featured;
         $this->folderName = $product->image->folder_name;
+        $this->exp_date = $product->exp_date;
 
         $this->imagesEditMap = collect($this->imagesEditView)->map(function ($item) {
             $result = [
@@ -281,6 +284,7 @@ class ProductComponent extends Component
                 $product->product_for = $this->product_for;
                 $product->category_id = $this->category_id;
                 $product->updated_by = Auth::user()->email;
+                $product->exp_date = $this->exp_date;
                 $product->save();
 
                 $currentImages = collect($this->imagesEditMap)->map(function ($img){

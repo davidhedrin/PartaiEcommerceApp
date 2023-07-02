@@ -15,6 +15,11 @@
         width: 100%;
         height: 45px;
       }
+      .product__details__pic__item img {
+        min-width: 100%;
+        height: 250px;
+        object-fit: cover !important;
+      }
     }
   </style>
 
@@ -46,8 +51,7 @@
       <div class="col-lg-6 col-md-6">
         <div class="product__details__pic">
           <div class="product__details__pic__item">
-            <img class="product__details__pic__item--large"
-              src="{{ asset('storage/'. colName('pr') . $product->image->image) }}" alt="{{ $product->name }}">
+            <img class="product__details__pic__item--large" src="{{ asset('storage/'. colName('pr') . $product->image->image) }}" alt="{{ $product->name }}">
           </div>
           <div class="product__details__pic__slider owl-carousel">
             @if (count(json_decode($product->image->images, true)) > 0)
@@ -84,20 +88,12 @@
               </div>
             </div>
           </div>
-          <a href="#" class="primary-btn">ADD TO CARD</a>
+          <a href="#" class="{{ !!$product->stock_status ? "primary" : "disabled" }}-btn" style="{{ !!$product->stock_status ? "" : "cursor: not-allowed" }}">ADD TO CARD</a>
           <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
           <ul>
-            <li><b>Availability</b> <span>In Stock</span></li>
+            <li><b>Availability</b> <span class="text-{{ !!$product->stock_status ? "success" : "warning" }}"><strong>{{ !!$product->stock_status ? "In Stock" : "Out Stock" }}</strong></span></li>
             <li><b>Product</b> <span>{{ $product->product_for == "i" ? "Import" : "Export" }}</span></li>
-            <li><b>Weight</b> <span>0.5 kg</span></li>
-            <li><b>Share on</b>
-              <div class="share">
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <a href="#"><i class="fa fa-twitter"></i></a>
-                <a href="#"><i class="fa fa-instagram"></i></a>
-                <a href="#"><i class="fa fa-pinterest"></i></a>
-              </div>
-            </li>
+            <li><b>Expired</b> <span style="font-style: {{ !$product->exp_date ? 'italic' : '' }}">{{ $product->exp_date ? formatDate("in", $product->exp_date) : "No Expired" }}</span></li>
           </ul>
         </div>
       </div>
@@ -155,7 +151,7 @@
       @foreach ($randomProduct as $product)
       <div class="col-lg-3 col-md-4 col-sm-6">
         <div class="product__item mb-0">
-          <div class="product__item__pic2 set-bg" data-setbg="{{ asset('storage/'. colName('pr') . $product->image->image) }}"
+          <div wire:click='detailProductExport({{ $product->id }})' style="cursor: pointer" class="product__item__pic2 set-bg" data-setbg="{{ asset('storage/'. colName('pr') . $product->image->image) }}"
             style="background-image: url(&quot;{{ asset('storage/'. colName('pr') . $product->image->image) }}&quot;);">
             <ul class="product__item__pic__hover">
               <li><a href="#"><i class="fa fa-heart"></i></a></li>

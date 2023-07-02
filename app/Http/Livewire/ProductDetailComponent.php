@@ -15,10 +15,14 @@ class ProductDetailComponent extends Component
     public function mount($product_id) {
         $this->productId = $product_id;
     }
+    
+    public function detailProductExport($id) {
+        return redirect()->route('product.detail', ['product_id' => $id]);
+    }
 
     public function loadAllData() {
         $getProduct;
-        $randomProduct = Product::inRandomOrder()->limit(5)->get();
+        $randomProduct = Product::inRandomOrder()->limit(6)->get();
         if (!empty(trim($this->productId))) {
             $getProduct = Product::find($this->productId);
         }

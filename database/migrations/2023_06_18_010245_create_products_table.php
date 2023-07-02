@@ -26,10 +26,11 @@ return new class extends Migration
             $table->bigInteger('category_id')->unsigned()->nullable();
             $table->bigInteger('image_id')->unsigned()->nullable();
             $table->boolean('flag_active')->default(true);
+            $table->date('exp_date')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
             $table->foreign('image_id')->references('id')->on('image_products')->onDelete('cascade');
         });
     }

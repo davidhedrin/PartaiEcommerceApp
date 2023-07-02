@@ -341,6 +341,8 @@
       });
     });
   </script>
+
+  @stack('scripts')
   @livewireScripts
 </body>
 

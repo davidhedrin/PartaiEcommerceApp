@@ -112,8 +112,7 @@
           @forelse ($allProduct as $product)
             <tr id="{{ $product->sku }}">
               <td>
-                <img src="{{ asset('storage/' . colName('pr') . $product->image->image) }}"
-                  class="d-block rounded imageShowTable">
+                <img src="{{ asset('storage/' . colName('pr') . $product->image->image) }}" class="d-block rounded imageShowTable">
               </td>
               <td>{{ $product->sku }}</td>
               <td>{{ $product->name }}</td>
@@ -183,6 +182,10 @@
               @error('product_for')
                 <span class="text-danger">{{ $message }}</span>
               @enderror
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="exp_date_add" class="form-label">Expired Date </label>
+              <input wire:model="exp_date" class="form-control" type="date" id="exp_date_add">
             </div>
             <div class="col-md-4 mb-3">
               <label for="sku_product" class="form-label">SKU Produk <span style="color: red">*</span></label>
@@ -371,6 +374,10 @@
               @error('product_for')
                 <span class="text-danger">{{ $message }}</span>
               @enderror
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="exp_date_edit" class="form-label">Expired Date </label>
+              <input wire:model="exp_date" class="form-control" type="date" id="exp_date_edit">
             </div>
             <div class="col-md-4 mb-3">
               <label for="sku_product_edit" class="form-label">SKU Produk <span style="color: red">*</span></label>
@@ -564,3 +571,25 @@
     $('#modalEdit').modal('show');
   });
 </script>
+
+{{-- @push('scripts')
+  <script>
+    $(document).ready(function() {
+      var currentDate = new Date();
+      var day = currentDate.getDate() + 1;
+      var month = currentDate.getMonth() + 1;
+      var year = currentDate.getFullYear();
+  
+      if (day < 10) {
+        day = '0' + day;
+      }
+  
+      if (month < 10) {
+        month = '0' + month;
+      }
+  
+      var formattedDate = year + '-' + month + '-' + day;
+      $('#exp_date').val(formattedDate);
+    });
+  </script>
+@endpush --}}
