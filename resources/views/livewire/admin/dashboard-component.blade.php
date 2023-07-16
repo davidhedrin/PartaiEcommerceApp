@@ -12,6 +12,12 @@
       </div>
     </div>
   @endif
+
+  <div class="row mb-4">
+    <div class="col text-center">
+      <img src="{{ asset('logo/logo1.png') }}" alt="user-avatar" class="img-fluid">
+    </div>
+  </div>
   
   <div class="row">
     <div class="col-lg-12 mb-4 order-0">
