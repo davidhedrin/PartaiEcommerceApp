@@ -1,5 +1,20 @@
 <div>
-  <div class="nav-align-top mb-4">
+  @if (Session::has('msgAlert'))
+    <div class="bs-toast toast toast-placement-ex m-2 fade top-0 end-0 show" role="alert" aria-live="assertive"
+      aria-atomic="true" data-delay="2000" style="background-color: white !important;">
+      <div class="toast-header">
+        <img src="{{ asset('assets/img/logo.png') }}" class="rounded mr-2" alt="" width="50px">
+        <div class="me-auto fw-semibold"></div>
+        <small class="text-{{ strtolower(Session::get('msgStatus')) }}">{{ Session::get('msgStatus') }}</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+        {{ Session::get('msgAlert') }}
+      </div>
+    </div>
+  @endif
+
+  <div wire:ignore class="nav-align-top mb-4">
     <ul class="nav nav-pills mb-3" role="tablist">
       <li class="nav-item">
         <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-home"
@@ -23,7 +38,7 @@
             <label class="form-label" for="company_email">Email</label>
             <div class="input-group input-group-merge">
               <span id="company_email2" class="input-group-text"><i class='bx bx-envelope'></i></span>
-              <input type="text" id="company_email" class="form-control" placeholder="Enter email address"
+              <input wire:model="email" type="text" id="company_email" class="form-control" placeholder="Enter email address"
                 aria-label="Enter email address" aria-describedby="company_email2">
             </div>
           </div>
@@ -31,7 +46,7 @@
             <label class="form-label" for="no_ponsel">No Phone</label>
             <div class="input-group input-group-merge">
               <span id="no_ponsel2" class="input-group-text"><i class="bx bx-phone"></i></span>
-              <input type="text" id="no_ponsel" class="form-control" placeholder="082112341234"
+              <input wire:model="contact" type="text" id="no_ponsel" class="form-control" placeholder="082112341234"
                 aria-label="082112341234" aria-describedby="no_ponsel2">
             </div>
           </div>
@@ -39,7 +54,7 @@
             <label class="form-label" for="company_address">Address</label>
             <div class="input-group input-group-merge">
               <span id="company_address2" class="input-group-text"><i class='bx bx-map-pin'></i></span>
-              <textarea class="form-control" name="" id="company_address" rows="1" placeholder="Enter company address"
+              <textarea wire:model="address" class="form-control" name="" id="company_address" rows="1" placeholder="Enter company address"
               aria-label="Enter company address" aria-describedby="company_address2"></textarea>
             </div>
           </div>
@@ -48,22 +63,59 @@
         <hr>
 
         <h5>Social Media</h5>
-        <div class="row">
-          <div class="col-4">
-            <div class="d-flex mb-3">
-              <div class="flex-shrink-0">
-                <img src="{{ asset('assetz/img/icons/brands/facebook.png') }}" alt="twitter" class="me-3" height="30">
+        <div class="d-flex mb-3">
+          <div class="flex-shrink-0">
+            <img src="{{ asset('assetz/img/icons/brands/facebook.png') }}" alt="facebook" class="me-3" height="30">
+          </div>
+          <div class="flex-grow-1 row">
+            <div class="col-2 mb-sm-0 mb-2">
+              <h6 class="mb-0">Facebook</h6>
+              <small class="text-muted">Not Connected</small>
+            </div>
+            <div class="col-10 text-end">
+              <div class="input-group">
+                <input wire:model="sosmedFb" type="text" class="form-control" placeholder="https://example.url" aria-describedby="button_link_sosmed">
+                <a href="{{ $sosmedFb ? $sosmedFb : "javascript:void(0)" }}" class="btn btn-outline-secondary" id="button_link_sosmed">
+                  <i class="bx bx-link-alt"></i>
+                </a>
               </div>
-              <div class="flex-grow-1 row">
-                <div class="col-8 col-sm-7 mb-sm-0 mb-2">
-                  <h6 class="mb-0">Twitter</h6>
-                  <a href="https://twitter.com/Theme_Selection" target="_blank">@ThemeSelection</a>
-                </div>
-                <div class="col-4 col-sm-5 text-end">
-                  <button type="button" class="btn btn-icon btn-outline-danger">
-                    <i class="bx bx-trash-alt"></i>
-                  </button>
-                </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex mb-3">
+          <div class="flex-shrink-0">
+            <img src="{{ asset('assetz/img/icons/brands/twitter.png') }}" alt="twitter" class="me-3" height="30">
+          </div>
+          <div class="flex-grow-1 row">
+            <div class="col-2 mb-sm-0 mb-2">
+              <h6 class="mb-0">Twitter</h6>
+              <small class="text-muted">Not Connected</small>
+            </div>
+            <div class="col-10 text-end">
+              <div class="input-group">
+                <input wire:model="sosmedTw" type="text" class="form-control" placeholder="https://example.url" aria-describedby="button_link_sosmed">
+                <a href="{{ $sosmedTw ? $sosmedTw : "javascript:void(0)" }}" class="btn btn-outline-secondary" id="button_link_sosmed">
+                  <i class="bx bx-link-alt"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex mb-3">
+          <div class="flex-shrink-0">
+            <img src="{{ asset('assetz/img/icons/brands/linkedin.png') }}" alt="linkedin" class="me-3" height="30">
+          </div>
+          <div class="flex-grow-1 row">
+            <div class="col-2 mb-sm-0 mb-2">
+              <h6 class="mb-0">LinkedIn</h6>
+              <small class="text-muted">Not Connected</small>
+            </div>
+            <div class="col-10 text-end">
+              <div class="input-group">
+                <input wire:model="sosmedLi" type="text" class="form-control" placeholder="https://example.url" aria-describedby="button_link_sosmed">
+                <a href="{{ $sosmedLi ? $sosmedLi : "javascript:void(0)" }}" class="btn btn-outline-secondary" id="button_link_sosmed">
+                  <i class="bx bx-link-alt"></i>
+                </a>
               </div>
             </div>
           </div>
@@ -71,20 +123,24 @@
         
         <hr>
         
-        <h5>Delete Account</h5>
+        <h5>Confirm Change</h5>
         <div class="mb-3 col-12 mb-0">
           <div class="alert alert-warning">
-            <h6 class="alert-heading fw-bold mb-1">Are you sure you want to delete your account?</h6>
-            <p class="mb-0">Once you delete your account, there is no going back. Please be certain.</p>
+            <h6 class="alert-heading fw-bold mb-1">Are you sure you want to change information?</h6>
+            <p class="mb-0">Changes to information will be logged. And it will <strong>NOT</strong> be changed again in the next <strong>7 days</strong>. Please be certain!</p>
           </div>
         </div>
-        <form id="formAccountDeactivation" onsubmit="return false">
-          <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" name="accountActivation" id="accountActivation">
-            <label class="form-check-label" for="accountActivation">I confirm my account deactivation</label>
+        <div class="mb-3">
+          <div class="form-check">
+            <input wire:model="confirm" class="form-check-input" type="checkbox" name="accountActivation" id="accountActivation">
+            <label class="form-check-label" for="accountActivation">I confirm to change information</label>
           </div>
-          <button type="submit" class="btn btn-danger deactivate-account">Deactivate Account</button>
-        </form>
+          @error("confirm")
+            <span class="text-danger">{{ $message }}</span>
+          @enderror
+        </div>
+
+        <button type="button" class="btn btn-primary deactivate-account">Save Change</button>
       </div>
       <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
         <p>
@@ -108,6 +164,30 @@
           sesame snaps caramels danish toffee. Brownie biscuit dessert dessert. Pudding jelly jelly-o tart brownie
           jelly.
         </p>
+      </div>
+    </div>
+  </div>
+  
+  <div id="confirm_modal" class="modal fade" tabindex="-1" style="display: none; z-index: 9999;" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            Save Confirmation
+            <i class='bx bx-save'></i>
+          </h5>
+        </div>
+        <div class="modal-body text-center">
+          <span>Enter your password</span>
+          <p>Confirm with your password to continue</p>
+          <input wire:model="pass_confirm" type="password" class="form-control" placeholder="Enter your password">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+            Batal
+          </button>
+          <button wire:click.prevent="saveChangeInfo" type="button" class="btn btn-primary">Simpan</button>
+        </div>
       </div>
     </div>
   </div>

@@ -21,6 +21,7 @@ class HalperFunctions{
             'ct' => 'img_category/',
             'pr' => 'img_product/',
             'tes' => 'testing_folder/',
+            'ecom_set' => 'ecom_setting.txt',
         ];
         
         return $allCollName[$key] ?? null;
