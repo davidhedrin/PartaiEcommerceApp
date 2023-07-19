@@ -1,24 +1,25 @@
 @php
-  $url = '';
-  
-  try {
-      $url .= $_SERVER['REQUEST_URI'];
-  } catch (Exception $ex) {
-      $error_msg = $ex->getMessage();
-      HalperFunctions::insertLogError('ExceptionGuide', 'GetDataCurrentServer', 'Exception', $error_msg);
-  }
-  $url = str_replace('/', '', $url);
-  
-  $curRouteName = Route::currentRouteName();
-  $logicHeader = false;
-  $logicNavCateg = false;
-  
-  if ($curRouteName != 'login' && $curRouteName != 'forgot.pass') {
-      $logicHeader = true;
-  }
-  if ($curRouteName != 'login' && $curRouteName != 'forgot.pass' && $curRouteName != 'verification.notice' && $curRouteName != 'password.reset') {
-      $logicNavCateg = true;
-  }
+$url = '';
+
+try {
+$url .= $_SERVER['REQUEST_URI'];
+} catch (Exception $ex) {
+$error_msg = $ex->getMessage();
+HalperFunctions::insertLogError('ExceptionGuide', 'GetDataCurrentServer', 'Exception', $error_msg);
+}
+$url = str_replace('/', '', $url);
+
+$curRouteName = Route::currentRouteName();
+$logicHeader = false;
+$logicNavCateg = false;
+
+if ($curRouteName != 'login' && $curRouteName != 'forgot.pass') {
+$logicHeader = true;
+}
+if ($curRouteName != 'login' && $curRouteName != 'forgot.pass' && $curRouteName != 'verification.notice' &&
+$curRouteName != 'password.reset') {
+$logicNavCateg = true;
+}
 @endphp
 
 <!DOCTYPE html>
@@ -105,7 +106,7 @@
           <a href="#">
             <i class="fa fa-heart"></i>
             @if (Auth::user())
-              <span>1</span>
+            <span>1</span>
             @endif
           </a>
         </li>
@@ -113,38 +114,38 @@
           <a href="#">
             <i class="fa fa-shopping-bag"></i>
             @if (Auth::user())
-              <span>3</span>
+            <span>3</span>
             @endif
           </a>
         </li>
         @if (Auth::user())
-          <li>
-            <a href="#">
-              <i class="fa fa-user-circle-o"></i>
-            </a>
-          </li>
+        <li>
+          <a href="#">
+            <i class="fa fa-user-circle-o"></i>
+          </a>
+        </li>
         @endif
       </ul>
       @if (Auth::user())
-        <div class="header__cart__price">Hallo, <span>{{ Auth::user()->name }}</span></div>
+      <div class="header__cart__price">Hallo, <span>{{ Auth::user()->name }}</span></div>
       @else
-        <div class="header__cart__price">Hallo, <span>Selamat datang!</span></div>
+      <div class="header__cart__price">Hallo, <span>Selamat datang!</span></div>
       @endif
     </div>
     <div class="humberger__menu__widget">
       <div class="header__top__right__auth">
         @if (Auth::user())
-          @if (Auth::user()->user_type == 1)
-            <a href="{{ route('adm-dashboard') }}"><i class="fa fa-tachometer"></i> Dashboard</a>
-          @endif
+        @if (Auth::user()->user_type == 1)
+        <a href="{{ route('adm-dashboard') }}"><i class="fa fa-tachometer"></i> Dashboard</a>
+        @endif
         @endif
       </div>
       <div class="header__top__right__auth">
         @if (Auth::user())
-          <a href="javascript:void(0)" data-toggle="modal" data-target="#logoutModal"><i
-              class="fa fa-sign-out {{ Auth::user()->user_type == 1 ? 'ml-3' : '' }}"></i> Logout</a>
+        <a href="javascript:void(0)" data-toggle="modal" data-target="#logoutModal"><i
+            class="fa fa-sign-out {{ Auth::user()->user_type == 1 ? 'ml-3' : '' }}"></i> Logout</a>
         @else
-          <a href="{{ route('login') }}"><i class="fa fa-user"></i> Login/Register</a>
+        <a href="{{ route('login') }}"><i class="fa fa-user"></i> Login/Register</a>
         @endif
       </div>
     </div>
@@ -157,14 +158,16 @@
       </ul>
     </nav>
     <div id="mobile-menu-wrap"></div>
+    @if ($sosmed)
     <div class="header__top__right__social">
-      <a href="#"><i class="fa fa-facebook"></i></a>
-      <a href="#"><i class="fa fa-twitter"></i></a>
-      <a href="#"><i class="fa fa-linkedin"></i></a>
+      @foreach ($sosmed as $med)
+      <a href="{{ $med->url }}" target="_blank"><i class="fa fa-{{ $med->name }}"></i></a>
+      @endforeach
     </div>
+    @endif
     <div class="humberger__menu__contact">
       <ul>
-        <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
+        <li><i class="fa fa-envelope"></i> {{ $email }}</li>
         <li>Free Shipping for all Order of $99</li>
       </ul>
     </div>
@@ -179,31 +182,33 @@
           <div class="col-lg-6 col-md-6">
             <div class="header__top__left">
               <ul>
-                <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
+                <li><i class="fa fa-envelope"></i> {{ $email }}</li>
                 <li>Free Shipping for all Order of $99</li>
               </ul>
             </div>
           </div>
           <div class="col-lg-6 col-md-6">
             <div class="header__top__right">
+              @if ($sosmed)
               <div class="header__top__right__social">
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <a href="#"><i class="fa fa-twitter"></i></a>
-                <a href="#"><i class="fa fa-linkedin"></i></a>
+                @foreach ($sosmed as $med)
+                <a href="{{ $med->url }}" target="_blank"><i class="fa fa-{{ $med->name }}"></i></a>
+                @endforeach
               </div>
+              @endif
               <div class="header__top__right__auth">
                 @if (Auth::user())
-                  @if (Auth::user()->user_type == 1)
-                    <a href="{{ route('adm-dashboard') }}"><i class="fa fa-tachometer"></i> Dashboard</a>
-                  @endif
+                @if (Auth::user()->user_type == 1)
+                <a href="{{ route('adm-dashboard') }}"><i class="fa fa-tachometer"></i> Dashboard</a>
+                @endif
                 @endif
               </div>
               <div class="header__top__right__auth">
                 @if (Auth::user())
-                  <a href="javascript:void(0)" data-toggle="modal" data-target="#logoutModal"><i
-                      class="fa fa-sign-out {{ Auth::user()->user_type == 1 ? 'ml-3' : '' }}"></i> Logout</a>
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#logoutModal"><i
+                    class="fa fa-sign-out {{ Auth::user()->user_type == 1 ? 'ml-3' : '' }}"></i> Logout</a>
                 @else
-                  <a href="{{ route('login') }}"><i class="fa fa-user"></i> Login/Register</a>
+                <a href="{{ route('login') }}"><i class="fa fa-user"></i> Login/Register</a>
                 @endif
               </div>
             </div>
@@ -213,115 +218,114 @@
     </div>
 
     @if ($logicHeader)
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-3">
-            <div class="header__logo">
-              <a href="{{ route('home') }}"><img src="{{ asset('logo/logo1.png') }}" alt=""
-                  width="260px"></a>
-            </div>
-          </div>
-          <div class="col-lg-5">
-            <nav class="header__menu">
-              <ul>
-                <li class="{{ $url == '' ? 'active' : '' }}"><a href="{{ route('home') }}">Home</a></li>
-                <li class="{{ $url == 'shop' ? 'active' : '' }}"><a href="{{ route('shop') }}">Shop</a></li>
-                <li><a href="./blog.html">About US</a></li>
-                <li class="{{ $url == 'contact-us' ? 'active' : '' }}"><a
-                    href="{{ route('contact-us') }}">Contact</a></li>
-              </ul>
-            </nav>
-          </div>
-          <div class="col-lg-4">
-            <div class="header__cart">
-              <ul>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-heart"></i>
-                    @if (Auth::user())
-                      <span>1</span>
-                    @endif
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-shopping-bag"></i>
-                    @if (Auth::user())
-                      <span>3</span>
-                    @endif
-                  </a>
-                </li>
-                @if (Auth::user())
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-user-circle-o"></i>
-                    </a>
-                  </li>
-                @endif
-              </ul>
-              @if (Auth::user())
-                <div class="header__cart__price">Hallo, <span>{{ Auth::user()->name }}</span></div>
-              @else
-                <div class="header__cart__price">Hallo, <span>Selamat datang!</span></div>
-              @endif
-            </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="header__logo">
+            <a href="{{ route('home') }}"><img src="{{ asset('logo/logo1.png') }}" alt="" width="260px"></a>
           </div>
         </div>
-        <div class="humberger__open">
-          <i class="fa fa-bars"></i>
+        <div class="col-lg-5">
+          <nav class="header__menu">
+            <ul>
+              <li class="{{ $url == '' ? 'active' : '' }}"><a href="{{ route('home') }}">Home</a></li>
+              <li class="{{ $url == 'shop' ? 'active' : '' }}"><a href="{{ route('shop') }}">Shop</a></li>
+              <li><a href="./blog.html">About US</a></li>
+              <li class="{{ $url == 'contact-us' ? 'active' : '' }}"><a href="{{ route('contact-us') }}">Contact</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div class="col-lg-4">
+          <div class="header__cart">
+            <ul>
+              <li>
+                <a href="#">
+                  <i class="fa fa-heart"></i>
+                  @if (Auth::user())
+                  <span>1</span>
+                  @endif
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <i class="fa fa-shopping-bag"></i>
+                  @if (Auth::user())
+                  <span>3</span>
+                  @endif
+                </a>
+              </li>
+              @if (Auth::user())
+              <li>
+                <a href="#">
+                  <i class="fa fa-user-circle-o"></i>
+                </a>
+              </li>
+              @endif
+            </ul>
+            @if (Auth::user())
+            <div class="header__cart__price">Hallo, <span>{{ Auth::user()->name }}</span></div>
+            @else
+            <div class="header__cart__price">Hallo, <span>Selamat datang!</span></div>
+            @endif
+          </div>
         </div>
       </div>
+      <div class="humberger__open">
+        <i class="fa fa-bars"></i>
+      </div>
+    </div>
     @endif
   </header>
   <!-- Header Section End -->
 
   @if ($logicNavCateg)
-    <section class="hero hero-normal">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-3">
-            <div class="hero__categories">
-              <div class="hero__categories__all">
-                <i class="fa fa-bars"></i>
-                <span>All departments</span>
-              </div>
-              <ul>
-                <li><a href="#">Fresh Meat</a></li>
-                <li><a href="#">Vegetables</a></li>
-                <li><a href="#">Fruit & Nut Gifts</a></li>
-                <li><a href="#">Fresh Berries</a></li>
-                <li><a href="#">Ocean Foods</a></li>
-                <li><a href="#">Butter & Eggs</a></li>
-                <li><a href="#">Fastfood</a></li>
-                <li><a href="#">Fresh Onion</a></li>
-                <li><a href="#">Papayaya & Crisps</a></li>
-                <li><a href="#">Oatmeal</a></li>
-                <li><a href="#">Fresh Bananas</a></li>
-              </ul>
+  <section class="hero hero-normal">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="hero__categories">
+            <div class="hero__categories__all">
+              <i class="fa fa-bars"></i>
+              <span>All departments</span>
             </div>
+            <ul>
+              <li><a href="#">Fresh Meat</a></li>
+              <li><a href="#">Vegetables</a></li>
+              <li><a href="#">Fruit & Nut Gifts</a></li>
+              <li><a href="#">Fresh Berries</a></li>
+              <li><a href="#">Ocean Foods</a></li>
+              <li><a href="#">Butter & Eggs</a></li>
+              <li><a href="#">Fastfood</a></li>
+              <li><a href="#">Fresh Onion</a></li>
+              <li><a href="#">Papayaya & Crisps</a></li>
+              <li><a href="#">Oatmeal</a></li>
+              <li><a href="#">Fresh Bananas</a></li>
+            </ul>
           </div>
-          <div class="col-lg-9">
-            <div class="hero__search">
-              <div class="hero__search__form">
-                <form action="#">
-                  <input type="text" placeholder="What do yo u need?">
-                  <button type="submit" class="site-btn">SEARCH</button>
-                </form>
+        </div>
+        <div class="col-lg-9">
+          <div class="hero__search">
+            <div class="hero__search__form">
+              <form action="#">
+                <input type="text" placeholder="What do yo u need?">
+                <button type="submit" class="site-btn">SEARCH</button>
+              </form>
+            </div>
+            <div class="hero__search__phone">
+              <div class="hero__search__phone__icon">
+                <i class="fa fa-phone"></i>
               </div>
-              <div class="hero__search__phone">
-                <div class="hero__search__phone__icon">
-                  <i class="fa fa-phone"></i>
-                </div>
-                <div class="hero__search__phone__text">
-                  <h5>+65 11.188.888</h5>
-                  <span>support 24/7 time</span>
-                </div>
+              <div class="hero__search__phone__text">
+                <h5>{{ $contact }}</h5>
+                <span>support 24/7 time</span>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
   @endif
 
   <div class="container">
@@ -365,9 +369,9 @@
               <a href="{{ route('home') }}"><img src="{{ asset('logo/logo1.png') }}" alt=""></a>
             </div>
             <ul>
-              <li>Address: 60-49 Road 11378 New York</li>
-              <li>Phone: +65 11.188.888</li>
-              <li>Email: hello@colorlib.com</li>
+              <li>Address: {{ $address}}</li>
+              <li>Phone: {{ $contact }}</li>
+              <li>Email: {{ $email }}</li>
             </ul>
           </div>
         </div>
@@ -396,15 +400,17 @@
           <div class="footer__widget">
             <h6>Join Our Newsletter Now</h6>
             <p>Get E-mail updates about our latest shop and special offers.</p>
-            <form action="#">
+            <form>
               <input type="text" placeholder="Enter your mail">
-              <button type="submit" class="site-btn">Subscribe</button>
+              <button type="button" class="site-btn">Subscribe</button>
             </form>
+            @if ($sosmed)
             <div class="footer__widget__social">
-              <a href="#"><i class="fa fa-facebook"></i></a>
-              <a href="#"><i class="fa fa-instagram"></i></a>
-              <a href="#"><i class="fa fa-twitter"></i></a>
+              @foreach ($sosmed as $med)
+              <a href="{{ $med->url }}" target="_blank"><i class="fa fa-{{ $med->name }}"></i></a>
+              @endforeach
             </div>
+            @endif
           </div>
         </div>
       </div>
@@ -421,8 +427,7 @@
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
               </p>
             </div>
-            <div class="footer__copyright__payment"><img src="{{ asset('assets/img/payment-item') }}.png"
-                alt=""></div>
+            <div class="footer__copyright__payment"><img src="{{ asset('assets/img/payment-item') }}.png" alt=""></div>
           </div>
         </div>
       </div>

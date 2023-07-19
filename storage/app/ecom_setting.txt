@@ -1,0 +1,1 @@
+{"email":"jakartatrading.my@gmail.com","contact":"081384225353","address":"Pulo gadong, Jakarta Timur, Indonesia","sosmed":[{"name":"facebook","url":"https:\/\/facebook.com"},{"name":"twitter","url":"https:\/\/twitter.com"}],"last_updated":"2023-07-17T08:07:19.778962Z","update_by":"admin123@gmail.com"}

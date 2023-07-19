@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LayoutsController;
+
 use App\Http\Livewire\HomeComponent;
 use App\Http\Livewire\ShopComponent;
 use App\Http\Livewire\ContactComponent;
@@ -56,3 +58,6 @@ Route::middleware(['auth:sanctum', 'verified', 'auth_admin'])->group(function ()
   Route::get('/admin-product', ProductComponent::class)->name('adm-product');
   Route::get('/admin-ecomsetting', EcomSettingComponent::class)->name('adm-ecomsetting');
 });
+
+// Function for layouts
+Route::get('/custom-fun', [LayoutsController::class, 'customFunction'])->name('custom-fun');
