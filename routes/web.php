@@ -12,6 +12,7 @@ use App\Http\Livewire\ForgotPasswordComponent;
 use App\Http\Livewire\FormForgotPasswordComponent;
 use App\Http\Livewire\EmailVerifyComponent;
 use App\Http\Livewire\ProductDetailComponent;
+use App\Http\Livewire\CartComponent;
 
 use App\Http\Livewire\Admin\DashboardComponent;
 use App\Http\Livewire\Admin\CategoryComponent;
@@ -48,7 +49,7 @@ Route::middleware(['verify_email'])->group(function () {
 
 // Route for user login
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-
+  Route::get('/shoping-cart', CartComponent::class)->name('shoping-cart');
 });
 
 // Route for admin login

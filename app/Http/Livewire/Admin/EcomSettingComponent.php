@@ -26,15 +26,17 @@ class EcomSettingComponent extends Component
         $result;
         $client = new Client();
         
-        try{
+        try {
             try {
                 $response = $client->head($url);
                 $result = $response->getStatusCode() == 404 ? false : true;
             } catch (RequestException $e) {
+                dd($e);
                 $statusCode = $e->getResponse()->getStatusCode();
                 $result = $statusCode == 404 ? false : true;
             }
         } catch (Exception $e) {
+            dd($e);
             $statusCode = $e->getCode();
             $result = $statusCode != 404 ? ($statusCode == 0 ? false : true) : false;
         }
@@ -124,10 +126,6 @@ class EcomSettingComponent extends Component
 
     public function render()
     {
-        $this->sosmedFb_status = $this->sosmedFb ? $this->checkUrlAccess($this->sosmedFb) : false;
-        $this->sosmedTw_status = $this->sosmedTw ? $this->checkUrlAccess($this->sosmedTw) : false;
-        $this->sosmedLi_status = $this->sosmedLi ? $this->checkUrlAccess($this->sosmedLi) : false;
-
         return view('livewire.admin.ecom-setting-component')->layout('layouts.admin');
     }
 }

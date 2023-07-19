@@ -15,6 +15,7 @@
         width: 100%;
         height: 45px;
       }
+
       .product__details__pic__item img {
         min-width: 100%;
         height: 250px;
@@ -24,15 +25,17 @@
   </style>
 
   @if (Session::has('msgAlert'))
-  <div class="bs-toast toast toast-placement-ex m-2 fade top-0 end-0 show" role="alert" aria-live="assertive"
-    aria-atomic="true" data-delay="2000" style="background-color: white !important;">
-    <div class="toast-header">
-      <img src="{{ asset('assets/img/logo.png') }}" class="rounded mr-2" alt="" width="50px">
-      <div class="me-auto fw-semibold"></div>
-      <small class="text-{{ strtolower(Session::get('msgStatus')) }}">{{ Session::get('msgStatus') }}</small>
-      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+  {{-- <div id="overlay-bg-toast"></div> --}}
+  <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true"
+    style="position: fixed; z-index: 99999; top: 25px; right: 20px;">
+    <div class="toast-header d-flex justify-content-between">
+      <img src="{{ asset('logo/logo2.png') }}" class="rounded mr-2" alt="" width="160px">
+      <button onclick="hideToastAlert()" type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
     <div class="toast-body">
+      <span class="text-{{ strtolower(Session::get('msgStatus')) }}">{{ Session::get('msgStatus') }}</span><br>
       {{ Session::get('msgAlert') }}
     </div>
   </div>
@@ -51,9 +54,10 @@
       <div class="col-lg-6 col-md-6">
         <div class="product__details__pic">
           <div class="product__details__pic__item">
-            <img class="product__details__pic__item--large" src="{{ asset('storage/'. colName('pr') . $product->image->image) }}" alt="{{ $product->name }}">
+            <img class="product__details__pic__item--large"
+              src="{{ asset('storage/'. colName('pr') . $product->image->image) }}" alt="{{ $product->name }}">
           </div>
-          <div class="product__details__pic__slider owl-carousel">
+          <div class="product__details__pic__slider owl-carousel" wire:ignore>
             @if (count(json_decode($product->image->images, true)) > 0)
             <img class="carous_img_product"
               data-imgbigurl="{{ asset('storage/'. colName('pr') . $product->image->image) }}"
@@ -84,16 +88,22 @@
           <div class="product__details__quantity">
             <div class="quantity">
               <div class="pro-qty">
-                <input type="text" value="1">
+                <a href="javascript:void(0)" class="dec qtybtn" wire:click.prevent='decreaseQty'>-</a>
+                <input wire:model="quntity" type="text">
+                <a href="javascript:void(0)" class="inc qtybtn" wire:click.prevent='increaseQty'>+</a>
               </div>
             </div>
           </div>
-          <a href="#" class="{{ !!$product->stock_status ? "primary" : "disabled" }}-btn" style="{{ !!$product->stock_status ? "" : "cursor: not-allowed" }}">ADD TO CARD</a>
+          <a href="javascript:void(0)" wire:click.prevent="addProductToCart" class="{{ !!$product->stock_status ? "
+            primary" : "disabled" }}-btn" style="{{ !!$product->stock_status ? "" : " cursor: not-allowed" }}">ADD TO
+            CART</a>
           <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
           <ul>
-            <li><b>Availability</b> <span class="text-{{ !!$product->stock_status ? "success" : "warning" }}"><strong>{{ !!$product->stock_status ? "In Stock" : "Out Stock" }}</strong></span></li>
+            <li><b>Availability</b> <span class="text-{{ !!$product->stock_status ? " success" : "warning"
+                }}"><strong>{{ !!$product->stock_status ? "In Stock" : "Out Stock" }}</strong></span></li>
             <li><b>Product</b> <span>{{ $product->product_for == "i" ? "Import" : "Export" }}</span></li>
-            <li><b>Expired</b> <span style="font-style: {{ !$product->exp_date ? 'italic' : '' }}">{{ $product->exp_date ? formatDate("in", $product->exp_date) : "No Expired" }}</span></li>
+            <li><b>Expired</b> <span style="font-style: {{ !$product->exp_date ? 'italic' : '' }}">{{ $product->exp_date
+                ? formatDate("in", $product->exp_date) : "No Expired" }}</span></li>
           </ul>
         </div>
       </div>
@@ -146,12 +156,14 @@
     </div>
   </div>
 
-  <div class="row mt-1 mb-5">
+  <div class="row mt-1 mb-5" wire:ignore>
     <div class="categories__slider owl-carousel">
       @foreach ($randomProduct as $product)
       <div class="col-lg-3 col-md-4 col-sm-6">
         <div class="product__item mb-0">
-          <div wire:click='detailProductExport({{ $product->id }})' style="cursor: pointer" class="product__item__pic2 set-bg" data-setbg="{{ asset('storage/'. colName('pr') . $product->image->image) }}"
+          <div wire:click='detailProductExport({{ $product->id }})' style="cursor: pointer"
+            class="product__item__pic2 set-bg"
+            data-setbg="{{ asset('storage/'. colName('pr') . $product->image->image) }}"
             style="background-image: url(&quot;{{ asset('storage/'. colName('pr') . $product->image->image) }}&quot;);">
             <ul class="product__item__pic__hover">
               <li><a href="#"><i class="fa fa-heart"></i></a></li>

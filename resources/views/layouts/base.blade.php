@@ -111,7 +111,7 @@ $logicNavCateg = true;
           </a>
         </li>
         <li>
-          <a href="#">
+          <a href="{{ route('shoping-cart') }}">
             <i class="fa fa-shopping-bag"></i>
             @if (Auth::user())
             <span>3</span>
@@ -248,7 +248,7 @@ $logicNavCateg = true;
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a href="{{ route('shoping-cart') }}">
                   <i class="fa fa-shopping-bag"></i>
                   @if (Auth::user())
                   <span>3</span>

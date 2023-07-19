@@ -61,8 +61,7 @@
         <div class="flex-grow-1 row">
           <div class="col-2 mb-sm-0 mb-2">
             <h6 class="mb-0">Facebook</h6>
-            <small wire:loading.remove wire:loading.attr='disabled' wire:target='sosmedFb' class="{{ $sosmedFb_status ? "text-success" : "text-muted" }}">{{ $sosmedFb_status ? "Connected" : "Not Connected" }}</small>
-            <small class="text-warning" wire:loading wire:target='sosmedFb'>checking...</small>
+            {{-- <small class="text-warning"></small> --}}
           </div>
           <div class="col-10 text-end">
             <div class="input-group">
@@ -81,8 +80,6 @@
         <div class="flex-grow-1 row">
           <div class="col-2 mb-sm-0 mb-2">
             <h6 class="mb-0">Twitter</h6>
-            <small wire:loading.remove wire:loading.attr='disabled' wire:target='sosmedTw' class="{{ $sosmedTw_status ? "text-success" : "text-muted" }}">{{ $sosmedTw_status ? "Connected" : "Not Connected" }}</small>
-            <small class="text-warning" wire:loading wire:target='sosmedTw'>checking...</small>
           </div>
           <div class="col-10 text-end">
             <div class="input-group">
@@ -101,8 +98,6 @@
         <div class="flex-grow-1 row">
           <div class="col-2 mb-sm-0 mb-2">
             <h6 class="mb-0">LinkedIn</h6>
-            <small wire:loading.remove wire:loading.attr='disabled' wire:target='sosmedLi' class="{{ $sosmedLi_status ? "text-success" : "text-muted" }}">{{ $sosmedLi_status ? "Connected" : "Not Connected" }}</small>
-            <small class="text-warning" wire:loading wire:target='sosmedLi'>checking...</small>
           </div>
           <div class="col-10 text-end">
             <div class="input-group">

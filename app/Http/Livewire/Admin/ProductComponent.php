@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Admin;
 
 use Livewire\Component;
 use App\Http\Halpers\HalperFunctions;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Exception;
 

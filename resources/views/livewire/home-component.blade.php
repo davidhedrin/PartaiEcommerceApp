@@ -1,20 +1,21 @@
 <div>
   @if (Session::has('msgAlert'))
-    <div id="overlay-bg-toast"></div>
-    <div class="show-toast-alert toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
-      <div class="toast-header d-flex justify-content-between">
-        <img src="{{ asset('logo/logo2.png') }}" class="rounded mr-2" alt="" width="160px">
-        <button onclick="hideToastAlert()" type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="toast-body">
-        <span class="text-{{ strtolower(Session::get('msgStatus')) }}">{{ Session::get('msgStatus') }}</span><br>
-        {{ Session::get('msgAlert') }}
-      </div>
+  {{-- <div id="overlay-bg-toast"></div> --}}
+  <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true"
+    style="position: fixed; z-index: 99999; top: 25px; right: 20px;">
+    <div class="toast-header d-flex justify-content-between">
+      <img src="{{ asset('logo/logo2.png') }}" class="rounded mr-2" alt="" width="160px">
+      <button onclick="hideToastAlert()" type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
+    <div class="toast-body">
+      <span class="text-{{ strtolower(Session::get('msgStatus')) }}">{{ Session::get('msgStatus') }}</span><br>
+      {{ Session::get('msgAlert') }}
+    </div>
+  </div>
   @endif
-  
+
   <div class="hero__item__right set-bg" data-setbg="{{ asset('banner/banner.png') }}">
     <div class="hero__text">
       <span>Welcome To</span>
@@ -23,7 +24,7 @@
       <a href="#" class="primary-btn">SHOP NOW</a>
     </div>
   </div>
-  
+
   {{-- Import section --}}
   <div class="row mt-5">
     <div class="col-lg-12">
@@ -34,61 +35,64 @@
   </div>
   {{-- Slider product --}}
   @if (count($allProductImport) > 0)
-    <div class="row pb-4">
-      <div class="categories__slider owl-carousel">
-        @foreach ($allProductImport as $product)
-          <div class="col-lg-3">
-            <div class="categories__item set-bg" data-setbg="{{ asset('storage/'. colName('pr') . $product->image->image) }}">
-              <h5><a href="{{ route('product.detail', ['product_id' =>$product->id]) }}">{{ $product->name }}</a></h5>
-            </div>
-          </div>
-        @endforeach
+  <div class="row pb-4">
+    <div class="categories__slider owl-carousel">
+      @foreach ($allProductImport as $product)
+      <div class="col-lg-3">
+        <div class="categories__item set-bg"
+          data-setbg="{{ asset('storage/'. colName('pr') . $product->image->image) }}">
+          <h5><a href="{{ route('product.detail', ['product_id' =>$product->id]) }}">{{ $product->name }}</a></h5>
+        </div>
       </div>
+      @endforeach
     </div>
-    <div class="text-center pb-2">
-      <a href="#" class="primary-btn">MORE</a>
-    </div>
+  </div>
+  <div class="text-center pb-2">
+    <a href="#" class="primary-btn">MORE</a>
+  </div>
   @endif
 
   @if (count($allProductExport) > 0)
-    {{-- Future Product --}}
-    <div class="row mt-5">
-      <div class="col-lg-12">
-        <div class="section-title">
-          <h2>Featured Export</h2>
-        </div>
-        <div class="featured__controls">
-          <ul>
-            <li class="active" data-filter="*">All</li>
-            <li data-filter=".oranges">Oranges</li>
-            <li data-filter=".fresh-meat">Fresh Meat</li>
-            <li data-filter=".vegetables">Vegetables</li>
-            <li data-filter=".fastfood">Fastfood</li>
+  {{-- Future Product --}}
+  <div class="row mt-5">
+    <div class="col-lg-12">
+      <div class="section-title">
+        <h2>Featured Export</h2>
+      </div>
+      <div class="featured__controls">
+        <ul>
+          <li class="active" data-filter="*">All</li>
+          <li data-filter=".oranges">Oranges</li>
+          <li data-filter=".fresh-meat">Fresh Meat</li>
+          <li data-filter=".vegetables">Vegetables</li>
+          <li data-filter=".fastfood">Fastfood</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row featured__filter" style="justify-content: center">
+    @foreach ($allProductExport as $product)
+    <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
+      <div class="featured__item">
+        <div wire:click="detailProductExport({{ $product->id }})" style="cursor: pointer"
+          class="featured__item__pic set-bg"
+          data-setbg="{{ asset('storage/'. colName('pr') . $product->image->image) }}">
+          <ul class="featured__item__pic__hover">
+            <li><a href="#"><i class="fa fa-heart"></i></a></li>
+            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
           </ul>
+        </div>
+        <div class="featured__item__text">
+          <h6><a href="#">{{ $product->name }}</a></h6>
+          <h5>{{ currency_IDR($product->regular_price) }}</h5>
         </div>
       </div>
     </div>
-    <div class="row featured__filter" style="justify-content: center">
-      @foreach ($allProductExport as $product)
-        <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
-          <div class="featured__item">
-            <div wire:click="detailProductExport({{ $product->id }})" style="cursor: pointer" class="featured__item__pic set-bg" data-setbg="{{ asset('storage/'. colName('pr') . $product->image->image) }}">
-              <ul class="featured__item__pic__hover">
-                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-              </ul>
-            </div>
-            <div class="featured__item__text">
-              <h6><a href="#">{{ $product->name }}</a></h6>
-              <h5>{{ currency_IDR($product->regular_price) }}</h5>
-            </div>
-          </div>
-        </div>
-      @endforeach
-    </div>
-    <div style="display: grid; justify-content: center">
-      {{ $allProductExport->links() }}
-    </div>
+    @endforeach
+  </div>
+  <div style="display: grid; justify-content: center">
+    {{ $allProductExport->links() }}
+  </div>
   @endif
 
   {{-- Two Banner --}}
@@ -312,7 +316,7 @@
       </div>
     </div>
   </div>
-  
+
   <div class="row mt-3">
     <div class="categories__slider owl-carousel">
       <div class="col-lg-3">
