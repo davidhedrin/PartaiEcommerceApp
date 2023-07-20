@@ -18,6 +18,7 @@ use App\Http\Livewire\Admin\DashboardComponent;
 use App\Http\Livewire\Admin\CategoryComponent;
 use App\Http\Livewire\Admin\ProductComponent;
 use App\Http\Livewire\Admin\EcomSettingComponent;
+use App\Http\Livewire\Admin\OtpVerfyComponent;
 
 Auth::routes([
   'login' => false,
@@ -29,6 +30,7 @@ Auth::routes([
   'verify' => true
 ]);
 
+Route::get('/admin-otp-verify', OtpVerfyComponent::class)->name('otp-admin');
 Route::get('/email-verify', EmailVerifyComponent::class)->middleware('auth')->name('verification.notice');
     
 Route::get('/logout', LogoutComponent::class)->name('logout');

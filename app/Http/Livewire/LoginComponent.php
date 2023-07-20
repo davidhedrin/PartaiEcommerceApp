@@ -73,6 +73,7 @@ class LoginComponent extends Component
                     if($getUserAuth){
                         if(strtolower($user->flag_active) === "y"){
                             if($user->role->id === 1){
+                                session()->put('admin_otp', '');
                                 return redirect()->route('adm-dashboard');
                             }else{
                                 return redirect()->route('home');

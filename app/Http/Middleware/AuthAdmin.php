@@ -17,7 +17,11 @@ class AuthAdmin
     public function handle(Request $request, Closure $next): Response
     {
         if(Auth::user()->role->id === 1 && Auth::user()->flag_active === 'Y'){
-            return $next($request);
+            if (empty(session("admin_otp"))) {
+                return redirect()->route('otp-admin');
+            } else {
+                return $next($request);
+            }
         }
         else{
             session()->flush();

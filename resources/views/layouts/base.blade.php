@@ -16,9 +16,14 @@ $logicNavCateg = false;
 if ($curRouteName != 'login' && $curRouteName != 'forgot.pass') {
 $logicHeader = true;
 }
-if ($curRouteName != 'login' && $curRouteName != 'forgot.pass' && $curRouteName != 'verification.notice' &&
-$curRouteName != 'password.reset') {
-$logicNavCateg = true;
+if (
+  $curRouteName != 'login' && 
+  $curRouteName != 'forgot.pass' && 
+  $curRouteName != 'verification.notice' &&
+  $curRouteName != 'password.reset' &&
+  $curRouteName != 'otp-admin'
+) {
+  $logicNavCateg = true;
 }
 @endphp
 
