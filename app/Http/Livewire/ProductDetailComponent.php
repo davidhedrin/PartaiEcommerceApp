@@ -32,36 +32,20 @@ class ProductDetailComponent extends Component
     }
 
     public function addProductToCart() {
-        $product = [
-            "product_id" => $this->productId,
-            "qty" => $this->quntity
-        ];
-
         HalperFunctions::SaveWithTransaction(
-            function() use($product) {
-                $findCart = ShopingCart::where("user_id", Auth::user()->id)->first();
-                if($findCart){
-                    $notExist = true;
-                    $setProduct = json_decode($findCart->products, true);
-                    foreach ($setProduct as &$item) {
-                        if ($item['product_id'] == $this->productId) {
-                            $item['qty'] = intval($item['qty']) + $this->quntity;
-                            $notExist = false;
-                            break;
-                        }
-                    }
-                    if($notExist){
-                        $setProduct[] = $product;
-                    }
-                    $findCart->products = json_encode($setProduct);
-                    $findCart->save();
+            function() {
+                $userId = Auth::user()->id;
+                $findProduct = ShopingCart::where("user_id", $userId)->where("product_id", $this->productId)->first();
+
+                if($findProduct){
+                    $findProduct->qty = $findProduct->qty + $this->quntity;
+                    $findProduct->save();
                 }else{
-                    $setProduct = [];
-                    $setProduct[] = $product;
-                    $new = new ShopingCart;
-                    $new->user_id = Auth::user()->id;
-                    $new->products = json_encode($setProduct);
-                    $new->save();
+                    $product = new ShopingCart;
+                    $product->user_id = $userId;
+                    $product->product_id = $this->productId;
+                    $product->qty = $this->quntity;
+                    $product->save();
                 }
 
                 session()->flash('msgAlert', 'Product berhasil ditambahkan ke keranjang');
@@ -69,6 +53,8 @@ class ProductDetailComponent extends Component
             },
             "addProductToCart"
         );
+        
+        $this->emit('updateCartCount');
     }
 
     public function loadAllData() {

@@ -114,7 +114,7 @@ $logicNavCateg = true;
           <a href="{{ route('shoping-cart') }}">
             <i class="fa fa-shopping-bag"></i>
             @if (Auth::user())
-            <span>3</span>
+            <span><livewire:component.cart-counter></span>
             @endif
           </a>
         </li>
@@ -251,7 +251,7 @@ $logicNavCateg = true;
                 <a href="{{ route('shoping-cart') }}">
                   <i class="fa fa-shopping-bag"></i>
                   @if (Auth::user())
-                  <span>3</span>
+                  <span><livewire:component.cart-counter></span>
                   @endif
                 </a>
               </li>

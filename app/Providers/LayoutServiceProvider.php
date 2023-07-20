@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Halpers\HalperFunctions;
+use Illuminate\Support\Facades\Auth;
 
 class LayoutServiceProvider extends ServiceProvider
 {
@@ -22,8 +23,10 @@ class LayoutServiceProvider extends ServiceProvider
     public function boot(): void
     {
         view()->composer('layouts.base', function ($view) {
+            $auth = Auth::user();
+
+            // Contact Info
             $data_json = (object)[];
-    
             $filePath = HalperFunctions::colName('ecom_set');
             if (Storage::exists($filePath)) {
                 $content = Storage::get($filePath);
