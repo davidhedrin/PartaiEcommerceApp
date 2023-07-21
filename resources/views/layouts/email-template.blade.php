@@ -12,6 +12,11 @@
       height: "60px";
     }
 
+    .content-img{
+      text-align: center; 
+      margin-bottom: 15px;
+    }
+
     .content-card{
       text-align: center; 
       background-color: white; 
@@ -19,8 +24,9 @@
       padding: 8px;
       margin: 0 150px;
     }
-
-    .content-card p{
+    
+    .content-card h2{
+      margin-top: 0;
       margin-bottom: 0;
     }
 
@@ -39,13 +45,17 @@
 </head>
 
 <body style="padding: 30px; background-color: #edf2f7;">
-  <div style="text-align: center; margin-bottom: 15px">
+  <div class="content-img">
     <img class="logo-img" src="https://jakartatrading.my.id/logo/logo1.png" alt="">
   </div>
   
   <div class="content-card">
     <p>Akses kode OTP {{ env('APP_NAME') }} dashboard:</p>
-    <h2 style="margin-top: 0">{{ $otp_code }}</h2>
+    <h2>{{ $otp_code }}</h2>
+    <p>
+      The OTP access code is valid until today <strong>"23:59, {{ $valid_date }}"</strong>. <br>
+      If this is not you, immediately secure your account by changing the password here <a href="{{ route('forgot.pass') }}">change password</a>
+    </p>
   </div>
 </body>
 

@@ -16,12 +16,12 @@ class UserTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $email = 'admin123@gmail.com';
+        $email = 'davidhedrin123@gmail.com';
         $findAdmin = User::where('email', $email)->first();
         if ($findAdmin) {
             $findAdmin->delete();
         }
-        $passHash = Hash::make('admin123');
+        $passHash = Hash::make('david123');
         User::create([
             'name' => 'Admin Ecommerce',
             'email' => $email,

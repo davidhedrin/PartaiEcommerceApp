@@ -10,6 +10,9 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
+use App\Models\OtpVerify;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class LoginComponent extends Component
 {
@@ -47,6 +50,44 @@ class LoginComponent extends Component
         $this->loginOrRegis = !$this->loginOrRegis;
     }
 
+    public function sendOtpLogic($auth){
+        HalperFunctions::SaveWithTransaction(
+            function() use($auth){
+                $findOtp = OtpVerify::where("user_id", $auth->id)->first();
+                $mailData = HalperFunctions::mailDataOtp();
+
+                if($findOtp){
+                    $updated_at = $findOtp->updated_at;
+                    if(!$updated_at->isAfter(now()->startOfDay())){
+                        Mail::send('layouts.email-template', $mailData, function ($message) use($mailData, $auth) {
+                            $message->to($mailData["email"], $auth->name);
+                            $message->subject($mailData["subject"]);
+                        });
+
+                        $findOtp->otp = $mailData["otp_code"];
+                        $findOtp->save();
+                        
+                        session()->flash('msgAlert', 'Kode OTP baru telah berhasil dikirim! Masukkan kode dalam waktu 1 menit.');
+                        session()->flash('msgStatus', 'Success');
+                    }
+                }else{
+                    Mail::send('layouts.email-template', $mailData, function ($message) use($mailData, $auth) {
+                        $message->to($mailData["email"], $auth->name);
+                        $message->subject($mailData["subject"]);
+                    });
+    
+                    $saveOtp = new OtpVerify;
+                    $saveOtp->user_id = $auth->id;
+                    $saveOtp->otp = $mailData["otp_code"];
+                    $saveOtp->save();
+
+                    session()->flash('msgAlert', 'Kode OTP baru telah berhasil dikirim! Masukkan kode dalam waktu 1 menit.');
+                    session()->flash('msgStatus', 'Success');
+                }
+            },
+            "sendOtpLogic"
+        );
+    }
     public function loginUser(){
         $this->validate([
             'emailLogin' => 'required|email',
@@ -74,6 +115,7 @@ class LoginComponent extends Component
                         if(strtolower($user->flag_active) === "y"){
                             if($user->role->id === 1){
                                 session()->put('admin_otp', '');
+                                $this->sendOtpLogic($user);
                                 return redirect()->route('adm-dashboard');
                             }else{
                                 return redirect()->route('home');

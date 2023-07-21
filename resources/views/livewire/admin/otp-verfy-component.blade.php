@@ -26,13 +26,21 @@
 
       <h5 class="text-center mb-2" style="font-weight: bold; text-decoration: underline">{{ Auth::user()->email }}</h5>
       <div class="text-center">
-        <a wire:click.prevent='sendMailOtp' class="text-dark color-href" href="javascript:void()">Kirim ulang otp</a>
+        <a wire:click.prevent='sendMailOtp' class="text-dark color-href" href="javascript:void()">
+          <span wire:loading.remove wire:loading.attr='disabled' wire:target='sendMailOtp'>Kirim ulang otp</span>
+          <span wire:loading wire:target='sendMailOtp'>Mengirim otp...</span>
+        </a>
       </div>
       <div class="form-group">
-        <input wire:model="" type="text" class="form-control mt-3 text-center" id="email_login" placeholder="Masukkan 6 digit kode OTP">
-        <button type="button" class="btn btn-primary btn-block mt-3" wire:click=''>
-          <span wire:loading.remove>Konfirmasi</span>
-          <span wire:loading>Verifikasi...</span>
+        <input wire:model="codeOtp" type="text" class="form-control mt-3 text-center" id="email_login" placeholder="Masukkan 6 digit kode OTP">
+        @error('codeOtp')
+        <div class="text-center">
+          <span class="text-danger">{{ $message }}</span>          
+        </div>
+        @enderror
+        <button type="button" class="btn btn-primary btn-block mt-4" wire:click='confirmCheckOtp'>
+          <span wire:loading.remove wire:loading.attr='disabled' wire:target='confirmCheckOtp'>Konfirmasi</span>
+          <span wire:loading wire:target='confirmCheckOtp'>Verifikasi...</span>
         </button>
       </div>
     </div>

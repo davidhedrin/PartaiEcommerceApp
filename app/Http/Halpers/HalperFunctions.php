@@ -4,6 +4,7 @@ namespace App\Http\Halpers;
 use App\Models\LogError;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 use Exception;
 
 class HalperFunctions{
@@ -60,6 +61,30 @@ class HalperFunctions{
     public static function currencyToNumber($value){
         $result = preg_replace('/\D/', '', $value);
         return $result;
+    }
+
+    public static function generateOtpCode(int $digit){
+        $min = pow(10, $digit - 1);
+        $max = pow(10, $digit) - 1;
+        
+        $otpCode = random_int($min, $max);
+        return $otpCode;
+    }
+
+    public static function mailDataOtp(){
+        $auth = Auth::user();
+        $setOtp = HalperFunctions::generateOtpCode(6);
+        $dateNow = Carbon::parse(now());
+        $formattedDate = $dateNow->format('d F Y');
+
+        $mailData = [
+            "email" => $auth->email,
+            "subject" => "OTP Verification",
+            "otp_code" => $setOtp,
+            "valid_date" => $formattedDate,
+        ];
+
+        return $mailData;
     }
 
     public static function SaveWithTransaction(\Closure $trans, $function = null, $eventName = null) {
