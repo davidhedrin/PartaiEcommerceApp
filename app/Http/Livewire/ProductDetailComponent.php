@@ -32,29 +32,32 @@ class ProductDetailComponent extends Component
     }
 
     public function addProductToCart() {
-        HalperFunctions::SaveWithTransaction(
-            function() {
-                $userId = Auth::user()->id;
-                $findProduct = ShopingCart::where("user_id", $userId)->where("product_id", $this->productId)->first();
-
-                if($findProduct){
-                    $findProduct->qty = $findProduct->qty + $this->quntity;
-                    $findProduct->save();
-                }else{
-                    $product = new ShopingCart;
-                    $product->user_id = $userId;
-                    $product->product_id = $this->productId;
-                    $product->qty = $this->quntity;
-                    $product->save();
-                }
-
-                session()->flash('msgAlert', 'Product berhasil ditambahkan ke keranjang');
-                session()->flash('msgStatus', 'Success');
-            },
-            "addProductToCart"
-        );
-        
-        $this->emit('updateCartCount');
+        $findProduct = Product::find($this->productId);
+        if($findProduct->stock_status){
+            HalperFunctions::SaveWithTransaction(
+                function() {
+                    $userId = Auth::user()->id;
+                    $cartProduct = ShopingCart::where("user_id", $userId)->where("product_id", $this->productId)->first();
+    
+                    if($cartProduct){
+                        $cartProduct->qty = $cartProduct->qty + $this->quntity;
+                        $cartProduct->save();
+                    }else{
+                        $product = new ShopingCart;
+                        $product->user_id = $userId;
+                        $product->product_id = $this->productId;
+                        $product->qty = $this->quntity;
+                        $product->save();
+                    }
+    
+                    session()->flash('msgAlert', 'Product berhasil ditambahkan ke keranjang');
+                    session()->flash('msgStatus', 'Success');
+                },
+                "addProductToCart"
+            );
+            
+            $this->emit('updateCartCount');
+        }
     }
 
     public function loadAllData() {

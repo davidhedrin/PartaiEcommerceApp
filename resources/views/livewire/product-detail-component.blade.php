@@ -79,9 +79,11 @@
               </div>
             </div>
           </div>
-          <a href="javascript:void(0)" wire:click.prevent="addProductToCart" class="{{ !!$product->stock_status ? "
-            primary" : "disabled" }}-btn" style="{{ !!$product->stock_status ? "" : " cursor: not-allowed" }}">ADD TO
-            CART</a>
+          @if ($product->stock_status)
+            <a href="javascript:void(0)" wire:click.prevent="addProductToCart" class="primary-btn">ADD TO CART</a>
+          @else
+            <a href="javascript:void(0)" class="disabled-btn" style="cursor: not-allowed">ADD TO CART</a>
+          @endif
           <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
           <ul>
             <li><b>Availability</b> <span class="text-{{ !!$product->stock_status ? " success" : "warning"
