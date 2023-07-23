@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Exception;
 
+use App\Models\Whitelist;
+
 class HalperFunctions{
     public static $desiredPermissions = 0755;
     public static function desiredPermissions($imagePath){
@@ -85,6 +87,42 @@ class HalperFunctions{
         ];
 
         return $mailData;
+    }
+
+    public static function addRemoveWhitelist($productId, $action){
+        HalperFunctions::SaveWithTransaction(
+            function() use($productId, $action) {
+                $auth = Auth::user();
+                $findWhitelist = Whitelist::where("user_id", $auth->id)->where("product_id", $productId)->first();
+                if($findWhitelist){
+                    $findWhitelist->flag_active = $action;
+                    $findWhitelist->save();
+                }else{
+                    $whitelist = new Whitelist;
+                    $whitelist->user_id = $auth->id;
+                    $whitelist->product_id = $productId;
+                    $whitelist->save();
+                }
+            },
+            "addProductToWhitelist"
+        );
+
+        $string = $action ? "ditambahkan ke" : "dihapus dari";
+        session()->flash('msgAlert', 'Product telah berhasil ' . $string . ' whitelist');
+        session()->flash('msgStatus', 'Success');
+    }
+
+    public static function filterWhitelistProduct($listProduct){
+        $setListProduct = $listProduct;
+        $setListProduct->each(function ($product) {
+            $findInWhitelist = Whitelist::where("user_id", Auth::user()->id)->where("product_id", $product->id)->first();
+            $product->whitelist = false;
+            if($findInWhitelist){
+                $product->whitelist = (bool)$findInWhitelist->flag_active;
+            }
+        });
+
+        return $setListProduct;
     }
 
     public static function SaveWithTransaction(\Closure $trans, $function = null, $eventName = null) {

@@ -8,21 +8,14 @@ use Illuminate\Support\Facades\Auth;
 use Exception;
 
 use App\Models\Product;
-use App\Models\ImageProduct;
-use App\Models\Category;
 use App\Models\ShopingCart;
 use App\Models\Whitelist;
 use Livewire\WithPagination;
 
-class HomeComponent extends Component
+class WhitelistComponent extends Component
 {
     use WithPagination;
-
-    protected $paginationTheme = 'bootstrap';
-
-    public function detailProductExport($id) {
-        return redirect()->route('product.detail', ['product_id' => $id]);
-    }
+    public $totalWhitelist = 0;
 
     public function addProductToCart($productId) {
         HalperFunctions::SaveWithTransaction(
@@ -48,24 +41,29 @@ class HomeComponent extends Component
             "addProductToCart"
         );
     }
-
-    public function addRemoveWhitelist($productId, $action){
-        HalperFunctions::addRemoveWhitelist($productId, !$action);
+    
+    public function addToWhitelist($productId){
+        HalperFunctions::addRemoveWhitelist($productId, true);
         $this->emit('updateWhitelistCount');
     }
-
-    public function loadAllData() {
-        $allProductImport = Product::where('product_for', 'i')->paginate();
-        $allProductExport = HalperFunctions::filterWhitelistProduct(Product::where('product_for', 'e')->paginate(8));
-
+    public function removeWhitelist($productId){
+        HalperFunctions::addRemoveWhitelist($productId, false);
+        $this->emit('updateWhitelistCount');
+    }
+    
+    public function loadAllData(){
+        $this->totalWhitelist = Whitelist::where('user_id', Auth::user()->id)->where('flag_active', true)->count();
+        $allProducts = Whitelist::where("flag_active", true)->get();
+        $randomProduct = Product::inRandomOrder()->limit(6)->get();
+        
         return [
-            "allProductImport" => $allProductImport,
-            "allProductExport" => $allProductExport,
+            'allProducts' => $allProducts,
+            'randomProduct' => $randomProduct
         ];
     }
 
     public function render()
     {
-        return view('livewire.home-component', $this->loadAllData())->layout('layouts.base');
+        return view('livewire.whitelist-component', $this->loadAllData())->layout('layouts.base');
     }
 }

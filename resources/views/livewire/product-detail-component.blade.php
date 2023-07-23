@@ -148,13 +148,14 @@
       @foreach ($randomProduct as $product)
       <div class="col-lg-3 col-md-4 col-sm-6">
         <div class="product__item mb-0">
-          <div wire:click='detailProductExport({{ $product->id }})' style="cursor: pointer"
+          <div style="cursor: pointer"
             class="product__item__pic2 set-bg"
             data-setbg="{{ asset('storage/'. colName('pr') . $product->image->image) }}"
             style="background-image: url(&quot;{{ asset('storage/'. colName('pr') . $product->image->image) }}&quot;);">
             <ul class="product__item__pic__hover">
               <li><a href="#"><i class="fa fa-heart"></i></a></li>
-              <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+              <li><a wire:click.prevent='addNewToCart({{ $product->id }})' href="javascript:void(0)"><i class="fa fa-shopping-cart"></i></a></li>
+              <li><a href="{{ route('product.detail', ['product_id' => $product->id]) }}"><i class="fa fa-share"></i></a></li>
             </ul>
           </div>
           <div class="product__item__text">

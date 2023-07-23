@@ -41,18 +41,25 @@ class ShopComponent extends Component
             "addProductToCart"
         );
     }
+    
+    public function addRemoveWhitelist($productId, $action){
+        HalperFunctions::addRemoveWhitelist($productId, !$action);
+        $this->emit('updateWhitelistCount');
+    }
 
     public function loadAllData(){
-        $allProducts = Product::paginate(12);
-        $latestProducts = Product::orderBy("created_at", "desc")->paginate(6);
+        $allProducts = HalperFunctions::filterWhitelistProduct(Product::paginate(12));
+        $latestProducts = HalperFunctions::filterWhitelistProduct(Product::orderBy("created_at", "desc")->paginate(6));
         $ltsProdCollection = $latestProducts->getCollection();
         $ltsProd1 = $ltsProdCollection->take(3);
         $ltsProd2 = $ltsProdCollection->skip(3)->take(3);
+        $saleOffProducts = HalperFunctions::filterWhitelistProduct(Product::whereNotNull("sale_price")->inRandomOrder()->take(6)->get());
         
         return [
             "allProducts" => $allProducts,
             "ltsProd1" => $ltsProd1,
             "ltsProd2" => $ltsProd2,
+            "saleOffProducts" => $saleOffProducts
         ];
     }
 

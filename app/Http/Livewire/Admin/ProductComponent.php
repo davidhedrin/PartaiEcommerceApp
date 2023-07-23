@@ -249,6 +249,13 @@ class ProductComponent extends Component
     }
 
     public function saveUpdateProdut($id) {
+        $this->validate([
+            'name' => 'required',
+            'product_for' => 'required',
+            'description' => 'required',
+            'imageEditView' => 'required',
+            'sku' => 'required',
+        ]);
         HalperFunctions::SaveWithTransaction(
             function () use ($id) {
                 $product = Product::find($id);
@@ -290,15 +297,17 @@ class ProductComponent extends Component
                     return $img[$this->model_image];
                 })->values()->all();
                 $getAllImages = storage_path('app/'. HalperFunctions::colName('pr') . $imgProduct->folder_name);
-                $files = File::allFiles($getAllImages);
-                $allImages = collect($files)->map(function ($file){
-                    return $file->getFilename();
-                })->values()->all();
-
-                $resultImages = array_diff($allImages, $currentImages);
-
-                foreach($resultImages as $img){
-                    Storage::delete(HalperFunctions::colName('pr') . $imgProduct->folder_name . '/' . $img);
+                if (is_dir($getAllImages)) {
+                    $files = File::allFiles($getAllImages);
+                    $allImages = collect($files)->map(function ($file){
+                        return $file->getFilename();
+                    })->values()->all();
+    
+                    $resultImages = array_diff($allImages, $currentImages);
+    
+                    foreach($resultImages as $img){
+                        Storage::delete(HalperFunctions::colName('pr') . $imgProduct->folder_name . '/' . $img);
+                    }
                 }
                 
                 if($this->imageEdit){

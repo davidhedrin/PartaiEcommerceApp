@@ -108,10 +108,10 @@ if (
     <div class="humberger__menu__cart">
       <ul class="mb-2">
         <li>
-          <a href="#">
+          <a href="{{ route('whitelist') }}">
             <i class="fa fa-heart"></i>
             @if (Auth::user())
-            <span>1</span>
+            <span><livewire:component.whitelist-counter></span>
             @endif
           </a>
         </li>
@@ -245,10 +245,10 @@ if (
           <div class="header__cart">
             <ul>
               <li>
-                <a href="#">
+                <a href="{{ route('whitelist') }}">
                   <i class="fa fa-heart"></i>
                   @if (Auth::user())
-                  <span>1</span>
+                  <span><livewire:component.whitelist-counter></span>
                   @endif
                 </a>
               </li>

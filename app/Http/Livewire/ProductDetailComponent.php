@@ -60,6 +60,31 @@ class ProductDetailComponent extends Component
         }
     }
 
+    public function addNewToCart($productId){
+        HalperFunctions::SaveWithTransaction(
+            function() use($productId) {
+                $userId = Auth::user()->id;
+                $findProduct = ShopingCart::where("user_id", $userId)->where("product_id", $productId)->first();
+
+                if($findProduct){
+                    $findProduct->qty++;
+                    $findProduct->save();
+                }else{
+                    $product = new ShopingCart;
+                    $product->user_id = $userId;
+                    $product->product_id = $productId;
+                    $product->qty = 1;
+                    $product->save();
+                }
+
+                session()->flash('msgAlert', 'Product berhasil ditambahkan ke keranjang');
+                session()->flash('msgStatus', 'Success');
+                return redirect()->route('shoping-cart');
+            },
+            "addProductToCart"
+        );
+    }
+
     public function loadAllData() {
         $getProduct;
         $randomProduct = Product::inRandomOrder()->limit(6)->get();

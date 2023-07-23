@@ -1,7 +1,18 @@
 <div>
+  <style>
+    .set-icon-whitelist {
+      background: #17966b !important;
+      background-color: #17966b !important;
+      border: none !important;
+    }
+    .set-icon-whitelist i {
+      color:white !important;
+    }
+  </style>
+
   @include('livewire.component.toast-alert')
 
-  <div class="hero__item__right set-bg" data-setbg="{{ asset('banner/banner.png') }}">
+  <div wire:ignore class="hero__item__right set-bg" data-setbg="{{ asset('banner/banner.png') }}">
     <div class="hero__text">
       <span>Welcome To</span>
       <h2>JAKARTA TRADING</h2>
@@ -20,12 +31,11 @@
   </div>
   {{-- Slider product --}}
   @if (count($allProductImport) > 0)
-  <div class="row pb-4">
+  <div wire:ignore class="row pb-4">
     <div class="categories__slider owl-carousel">
       @foreach ($allProductImport as $product)
       <div class="col-lg-3">
-        <div class="categories__item set-bg"
-          data-setbg="{{ asset('storage/'. colName('pr') . $product->image->image) }}">
+        <div class="categories__item set-bg" data-setbg="{{ asset('storage/'. colName('pr') . $product->image->image) }}">
           <h5><a href="{{ route('product.detail', ['product_id' =>$product->id]) }}">{{ $product->name }}</a></h5>
         </div>
       </div>
@@ -59,12 +69,10 @@
     @foreach ($allProductExport as $product)
     <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
       <div class="featured__item">
-        <div style="cursor: pointer"
-          class="featured__item__pic set-bg"
-          data-setbg="{{ asset('storage/'. colName('pr') . $product->image->image) }}">
+        <div style="cursor: pointer; background-image: url({{ asset('storage/'. colName('pr') . $product->image->image) }});" class="featured__item__pic set-bg" data-setbg="{{ asset('storage/'. colName('pr') . $product->image->image) }}">
           <ul class="featured__item__pic__hover">
-            <li><a href="#"><i class="fa fa-heart"></i></a></li>
-            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+            <li><a class="{{ $product->whitelist ? "set-icon-whitelist" : "" }}" wire:click.prevent='addRemoveWhitelist({{ $product->id }}, {{ $product->whitelist != null ? $product->whitelist : 0 }})' href="javascript:void(0)"><i class="fa fa-heart"></i></a></li>
+            <li><a wire:click.prevent='addProductToCart({{ $product->id }})' href="javascript:vodi(0)"><i class="fa fa-shopping-cart"></i></a></li>
             <li><a href="{{ route('product.detail', ['product_id' =>$product->id]) }}"><i class="fa fa-share"></i></a></li>
           </ul>
         </div>

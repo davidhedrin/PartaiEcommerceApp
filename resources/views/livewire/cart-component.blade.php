@@ -44,6 +44,7 @@
                 <th>Price</th>
                 <th>Quantity/Kg</th>
                 <th>Total</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -83,7 +84,7 @@
               @empty
                 <tr>
                   <td colspan="4" class="text-center">
-                    No Product In Cart
+                    <span style="font-style: italic">No Product In Cart</span>
                   </td>
                 </tr>
               @endforelse
