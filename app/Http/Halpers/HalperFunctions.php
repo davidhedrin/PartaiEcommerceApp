@@ -113,14 +113,17 @@ class HalperFunctions{
     }
 
     public static function filterWhitelistProduct($listProduct){
+        $auth = Auth::user();
         $setListProduct = $listProduct;
-        $setListProduct->each(function ($product) {
-            $findInWhitelist = Whitelist::where("user_id", Auth::user()->id)->where("product_id", $product->id)->first();
-            $product->whitelist = false;
-            if($findInWhitelist){
-                $product->whitelist = (bool)$findInWhitelist->flag_active;
-            }
-        });
+        if($auth){
+            $setListProduct->each(function ($product) use($auth) {
+                $findInWhitelist = Whitelist::where("user_id", $auth->id)->where("product_id", $product->id)->first();
+                $product->whitelist = false;
+                if($findInWhitelist){
+                    $product->whitelist = (bool)$findInWhitelist->flag_active;
+                }
+            });
+        }
 
         return $setListProduct;
     }

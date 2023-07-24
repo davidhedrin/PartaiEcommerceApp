@@ -119,42 +119,73 @@
       </div>
     </div>
     <div class="col-lg-9 col-md-7">
+      @if ($saleOffProducts->count() > 0)
       <div class="product__discount">
-        <div class="section-title product__discount__title">
+        <div class="section-title product__discount__title" style="margin-bottom: 40px">
           <h2>Sale Off</h2>
         </div>
-        <div class="row">
-          <div class="product__discount__slider owl-carousel">
-            @foreach ($saleOffProducts as $product)
-              <div class="col-lg-4">
-                <div class="product__discount__item">
-                  <div class="product__discount__item__pic set-bg"
-                    data-setbg="{{ asset('storage/' . colName('pr') . $product->image->image) }}"
-                    style="background-image: url('{{ asset('storage/' . colName('pr') . $product->image->image) }}')">
-                    <div class="product__discount__percent">
-                      -{{ round(($product->sale_price / $product->regular_price) * 100) }}%
-                    </div>
-                    <ul class="product__item__pic__hover">
-                      <li><a class="{{ $product->whitelist ? "set-icon-whitelist" : "" }}" wire:click.prevent='addRemoveWhitelist({{ $product->id }}, {{ $product->whitelist != null ? $product->whitelist : 0 }})' href="javascript:void(0)"><i class="fa fa-heart"></i></a></li>
-                      <li><a wire:click.prevent='addProductToCart({{ $product->id }})' href="javascript:void(0)"><i class="fa fa-shopping-cart"></i></a></li>
-                      <li><a href="{{ route('product.detail', ['product_id' => $product->id]) }}"><i class="fa fa-share"></i></a></li>
-                    </ul>
+        <div wire:ignore class="filter__item" style="border-top: none; padding-top: 0; padding-bottom: 20px">
+          <div class="row">
+            <div class="col-lg-4 col-md-5">
+              <div class="filter__sort">
+                <span>Sort By</span>
+                <select>
+                  <option value="">Default</option>
+                  <option value="1">Name</option>
+                  <option value="2">Price</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4">
+              <div class="filter__found">
+                <h6><span>16</span> Products found</h6>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-3">
+              <div class="filter__option">
+                <span class="icon_grid-2x2"></span>
+                <span class="icon_ul"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-4">
+          @foreach ($saleOffProducts as $product)
+            <div class="col-lg-4 col-md-6 col-sm-6">
+              <div class="product__discount__item">
+                <div class="product__discount__item__pic set-bg"
+                  data-setbg="{{ asset('storage/' . colName('pr') . $product->image->image) }}"
+                  style="background-image: url('{{ asset('storage/' . colName('pr') . $product->image->image) }}')">
+                  <div class="product__discount__percent">
+                    -{{ round(($product->sale_price / $product->regular_price) * 100) }}%
                   </div>
-                  <div class="product__discount__item__text">
-                    <span>{{ $product->product_for == "i" ? "Import" : "Export" }}</span>
-                    <h5><a href="{{ route('product.detail', ['product_id' => $product->id]) }}">{{ $product->name }}</a></h5>
-                    <div class="product__item__price">
-                      {{ currency_IDR($product->regular_price-$product->sale_price) }}
-                      <span>{{ currency_IDR($product->regular_price) }}</span>
-                    </div>
+                  <ul class="product__item__pic__hover">
+                    <li><a class="{{ $product->whitelist ? "set-icon-whitelist" : "" }}" wire:click.prevent='addRemoveWhitelist({{ $product->id }}, {{ $product->whitelist != null ? $product->whitelist : 0 }})' href="javascript:void(0)"><i class="fa fa-heart"></i></a></li>
+                    <li><a wire:click.prevent='addProductToCart({{ $product->id }})' href="javascript:void(0)"><i class="fa fa-shopping-cart"></i></a></li>
+                    <li><a href="{{ route('product.detail', ['product_id' => $product->id]) }}"><i class="fa fa-share"></i></a></li>
+                  </ul>
+                </div>
+                <div class="product__discount__item__text">
+                  <span>{{ $product->product_for == "i" ? "Import" : "Export" }}</span>
+                  <h5><a href="{{ route('product.detail', ['product_id' => $product->id]) }}">{{ $product->name }}</a></h5>
+                  <div class="product__item__price">
+                    {{ currency_IDR($product->regular_price-$product->sale_price) }}
+                    <span>{{ currency_IDR($product->regular_price) }}</span>
                   </div>
                 </div>
               </div>
-            @endforeach
-          </div>
+            </div>
+          @endforeach
+        </div>
+        <div>
+          {{ $saleOffProducts->links() }}
         </div>
       </div>
-      <div wire:ignore class="filter__item">
+      @endif
+      <div wire:ignore class="filter__item" style="padding-top: 25px;">
+        <div class="section-title product__discount__title" style="margin-bottom: 40px">
+          <h2>Products</h2>
+        </div>
         <div class="row">
           <div class="col-lg-4 col-md-5">
             <div class="filter__sort">
@@ -184,6 +215,11 @@
           <div class="col-lg-4 col-md-6 col-sm-6 mb-5">
             <div class="product__discount__item">
               <div class="product__discount__item__pic set-bg" data-setbg="{{ asset('storage/' . colName('pr') . $product->image->image) }}" style="background-image: url('{{ asset('storage/' . colName('pr') . $product->image->image) }}');">
+                @if ($product->sale_price)
+                <div class="product__discount__percent">
+                  -{{ round(($product->sale_price / $product->regular_price) * 100) }}%
+                </div>
+                @endif
                 <ul class="product__item__pic__hover">
                   <li><a href="#"><i class="fa fa-heart"></i></a></li>
                   <li><a wire:click.prevent='addProductToCart({{ $product->id }})' href="javascript:void(0)"><i class="fa fa-shopping-cart"></i></a></li>
@@ -193,7 +229,14 @@
               <div class="product__discount__item__text">
                 <span>{{ $product->product_for == "i" ? "Import" : "Export" }}</span>
                 <h5><a href="{{ route('product.detail', ['product_id' => $product->id]) }}">{{ $product->name }}</a></h5>
-                <div class="product__item__price">{{ currency_IDR($product->regular_price) }}</div>
+                <div class="product__item__price">
+                  @if ($product->sale_price)
+                  {{ currency_IDR($product->regular_price-$product->sale_price) }}
+                  <span>{{ currency_IDR($product->regular_price) }}</span>
+                  @else
+                  {{ currency_IDR($product->regular_price) }}
+                  @endif
+                </div>
               </div>
             </div>
           </div>

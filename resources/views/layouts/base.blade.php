@@ -477,6 +477,7 @@ if (
       $('#overlay-bg-toast').hide();
     }
   </script>
+  @stack('scripts')
   @livewireScripts
 </body>
 

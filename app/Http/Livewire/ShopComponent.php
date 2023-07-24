@@ -48,12 +48,12 @@ class ShopComponent extends Component
     }
 
     public function loadAllData(){
-        $allProducts = HalperFunctions::filterWhitelistProduct(Product::paginate(12));
+        $allProducts = HalperFunctions::filterWhitelistProduct(Product::paginate(12, ['*'], 'all-products'));
         $latestProducts = HalperFunctions::filterWhitelistProduct(Product::orderBy("created_at", "desc")->paginate(6));
         $ltsProdCollection = $latestProducts->getCollection();
         $ltsProd1 = $ltsProdCollection->take(3);
         $ltsProd2 = $ltsProdCollection->skip(3)->take(3);
-        $saleOffProducts = HalperFunctions::filterWhitelistProduct(Product::whereNotNull("sale_price")->inRandomOrder()->take(6)->get());
+        $saleOffProducts = HalperFunctions::filterWhitelistProduct(Product::whereNotNull("sale_price")->paginate(3, ['*'], 'sale-products'));
         
         return [
             "allProducts" => $allProducts,

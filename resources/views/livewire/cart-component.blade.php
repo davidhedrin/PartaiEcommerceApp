@@ -56,11 +56,23 @@
                   <td class="shoping__cart__item">
                     <a href="{{ route('product.detail', ['product_id' => $item->product->id]) }}">
                       <img src="{{ asset('storage/' . colName('pr') . $item->product->image->image) }}" alt="" class="image-product">
-                      <span style="color: black">{{ $item->product->name }}</span>
+                      <span style="color: black">
+                        {{ $item->product->name }}
+                        @if ($item->product->sale_price)
+                        <span class="badge badge-pill badge-danger" style="font-size: small">
+                          -{{ round(($item->product->sale_price / $item->product->regular_price) * 100) }}%
+                        </span>
+                        @endif
+                      </span>
                     </a>
                   </td>
                   <td>
+                    @if ($item->product->sale_price)
+                    <s style="font-size: small;">{{ currency_IDR($item->product->regular_price) }}</s><br/>
+                    {{ currency_IDR($item->product->regular_price-$item->product->sale_price) }}
+                    @else
                     {{ currency_IDR($item->product->regular_price) }}
+                    @endif
                   </td>
                   <td class="shoping__cart__quantity">
                     <div class="quantity">
@@ -79,7 +91,11 @@
                   </td>
                 </tr>
                 @php
+                  if($item->product->sale_price){
+                    $totalPrice += ($item->product->regular_price-$item->product->sale_price) * $item->qty;
+                  }else {
                     $totalPrice += $item->product->regular_price * $item->qty;
+                  }
                 @endphp
               @empty
                 <tr>

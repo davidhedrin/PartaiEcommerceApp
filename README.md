@@ -1,4 +1,14 @@
-**Tahap instalasi project laravel**
+**Tahap instalasi project laravel baru**
+1. Pastikan sudah menginstall sofware seperti:
+    - xampp: Configurasi config.php file uncomment bagian extantion
+    - composer
+    - node.js
+2. Buka cmd ketik 'composer create-project laravel/laravel *example-app*'
+3. Jika ingin menggunakan Livewire, masuk ke folder project ketik 'composer require livewire/livewire'
+    - Tambahkan '@livewireStyles' pada header dan '@livewireScripts' pada bawah body
+4. Jika ingin menggunakan auth bawaan default Laravel lihat dokumentasi Laravel Breeze, Jetstream, dan Fortify. (Opsional)
+
+**Tahap instalasi project laravel dari repository**
 1. Buka cmd ketik 'composer install' untuk download Vendor File
 2. Buka cmd ketik 'composer require livewire/livewire' (Jika menggunakan livewire).
 3. Jalankan 'composer require laravel/ui', Jika menggunakan Auth::routes. Kemudian 'php artisan ui bootstrap' & 'php artisan ui bootstrap --auth' Jika menggunakan tampilan auth bootsrap
