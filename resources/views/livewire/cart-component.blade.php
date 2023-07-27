@@ -48,9 +48,6 @@
               </tr>
             </thead>
             <tbody>
-              @php
-                  $totalPrice = 0;
-              @endphp
               @forelse ($products as $item)
                 <tr>
                   <td class="shoping__cart__item">
@@ -84,7 +81,7 @@
                     </div>
                   </td>
                   <td>
-                    {{ currency_IDR($item->product->regular_price * $item->qty) }}
+                    {{ currency_IDR(($item->product->regular_price-$item->product->sale_price) * $item->qty) }}
                   </td>
                   <td class="shoping__cart__item__close">
                     <span wire:click='deleteProductCart({{ $item->id }})' class="icon_close"></span>
@@ -128,7 +125,7 @@
           <ul>
             <li class="none">Subtotal <span>{{ currency_IDR($totalPrice) }}</span></li>
             <li class="need">PPN 5&#37; <span>{{ currency_IDR($totalPrice * 0.05) }}</span></li>
-            <li class="need">Total <span class="text-danger">{{ currency_IDR($totalPrice + $totalPrice * 0.05) }}</span></li>
+            <li class="need">Total <span class="text-danger">{{ currency_IDR($totalPrice + ($totalPrice * 0.05)) }}</span></li>
           </ul>
           @if ($products->count() > 0)
             <a href="javascript:void(0)" class="primary-btn">PROCEED TO CHECKOUT</a>

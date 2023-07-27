@@ -56,20 +56,7 @@
     }
   </style>
 
-  @if (Session::has('msgAlert'))
-    <div class="bs-toast toast toast-placement-ex m-2 fade top-0 end-0 show" role="alert" aria-live="assertive"
-      aria-atomic="true" data-delay="2000" style="background-color: white !important;">
-      <div class="toast-header">
-        <img src="{{ asset('assets/img/logo.png') }}" class="rounded mr-2" alt="" width="50px">
-        <div class="me-auto fw-semibold"></div>
-        <small class="text-{{ strtolower(Session::get('msgStatus')) }}">{{ Session::get('msgStatus') }}</small>
-        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-      </div>
-      <div class="toast-body">
-        {{ Session::get('msgAlert') }}
-      </div>
-    </div>
-  @endif
+  @include('livewire.component.toast-alert-admin')
 
   <h5 class="fw-bold mb-4">
     <span class="text-muted fw-light">Ecommere /</span> Products
@@ -85,7 +72,7 @@
     <h5 class="card-header">All Product</h5>
     <div class="row mb-3 px-3">
       <div class="col-md-2">
-        <select wire:model="countShowProduct" class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
+        <select wire:model="countShowProduct" class="form-select" aria-label="Default select example">
           <option value="5" selected>5 Product</option>
           <option value="10">10 Product</option>
           <option value="50">50 Product</option>

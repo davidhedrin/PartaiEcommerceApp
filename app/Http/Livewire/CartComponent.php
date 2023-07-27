@@ -12,6 +12,8 @@ use App\Models\ShopingCart;
 
 class CartComponent extends Component
 {
+    public $totalPrice = 0, $ppn = 0;
+
     public function decreaseQty($id, $qty){
         if($qty > 1){
             $findProduct = ShopingCart::find($id);

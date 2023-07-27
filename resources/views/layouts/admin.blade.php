@@ -18,8 +18,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
   <title>{{ env('APP_NAME') }} - Dashboard</title>
 
@@ -35,8 +34,7 @@
 
   <link rel="stylesheet" href="{{ asset('assetz/vendor/fonts/boxicons.css') }}" />
   <link rel="stylesheet" href="{{ asset('assetz/vendor/css/core.css') }}" class="template-customizer-core-css" />
-  <link rel="stylesheet" href="{{ asset('assetz/vendor/css/theme-default.css') }}"
-    class="template-customizer-theme-css" />
+  <link rel="stylesheet" href="{{ asset('assetz/vendor/css/theme-default.css') }}" class="template-customizer-theme-css" />
   <link rel="stylesheet" href="{{ asset('assetz/css/demo.css') }}" />
   <link rel="stylesheet" href="{{ asset('assetz/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
   <link rel="stylesheet" href="{{ asset('assetz/vendor/libs/apex-charts/apex-charts.css') }}" />
@@ -128,23 +126,11 @@
               <div data-i18n="Tables">Kategori</div>
             </a>
           </li>
-          <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <li class="menu-item {{ $curRouteName == 'adm-voucher' ? 'active' : '' }}">
+            <a href="{{ route('adm-voucher') }}" class="menu-link">
               <i class='menu-icon tf-icons bx bxs-discount'></i>
               <div data-i18n="Form Layouts">Voucher</div>
             </a>
-            <ul class="menu-sub">
-              <li class="menu-item">
-                <a href="form-layouts-vertical.html" class="menu-link">
-                  <div data-i18n="Vertical Form">Ongkir</div>
-                </a>
-              </li>
-              <li class="menu-item">
-                <a href="form-layouts-horizontal.html" class="menu-link">
-                  <div data-i18n="Horizontal Form">Diskon</div>
-                </a>
-              </li>
-            </ul>
           </li>
           <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link">
@@ -186,8 +172,7 @@
       </aside>
 
       <div class="layout-page">
-        <nav
-          class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+        <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
           id="layout-navbar">
           <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
             <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">

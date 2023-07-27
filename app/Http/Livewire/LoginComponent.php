@@ -97,16 +97,9 @@ class LoginComponent extends Component
         $this->dispatchBrowserEvent('action-loading', ['actionFor' => true]);
         try{
             $user = User::where('email', $this->emailLogin)->first();
-            $throttleKey = $this->emailLogin;
+            $throttleKey = $this->emailLogin . "loginUser";
 
-            if(RateLimiter::tooManyAttempts($throttleKey, 3)){
-                $seconds  = RateLimiter::availableIn($throttleKey);
-                session()->flash('msgAlert', 'Maaf, percobaan login telah melewati batas! Coba lagi dalam waktu 1 Menit');
-                session()->flash('msgStatus', 'Warning');
-                return;
-            }
-            
-            RateLimiter::hit($throttleKey);
+            HalperFunctions::HitRateLimit($throttleKey, 3, 1);
 
             if($user){
                 if(Hash::check($this->passwordLogin, $user->password)){

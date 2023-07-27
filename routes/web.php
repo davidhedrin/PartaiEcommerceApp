@@ -20,6 +20,7 @@ use App\Http\Livewire\Admin\CategoryComponent;
 use App\Http\Livewire\Admin\ProductComponent;
 use App\Http\Livewire\Admin\EcomSettingComponent;
 use App\Http\Livewire\Admin\OtpVerfyComponent;
+use App\Http\Livewire\Admin\VoucherComponent;
 
 Auth::routes([
   'login' => false,
@@ -62,6 +63,7 @@ Route::middleware(['auth:sanctum', 'verified', 'auth_admin'])->group(function ()
   Route::get('/admin-category', CategoryComponent::class)->name('adm-category');
   Route::get('/admin-product', ProductComponent::class)->name('adm-product');
   Route::get('/admin-ecomsetting', EcomSettingComponent::class)->name('adm-ecomsetting');
+  Route::get('/admin-voucher', VoucherComponent::class)->name('adm-voucher');
 });
 
 // Function for layouts

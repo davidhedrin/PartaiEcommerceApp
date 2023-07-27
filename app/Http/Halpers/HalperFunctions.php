@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Http\Halpers;
-use App\Models\LogError;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Exception;
 
+use App\Models\LogError;
 use App\Models\Whitelist;
 
 class HalperFunctions{
@@ -126,6 +127,18 @@ class HalperFunctions{
         }
 
         return $setListProduct;
+    }
+
+    public static function HitRateLimit($throttleKey, $limit, $timeMinute){
+        if(RateLimiter::tooManyAttempts($throttleKey, $limit)){
+            $seconds  = RateLimiter::availableIn($throttleKey, $timeMinute * 60);
+            $displayMinutes = ceil($seconds / 60);
+            session()->flash('msgAlert', "Maaf, percobaan login telah melewati batas! Coba lagi dalam waktu $displayMinutes Menit");
+            session()->flash('msgStatus', 'Warning');
+            return;
+        }
+        
+        RateLimiter::hit($throttleKey);
     }
 
     public static function SaveWithTransaction(\Closure $trans, $function = null, $eventName = null) {
