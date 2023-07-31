@@ -9,6 +9,11 @@
       height: 150px;
       object-fit: cover !important;
     }
+    
+    .set-icon-whitelist {
+      background: #17966b !important;
+      color: white !important;
+    }
 
     @media only screen and (max-width: 600px) {
       .carous_img_product {
@@ -84,7 +89,7 @@
           @else
             <a href="javascript:void(0)" class="disabled-btn" style="cursor: not-allowed">ADD TO CART</a>
           @endif
-          <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+          <a href="javascript:void(0)" wire:click.prevent='addRemoveWhitelist({{ $product->id }}, {{ $product->whitelist != null ? $product->whitelist : 0 }})' class="heart-icon {{ $product->whitelist ? "set-icon-whitelist" : "" }}"><span class="icon_heart_alt"></span></a>
           <ul>
             <li><b>Availability</b> <span class="text-{{ !!$product->stock_status ? " success" : "warning"
                 }}"><strong>{{ !!$product->stock_status ? "In Stock" : "Out Stock" }}</strong></span></li>

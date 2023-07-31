@@ -25,37 +25,45 @@ class HomeComponent extends Component
     }
 
     public function addProductToCart($productId) {
-        HalperFunctions::SaveWithTransaction(
-            function() use($productId) {
-                $userId = Auth::user()->id;
-                $findProduct = ShopingCart::where("user_id", $userId)->where("product_id", $productId)->first();
-
-                if($findProduct){
-                    $findProduct->qty++;
-                    $findProduct->save();
-                }else{
-                    $product = new ShopingCart;
-                    $product->user_id = $userId;
-                    $product->product_id = $productId;
-                    $product->qty = 1;
-                    $product->save();
-                }
-
-                session()->flash('msgAlert', 'Product berhasil ditambahkan ke keranjang');
-                session()->flash('msgStatus', 'Success');
-                return redirect()->route('shoping-cart');
-            },
-            "addProductToCart"
-        );
+        if(Auth::user()){
+            HalperFunctions::SaveWithTransaction(
+                function() use($productId) {
+                    $userId = Auth::user()->id;
+                    $findProduct = ShopingCart::where("user_id", $userId)->where("product_id", $productId)->first();
+    
+                    if($findProduct){
+                        $findProduct->qty++;
+                        $findProduct->save();
+                    }else{
+                        $product = new ShopingCart;
+                        $product->user_id = $userId;
+                        $product->product_id = $productId;
+                        $product->qty = 1;
+                        $product->save();
+                    }
+    
+                    session()->flash('msgAlert', 'Product berhasil ditambahkan ke keranjang');
+                    session()->flash('msgStatus', 'Success');
+                    return redirect()->route('shoping-cart');
+                },
+                "addProductToCart"
+            );
+        }else{
+            return redirect()->route('login');
+        }
     }
 
     public function addRemoveWhitelist($productId, $action){
-        $throttleKey = request()->ip() . "addRemoveWhitelist". $productId;
-        $rateLimitNotExceeded = HalperFunctions::HitRateLimit($throttleKey, 5, 1);
-        if (!$rateLimitNotExceeded) return;
-
-        HalperFunctions::addRemoveWhitelist($productId, !$action);
-        $this->emit('updateWhitelistCount');
+        if(Auth::user()){
+            $throttleKey = request()->ip() . "addRemoveWhitelist". $productId;
+            $rateLimitNotExceeded = HalperFunctions::HitRateLimit($throttleKey, 5, 1);
+            if (!$rateLimitNotExceeded) return;
+    
+            HalperFunctions::addRemoveWhitelist($productId, !$action);
+            $this->emit('updateWhitelistCount');
+        }else{
+            return redirect()->route('login');
+        }
     }
 
     public function loadAllData() {

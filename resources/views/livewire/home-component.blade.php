@@ -69,7 +69,7 @@
     @foreach ($allProductExport as $product)
     <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
       <div class="featured__item">
-        <div style="cursor: pointer; background-image: url({{ asset('storage/'. colName('pr') . $product->image->image) }});" class="featured__item__pic set-bg" data-setbg="{{ asset('storage/'. colName('pr') . $product->image->image) }}">
+        <div style="background-image: url({{ asset('storage/'. colName('pr') . $product->image->image) }});" class="featured__item__pic set-bg" data-setbg="{{ asset('storage/'. colName('pr') . $product->image->image) }}">
           <ul class="featured__item__pic__hover">
             <li><a class="{{ $product->whitelist ? "set-icon-whitelist" : "" }}" wire:click.prevent='addRemoveWhitelist({{ $product->id }}, {{ $product->whitelist != null ? $product->whitelist : 0 }})' href="javascript:void(0)"><i class="fa fa-heart"></i></a></li>
             <li><a wire:click.prevent='addProductToCart({{ $product->id }})' href="javascript:vodi(0)"><i class="fa fa-shopping-cart"></i></a></li>
