@@ -94,12 +94,12 @@ class LoginComponent extends Component
             'passwordLogin' => 'required|min:6'
         ]);
 
-        $this->dispatchBrowserEvent('action-loading', ['actionFor' => true]);
+        // $this->dispatchBrowserEvent('action-loading', ['actionFor' => true]);
         try{
             $user = User::where('email', $this->emailLogin)->first();
-            $throttleKey = $this->emailLogin . "loginUser";
-
-            HalperFunctions::HitRateLimit($throttleKey, 3, 1);
+            $throttleKey = $this->emailLogin . request()->ip() . "loginUser";
+            $rateLimitNotExceeded = HalperFunctions::HitRateLimit($throttleKey, 3, 1);
+            if (!$rateLimitNotExceeded) return;
 
             if($user){
                 if(Hash::check($this->passwordLogin, $user->password)){
@@ -152,15 +152,9 @@ class LoginComponent extends Component
 
         $this->dispatchBrowserEvent('action-loading', ['actionFor' => true]);
         try{
-            $throttleKey = request()->ip();
-            if(RateLimiter::tooManyAttempts($throttleKey, 3)){
-                $seconds  = RateLimiter::availableIn($throttleKey);
-                session()->flash('msgAlert', 'Maaf, percobaan login telah melewati batas! Coba lagi dalam waktu 1 Menit');
-                session()->flash('msgStatus', 'Warning');
-                return;
-            }
-            
-            RateLimiter::hit($throttleKey);
+            $throttleKey = request()->ip() . "addRegisterData";
+            $rateLimitNotExceeded = HalperFunctions::HitRateLimit($throttleKey, 3, 1);
+            if (!$rateLimitNotExceeded) return;
 
             $passHash = Hash::make($this->password);
             $user = new User;

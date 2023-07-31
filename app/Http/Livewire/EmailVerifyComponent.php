@@ -17,18 +17,12 @@ class EmailVerifyComponent extends Component
     {
         $this->dispatchBrowserEvent('action-loading', ['actionFor' => true]);
         $user = Auth::user();
-        $throttleKey = $user->email. '|' .request()->ip();
-        if(RateLimiter::tooManyAttempts($throttleKey, 3)){
-            $this->dispatchBrowserEvent('action-loading', ['actionFor' => false]);
-            $seconds  = RateLimiter::availableIn($throttleKey);
-            session()->flash('msgAlert', 'Maaf, percobaan login telah melewati batas! Coba lagi dalam waktu 1 Menit');
-            session()->flash('msgStatus', 'Warning');
-            return;
-        }
+        $throttleKey = $user->email .request()->ip() . "sendEmailVerify";
 
         try{
             event(new Registered($user));
-            RateLimiter::hit($throttleKey);
+            $rateLimitNotExceeded = HalperFunctions::HitRateLimit($throttleKey, 3, 1);
+            if (!$rateLimitNotExceeded) return;
 
             $this->dispatchBrowserEvent('action-loading', ['actionFor' => false]);
             session()->flash('msgAlert', 'Verifikasi Email berhasil dikirim! Periksa email anda dan verifikasi email.');

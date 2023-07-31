@@ -22,6 +22,7 @@ return new class extends Migration
             $table->boolean('product_discont')->nullable(false);
             $table->boolean('flag_active')->default(true);
             $table->integer('min_cart')->nullable();
+            $table->string('image')->nullable();
             $table->enum('for_product', ['i', 'e'])->nullable()->comment('i for Import and e for Export product');
             $table->timestamps();
         });

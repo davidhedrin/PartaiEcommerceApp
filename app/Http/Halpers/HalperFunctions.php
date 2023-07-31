@@ -24,6 +24,7 @@ class HalperFunctions{
         $allCollName = [
             'ct' => 'img_category/',
             'pr' => 'img_product/',
+            'vc' => 'img_voucher/',
             'tes' => 'testing_folder/',
             'ecom_set' => 'ecom_setting.txt',
         ];
@@ -133,12 +134,13 @@ class HalperFunctions{
         if(RateLimiter::tooManyAttempts($throttleKey, $limit)){
             $seconds  = RateLimiter::availableIn($throttleKey, $timeMinute * 60);
             $displayMinutes = ceil($seconds / 60);
-            session()->flash('msgAlert', "Maaf, percobaan login telah melewati batas! Coba lagi dalam waktu $displayMinutes Menit");
+            session()->flash('msgAlert', "Maaf, percobaan telah melewati batas! Coba lagi dalam waktu $displayMinutes menit.");
             session()->flash('msgStatus', 'Warning');
-            return;
+            return false;
         }
         
         RateLimiter::hit($throttleKey);
+        return true;
     }
 
     public static function SaveWithTransaction(\Closure $trans, $function = null, $eventName = null) {

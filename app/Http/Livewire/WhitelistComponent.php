@@ -43,6 +43,10 @@ class WhitelistComponent extends Component
     }
     
     public function addToWhitelist($productId){
+        $throttleKey = request()->ip() . "addToWhitelist" . $productId;
+        $rateLimitNotExceeded = HalperFunctions::HitRateLimit($throttleKey, 3, 1);
+        if (!$rateLimitNotExceeded) return;
+
         HalperFunctions::addRemoveWhitelist($productId, true);
         $this->emit('updateWhitelistCount');
     }

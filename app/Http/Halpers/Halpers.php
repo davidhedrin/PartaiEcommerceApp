@@ -7,6 +7,7 @@ if (!function_exists('colName')){
         $allCollName = [
             'ct' => 'img_category/',
             'pr' => 'img_product/',
+            'vc' => 'img_voucher/',
         ];
         
         return $allCollName[$key] ?? null;

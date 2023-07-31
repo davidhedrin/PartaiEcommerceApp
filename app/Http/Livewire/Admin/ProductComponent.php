@@ -335,6 +335,10 @@ class ProductComponent extends Component
     }
 
     public function activeInActiveProduct($id, $action) {
+        $throttleKey = request()->ip() . "activeInActiveProduct" . $id;
+        $rateLimitNotExceeded = HalperFunctions::HitRateLimit($throttleKey, 5, 2);
+        if (!$rateLimitNotExceeded) return;
+
         $flag_active = $action == 1 ? false : true;
         HalperFunctions::SaveWithTransaction(
             function () use ($id, $flag_active){

@@ -27,15 +27,9 @@ class ForgotPasswordComponent extends Component
             'email' => 'required|email:filter',
         ]);
 
-        $throttleKey = $this->email . request()->ip();
-        if(RateLimiter::tooManyAttempts($throttleKey, 3)){
-            $seconds  = RateLimiter::availableIn($throttleKey);
-            session()->flash('msgAlert', 'Maaf, percobaan login telah melewati batas! Coba lagi dalam waktu 1 Menit');
-            session()->flash('msgStatus', 'Warning');
-            return;
-        }
-        
-        RateLimiter::hit($throttleKey);
+        $throttleKey = $this->email . request()->ip() . "sendLinkResetPass";
+        $rateLimitNotExceeded = HalperFunctions::HitRateLimit($throttleKey, 3, 1);
+        if (!$rateLimitNotExceeded) return;
 
         try{
             $findEmail = User::where('email', $this->email)->first();
