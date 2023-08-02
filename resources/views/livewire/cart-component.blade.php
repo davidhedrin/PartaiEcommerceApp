@@ -5,6 +5,21 @@
       height: 80px;
       object-fit: cover;
     }
+    
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"] {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .delete-voucher{
+      color: grey;
+      cursor: pointer;
+    }
+    .delete-voucher:hover{
+      color: red;
+    }
 
     @media only screen and (max-width: 600px) {
       .image-product{
@@ -75,7 +90,7 @@
                     <div class="quantity">
                       <div class="pro-qty">
                         <a wire:click='decreaseQty({{ $item->id }}, {{ $item->qty }})' href="javascript:void(0)" class="dec qtybtn">-</a>
-                        <input type="text" value="{{ $item->qty }}">
+                        <input wire:change='changeQtyManual({{ $item->id }}, $event.target.value)' wire:keyup='changeQtyManual({{ $item->id }}, $event.target.value)' type="number" value="{{ $item->qty }}" onchange="return preventEmptyInput(event)">
                         <a wire:click='increaseQty({{ $item->id }}, {{ $item->qty }})' href="javascript:void(0)" class="inc qtybtn">+</a>
                       </div>
                     </div>
@@ -87,13 +102,6 @@
                     <span wire:click='deleteProductCart({{ $item->id }})' class="icon_close"></span>
                   </td>
                 </tr>
-                @php
-                  if($item->product->sale_price){
-                    $totalPrice += ($item->product->regular_price-$item->product->sale_price) * $item->qty;
-                  }else {
-                    $totalPrice += $item->product->regular_price * $item->qty;
-                  }
-                @endphp
               @empty
                 <tr>
                   <td colspan="4" class="text-center">
@@ -111,10 +119,10 @@
       <div class="col-lg-6">
         <div class="shoping__continue">
           <div class="shoping__discount mt-0">
-            <h5 class="mb-2">Discount Codes: </h5>
-            <form action="#">
-              <input type="text" placeholder="Enter your coupon code">
-              <button type="submit" class="site-btn">APPLY COUPON</button>
+            <h5 class="mb-2">Voucher Codes: </h5>
+            <form>
+              <input wire:model="inputCouponCode" type="text" placeholder="Enter your coupon code">
+              <button wire:click="applayCouponCode" type="button" class="site-btn" style="background: #31708F">APPLY COUPON</button>
             </form>
           </div>
         </div>
@@ -123,12 +131,16 @@
         <div class="shoping__checkout">
           <h5>Cart Total</h5>
           <ul>
-            <li class="none">Subtotal <span>{{ currency_IDR($totalPrice) }}</span></li>
-            <li class="need">PPN 5&#37; <span>{{ currency_IDR($totalPrice * 0.05) }}</span></li>
-            <li class="need">Total <span class="text-danger">{{ currency_IDR($totalPrice + ($totalPrice * 0.05)) }}</span></li>
+            <li class="none">Subtotal <span>{{ currency_IDR($subTotalPriveAll) }}</span></li>
+            @if ($voucherCode)
+              <li class="none">Voucher :</li>
+              <li class="none">"{{ $voucherCode }}" <i class="fa fa-times delete-voucher" aria-hidden="true" wire:click="deleteCodeVocuher"></i> <span>- {{ currency_IDR($voucherVal) }}</span></li>
+            @endif
+            <li class="need">PPN 5&#37; <span>{{ currency_IDR($ppn) }}</span></li>
+            <li class="need" style="font-size: x-large">Total <span class="text-danger" style="font-size: x-large">{{ currency_IDR($totalPriceToCheckout) }}</span></li>
           </ul>
           @if ($products->count() > 0)
-            <a href="javascript:void(0)" class="primary-btn">PROCEED TO CHECKOUT</a>
+            <a wire:click='processToCheckout' href="javascript:void(0)" class="primary-btn">PROCEED TO CHECKOUT</a>
           @else
             <a href="javascript:void(0)" class="primary-btn" style="background: grey; cursor: not-allowed">PROCEED TO CHECKOUT</a>
           @endif
@@ -137,3 +149,13 @@
     </div>
   </div>
 </div>
+<script>
+  function preventEmptyInput(event) {
+    const inputElement = event.target;
+    const currentValue = inputElement.value;
+
+    if (currentValue.length === 0) {
+      inputElement.value = 1;
+    }
+  }
+</script>

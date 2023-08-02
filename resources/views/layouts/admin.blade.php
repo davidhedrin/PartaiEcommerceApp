@@ -325,6 +325,16 @@
         }
       });
     });
+
+    function copyTextClipboard(text){
+        const $tempInput = $('<input>');
+        $tempInput.val(text);
+
+        $(document.body).append($tempInput);
+        $tempInput.select();
+        document.execCommand('copy');
+        $tempInput.remove();
+    }
   </script>
 
   @stack('scripts')

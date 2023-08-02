@@ -62,7 +62,7 @@
                   <div>Type: <em>{{ $voucher->type }}</em></div>
                   <div>Expired: {{ formatDate("in", $voucher->exp_date) }}</div>
                 </div>
-                <button class="btn btn-sm rounded-pill btn-outline-info" type="button">
+                <button class="btn btn-sm rounded-pill btn-outline-info" type="button" wire:click="copyToClipboard('{{ $voucher->code }}')">
                   <i class='bx bx-copy-alt'></i>
                 </button>
                 <button wire:click="openModalEdit({{ $voucher->id }})" type="button" class="btn rounded-pill btn-sm btn-primary">
@@ -444,6 +444,11 @@
   });
   window.addEventListener('open-edit-modal', event => {
     $('#modalEdit').modal('show');
+  });
+  
+  window.addEventListener('hit-function-copy', event => {
+    var getCode = event.detail.code;
+    copyTextClipboard(getCode);
   });
 </script>
 @push('scripts')

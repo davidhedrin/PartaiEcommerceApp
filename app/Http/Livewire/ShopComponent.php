@@ -18,6 +18,10 @@ class ShopComponent extends Component
     protected $paginationTheme = 'bootstrap';
 
     public function addProductToCart($productId) {
+        $throttleKey = request()->ip() . "addProductToCart" . $productId;
+        $rateLimitNotExceeded = HalperFunctions::HitRateLimit($throttleKey, 5, 1);
+        if (!$rateLimitNotExceeded) return;
+
         if(Auth::user()){
             HalperFunctions::SaveWithTransaction(
                 function() use($productId) {
@@ -47,11 +51,11 @@ class ShopComponent extends Component
     }
     
     public function addRemoveWhitelist($productId, $action){
+        $throttleKey = request()->ip() . "addRemoveWhitelist" . $productId;
+        $rateLimitNotExceeded = HalperFunctions::HitRateLimit($throttleKey, 5, 1);
+        if (!$rateLimitNotExceeded) return;
+
         if(Auth::user()){
-            $throttleKey = request()->ip() . "addRemoveWhitelist" . $productId;
-            $rateLimitNotExceeded = HalperFunctions::HitRateLimit($throttleKey, 5, 1);
-            if (!$rateLimitNotExceeded) return;
-    
             HalperFunctions::addRemoveWhitelist($productId, !$action);
             $this->emit('updateWhitelistCount');
         }else{

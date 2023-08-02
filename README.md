@@ -20,3 +20,6 @@
 9. Buka cmd ketik 'composer dump-autoload' jika ada menambahkan file halper
 10. Ketik printah 'php artisan db:seed' untuk menjalankan semua seeder yg ada di DatabseSeeder secara berurutan atau 'php artisan db:seed --class=*namaSeederDiDatabaseSeeder*' untuk seeder tertentu saja.
 11. Jalankan printah 'php artisan serve'
+
+Taks Progress:
+Continue applay code voucher in cart page

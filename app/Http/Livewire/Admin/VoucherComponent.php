@@ -30,7 +30,7 @@ class VoucherComponent extends Component
 
     public function updated($fields){
         $rules = [
-            'code' => 'required',
+            'code' => 'required|unique:vouchers,code',
             'type' => 'required',
             'exp_date' => 'required',
             'value' => 'required',
@@ -68,7 +68,7 @@ class VoucherComponent extends Component
 
     public function saveNewVoucher(){
         $rules = [
-            'code' => 'required',
+            'code' => 'required|unique:vouchers,code',
             'type' => 'required',
             'exp_date' => 'required',
             'value' => 'required',
@@ -148,9 +148,9 @@ class VoucherComponent extends Component
                 $voucher->max_value_percent = $this->max_value_percent ? HalperFunctions::currencyToNumber($this->max_value_percent) : null;
                 $voucher->exp_date = $this->exp_date;
                 $voucher->keterangan = $this->keterangan;
-                $voucher->product_discont = $this->product_discont ?? false;
+                $voucher->product_discont = $this->product_discont ? $this->product_discont : false;
                 $voucher->min_cart = $this->min_cart ? HalperFunctions::currencyToNumber($this->min_cart) : null;
-                $voucher->for_product = $this->for_product ?? null;
+                $voucher->for_product = $this->for_product ? $this->for_product : null;
                 if($this->newimage){
                     Storage::delete($folderName . $voucher->image);
                     $imageName = Carbon::now()->timestamp. '.' . $this->newimage->extension();
@@ -221,6 +221,13 @@ class VoucherComponent extends Component
             session()->flash('msgAlert', 'Your password information incorrect');
             session()->flash('msgStatus', 'Warning');
         }
+    }
+
+    public function copyToClipboard($text){
+        $this->dispatchBrowserEvent('hit-function-copy', ["code" => $text]);
+
+        session()->flash('msgAlert', 'Voucher telah berhasil disalin');
+        session()->flash('msgStatus', 'Success');
     }
 
     public function loadAddData(){
