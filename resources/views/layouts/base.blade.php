@@ -289,8 +289,8 @@ if (
     <div class="container">
       <div class="row">
         <div class="col-lg-3">
-          <div class="hero__categories">
-            <div class="hero__categories__all">
+          <div class="hero__categories" id="select_category">
+            <div class="hero__categories__all" id="select_all_category">
               <i class="fa fa-bars"></i>
               <span>All departments</span>
             </div>

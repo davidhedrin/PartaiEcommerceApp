@@ -22,4 +22,4 @@
 11. Jalankan printah 'php artisan serve'
 
 Taks Progress:
-Continue applay code voucher in cart page
+Continue checkout page

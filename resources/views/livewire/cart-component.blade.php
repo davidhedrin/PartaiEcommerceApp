@@ -39,9 +39,6 @@
           <div class="breadcrumb__text">
             <h2 class="text-dark">Your Cart <i class="fa fa-shopping-bag"></i></h2>
             <a href="{{ route('shop') }}" class="text-dark" style="text-decoration: underline">Continue Shopping &rarr;</a>
-            {{-- <div class="shoping__cart__btns">
-              <a href="{{ route('shop') }}" class="primary-btn">CONTINUE SHOPPING</a>
-            </div> --}}
           </div>
         </div>
       </div>
@@ -137,10 +134,10 @@
               <li class="none">"{{ $voucherCode }}" <i class="fa fa-times delete-voucher" aria-hidden="true" wire:click="deleteCodeVocuher"></i> <span>- {{ currency_IDR($voucherVal) }}</span></li>
             @endif
             <li class="need">PPN 5&#37; <span>{{ currency_IDR($ppn) }}</span></li>
-            <li class="need" style="font-size: x-large">Total <span class="text-danger" style="font-size: x-large">{{ currency_IDR($totalPriceToCheckout) }}</span></li>
+            <li class="need">Total <span class="text-danger">{{ currency_IDR($totalPriceToCheckout) }}</span></li>
           </ul>
           @if ($products->count() > 0)
-            <a wire:click='processToCheckout' href="javascript:void(0)" class="primary-btn">PROCEED TO CHECKOUT</a>
+            <a wire:click='processToCheckout' href="{{ route('checkout-cart') }}" class="primary-btn">PROCEED TO CHECKOUT</a>
           @else
             <a href="javascript:void(0)" class="primary-btn" style="background: grey; cursor: not-allowed">PROCEED TO CHECKOUT</a>
           @endif

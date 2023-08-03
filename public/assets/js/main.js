@@ -96,8 +96,11 @@
     });
 
 
-    $('.hero__categories__all').on('click', function(){
-        $('.hero__categories ul').slideToggle(400);
+    $('#select_all_category').on('click', function(){
+        $('#select_category ul').slideToggle(400);
+    });
+    $('#select_all_billing').on('click', function(){
+        $('#select_billing ul').slideToggle(400);
     });
 
     /*--------------------------
