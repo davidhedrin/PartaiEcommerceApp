@@ -153,10 +153,6 @@ class CartComponent extends Component
         $this->updateCardTotal();
     }
 
-    public function processToCheckout(){
-        
-    }
-
     public function loadAllData() {
         $findProduct = ShopingCart::where("user_id", Auth::user()->id)->get();
 

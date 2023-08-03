@@ -137,7 +137,7 @@
             <li class="need">Total <span class="text-danger">{{ currency_IDR($totalPriceToCheckout) }}</span></li>
           </ul>
           @if ($products->count() > 0)
-            <a wire:click='processToCheckout' href="{{ route('checkout-cart') }}" class="primary-btn">PROCEED TO CHECKOUT</a>
+            <a href="{{ route('checkout-cart', ["voucher" => $voucherCode]) }}" class="primary-btn">PROCEED TO CHECKOUT</a>
           @else
             <a href="javascript:void(0)" class="primary-btn" style="background: grey; cursor: not-allowed">PROCEED TO CHECKOUT</a>
           @endif

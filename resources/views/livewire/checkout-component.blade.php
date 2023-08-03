@@ -1,4 +1,6 @@
 <div>
+  @include('livewire.component.toast-alert')
+
   <div class="checkout mt-4">
     <div class="container">
       <div class="row mb-4">
@@ -6,8 +8,7 @@
           <h6>
             <div class="breadcrumb__text">
               <h2 class="text-dark">Checkout <i class="fa fa-shopping-cart"></i></h2>
-              <a href="{{ route('shop') }}" class="text-dark" style="text-decoration: underline">Continue Shopping
-                &rarr;</a>
+              <a href="{{ route('shoping-cart') }}" class="text-dark" style="text-decoration: underline">&larr; back to cart</a>
             </div>
           </h6>
         </div>
@@ -19,7 +20,7 @@
             <div class="hero__categories mb-3" id="select_billing">
               <div class="hero__categories__all" id="select_all_billing" style="background: #f5f5f5">
                 <i class="fa fa-bars text-dark"></i>
-                <span class="text-dark">Departures</span>
+                <span class="text-dark">Arrival</span>
               </div>
               <ul class="billing">
                 <li>
@@ -35,7 +36,7 @@
                   </a>
                 </li>
                 <li style="background: lightgray">
-                  <a href="" class="text-center"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add More Address</a>
+                  <a href="{{ route('account-setting') }}" class="text-center"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add More Address</a>
                 </li>
               </ul>
             </div>
@@ -57,7 +58,9 @@
                 @endforelse
               </ul>
               <div class="checkout__order__subtotal">Subtotal <span>{{ currency_IDR($subTotalPriveAll) }}</span></div>
-              <strong style="font-size: 18px;">"VOUCHERJAKTRAD"<span style="float: right">- Rp. 30.000</span></strong>
+              @if ($voucherCode)
+                <strong style="font-size: 18px;">"{{ $voucherCode }}"<span style="float: right">- {{ currency_IDR($voucherVal) }}</span></strong>
+              @endif
               <div class="checkout__order__ppn">PPN 5% <span>{{ currency_IDR($ppn) }}</span></div>
               <div class="checkout__order__total">Total <span>{{ currency_IDR($totalPriceToCheckout) }}</span></div>
               

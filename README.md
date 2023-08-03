@@ -22,4 +22,4 @@
 11. Jalankan printah 'php artisan serve'
 
 Taks Progress:
-Continue checkout page
+Continue account setting page

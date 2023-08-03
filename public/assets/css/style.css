@@ -655,6 +655,7 @@ ol {
 	list-style: none;
 	padding-left: 20px;
 	padding-right: 20px;
+	padding-bottom: 10px;
 }
 
 .hero__categories ul li {
@@ -2335,7 +2336,7 @@ ol {
 }
 .checkout__order .checkout__order__ppn span {
 	float: right;
-	color: #dd2222;
+	color: #1c1c1c;
 }
 
 .checkout__order .checkout__order__total span {

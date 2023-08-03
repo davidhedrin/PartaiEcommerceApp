@@ -21,7 +21,8 @@ if (
   $curRouteName != 'forgot.pass' && 
   $curRouteName != 'verification.notice' &&
   $curRouteName != 'password.reset' &&
-  $curRouteName != 'otp-admin'
+  $curRouteName != 'otp-admin' &&
+  $curRouteName != 'account-setting'
 ) {
   $logicNavCateg = true;
 }
@@ -125,7 +126,7 @@ if (
         </li>
         @if (Auth::user())
         <li>
-          <a href="#">
+          <a href="{{ route('account-setting') }}">
             <i class="fa fa-user-circle-o"></i>
           </a>
         </li>
@@ -262,7 +263,7 @@ if (
               </li>
               @if (Auth::user())
               <li>
-                <a href="#">
+                <a href="{{ route('account-setting') }}">
                   <i class="fa fa-user-circle-o"></i>
                 </a>
               </li>
