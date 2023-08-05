@@ -18,7 +18,7 @@ class LoginComponent extends Component
 {
     public $loginOrRegis = true;
     public $emailLogin, $passwordLogin;
-    public $name, $email, $no_ponsel, $password, $co_password, $alamat;
+    public $name, $email, $no_ponsel, $password, $co_password;
 
     public function updated($fields){
         $this->validateOnly($fields, [
@@ -27,7 +27,6 @@ class LoginComponent extends Component
             'no_ponsel' => 'required|numeric|unique:users|digits_between:11,12',
             'password' => 'required|min:6|required_with:co_password',
             'co_password' => 'required|min:6|required_with:password|same:password',
-            'alamat' => 'required',
             
             'emailLogin' => 'required|email',
             'passwordLogin' => 'required|min:6'
@@ -40,7 +39,6 @@ class LoginComponent extends Component
         $this->no_ponsel = null;
         $this->password = null;
         $this->co_password = null;
-        $this->alamat = null;
         $this->emailLogin = null;
         $this->passwordLogin = null;
     }
@@ -146,8 +144,7 @@ class LoginComponent extends Component
             'email' => 'required|email|unique:users',
             'no_ponsel' => 'required|numeric|unique:users|digits_between:11,12',
             'password' => 'required|min:6|required_with:co_password',
-            'co_password' => 'required|min:6|required_with:password|same:password',
-            'alamat' => 'required'
+            'co_password' => 'required|min:6|required_with:password|same:password'
         ]);
 
         $this->dispatchBrowserEvent('action-loading', ['actionFor' => true]);
@@ -162,7 +159,6 @@ class LoginComponent extends Component
             $user->email = $this->email;
             $user->password = $passHash;
             $user->no_ponsel = $this->no_ponsel;
-            $user->alamat = $this->alamat;
             $user->save();
             
             // $this->loginOrRegis = true;

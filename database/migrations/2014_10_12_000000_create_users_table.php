@@ -21,7 +21,6 @@ return new class extends Migration
             $table->unsignedBigInteger('user_type')->default(2);// Default user
             $table->foreign('user_type')->references('id')->on('roles')->onDelete('set null');
             $table->string('flag_active')->nullable()->default("Y");
-            $table->text('alamat');
             $table->rememberToken();
             $table->timestamps();
         });

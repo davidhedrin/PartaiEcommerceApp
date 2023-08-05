@@ -100,14 +100,6 @@
           @enderror
         </div>
         <div class="form-group">
-          <label for="alamat_regis">Alamat</label>
-          <textarea wire:model="alamat" class="form-control" id="alamat_regis" rows="3"
-            placeholder="Masukkan alamat rumah"></textarea>
-          @error('alamat')
-          <span class="text-danger">{{ $message }}</span>
-          @enderror
-        </div>
-        <div class="form-group">
           <button type="submit" class="btn btn-primary btn-block">Daftar</button>
         </div>
         <div class="form-group">

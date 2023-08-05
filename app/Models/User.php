@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Role;
+use App\Models\UserDetail;
+use App\Models\AddressUser;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -49,5 +51,15 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function role(){
         return $this->belongsTo(Role::class, 'user_type');
+    }
+    
+    public function detail(): HasOne
+    {
+        return $this->hasOne(UserDetail::class, 'user_id');
+    }
+
+    public function address(): HasMany
+    {
+        return $this->hasMany(AddressUser::class, 'user_id');
     }
 }
