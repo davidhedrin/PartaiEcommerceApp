@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('user_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->enum('gender', ['m', 'f'])->nullabel()->comment('m for Male and f for Female gender');
+            $table->enum('gender', ['m', 'f'])->nullable()->comment('m for Male and f for Female gender');
             $table->string('birth_place')->nullable();
             $table->date('birth_date')->nullable();
             $table->string('nationality')->nullable();

@@ -11,6 +11,7 @@ use App\Models\Voucher;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -37,6 +38,7 @@ class VoucherComponent extends Component
         ];
 
         if ($this->type === 'percent') {
+            $rules['value'] .= '|numeric|min:1|max:100';
             $rules['max_value_percent'] = 'required';
         }
 
@@ -75,6 +77,7 @@ class VoucherComponent extends Component
         ];
 
         if ($this->type === 'percent') {
+            $rules['value'] .= '|numeric|min:1|max:100';
             $rules['max_value_percent'] = 'required';
         }
 

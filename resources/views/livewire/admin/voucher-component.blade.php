@@ -144,7 +144,7 @@
             <div class="col-md-6 mb-3">
               <label for="percent_value" class="form-label">Percent Value <span style="color: red">*</span></label>
               <div class="input-group">
-                <input wire:model='value' type="number" id="percent_value" class="form-control"
+                <input wire:model='value' type="number" id="percent_value" class="form-control" min="1" max="100"
                   placeholder="Masukkan nilai percent" aria-label="Max value 100%">
                 <span class="input-group-text">%</span>
               </div>
