@@ -17,10 +17,10 @@ return new class extends Migration
             $table->enum('gender', ['m', 'f'])->nullable()->comment('m for Male and f for Female gender');
             $table->string('birth_place')->nullable();
             $table->date('birth_date')->nullable();
-            $table->string('nationality')->nullable();
-            $table->string('religion')->nullable();
+            $table->unsignedBigInteger('country_id')->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('set null');
         });
     }
 

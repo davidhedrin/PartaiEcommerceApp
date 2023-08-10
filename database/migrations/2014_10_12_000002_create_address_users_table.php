@@ -17,9 +17,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('contact')->nullable();
             $table->text('address')->nullable();
-            $table->string('subdistrict')->nullable();
             $table->string('city')->nullable();
-            $table->string('province')->nullable();
             $table->string('country')->nullable();
             $table->string('post_code')->nullable();
             $table->enum('mark_as', ['h', 'o'])->nullable();

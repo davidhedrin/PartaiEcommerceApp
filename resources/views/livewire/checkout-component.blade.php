@@ -36,7 +36,7 @@
                   </a>
                 </li>
                 <li style="background: lightgray">
-                  <a href="{{ route('account-setting') }}" class="text-center"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add More Address</a>
+                  <a href="{{ route('account-setting', ["activeId" => 3]) }}" class="text-center"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add More Address</a>
                 </li>
               </ul>
             </div>

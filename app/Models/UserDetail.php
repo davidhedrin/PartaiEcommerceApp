@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\User;
+use App\Models\Country;
 
 class UserDetail extends Model
 {
@@ -15,5 +16,10 @@ class UserDetail extends Model
 
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function country(): HasOne
+    {
+        return $this->hasOne(Country::class, 'country_id');
     }
 }

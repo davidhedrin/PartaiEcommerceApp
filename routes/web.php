@@ -15,7 +15,7 @@ use App\Http\Livewire\ProductDetailComponent;
 use App\Http\Livewire\CartComponent;
 use App\Http\Livewire\CheckoutComponent;
 use App\Http\Livewire\WhitelistComponent;
-use App\Http\Livewire\AccountProfileComponent;
+use App\Http\Livewire\AccountSettingComponent;
 
 use App\Http\Livewire\Admin\DashboardComponent;
 use App\Http\Livewire\Admin\CategoryComponent;
@@ -58,7 +58,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
   Route::get('/shoping-cart', CartComponent::class)->name('shoping-cart');
   Route::get('/checkout-cart/{voucher?}', CheckoutComponent::class)->name('checkout-cart');
   Route::get('/whitelist-product', WhitelistComponent::class)->name('whitelist');
-  Route::get('/account-profile', AccountProfileComponent::class)->name('account-setting');
+  Route::get('/account-setting/{activeId?}', AccountSettingComponent::class)->name('account-setting');
 });
 
 // Route for admin login
