@@ -10,17 +10,28 @@ use Exception;
 use App\Models\Product;
 use App\Models\ShopingCart;
 use App\Models\Voucher;
+use App\Models\AddressUser;
 use Carbon\Carbon;
 
 class CheckoutComponent extends Component
 {
     public $subTotalPriveAll = 0, $ppn = 0, $totalPriceToCheckout = 0;
     public $voucherVal = 0, $voucherCode;
+    public $activeIdAddress;
 
     public function mount($voucher = null){
         $this->voucherCode = $voucher;
+
+        $user = Auth::user();
+        $allAddress = AddressUser::where("user_id", $user->id)->get();
+        foreach($allAddress as $address){
+            if($address->mark_as == "h"){
+                $this->activeIdAddress = $address->id;
+                break;
+            }
+        }
         
-        $findProduct = ShopingCart::where("user_id", Auth::user()->id)->get();
+        $findProduct = ShopingCart::where("user_id", $user->id)->get();
         foreach($findProduct as $cart){
             if($cart->product->sale_price){
                 $this->subTotalPriveAll += ($cart->product->regular_price-$cart->product->sale_price) * $cart->qty;
@@ -41,7 +52,7 @@ class CheckoutComponent extends Component
                     return;
                 }
                 
-                $allProductCart = ShopingCart::where("user_id", Auth::user()->id)->get();
+                $allProductCart = ShopingCart::where("user_id", $user->id)->get();
                 
                 $allValidate = $this->subTotalPriveAll > $findVoucher->min_cart;
                 if($allValidate){
@@ -109,10 +120,13 @@ class CheckoutComponent extends Component
     }
 
     public function loadAllData() {
-        $findProduct = ShopingCart::where("user_id", Auth::user()->id)->get();
+        $user = Auth::user();
+        $findProduct = ShopingCart::where("user_id", $user->id)->get();
+        $allAddress = AddressUser::where("user_id", $user->id)->get();
 
         return [
             "products" => $findProduct,
+            "allAddress" => $allAddress,
         ];
     }
 

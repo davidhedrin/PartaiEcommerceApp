@@ -149,35 +149,43 @@
           <span class="text-dark">All Address</span>
         </div>
         <ul class="billing">
-          <li>
-            <a href="#" class="d-flex align-items-center justify-content-between">
+          @forelse ($allAddress as $address)
+          <li class="d-flex align-items-center justify-content-between">
+            <a href="javascript:void(0)">
               <div>
-                <strong>David Hendrin Simbolon</strong>
-                <p style="line-height: 0">0821-1086-3133</p>
-                <p style="margin-top: 30px; margin-bottom: 0px; line-height: 0px">Perumahan alamanda 2, Blok EF
-                  RT.003/RW.006, Mustika jaya, Bekasi Timur, Jawa Barat, Indonesia, 13170.</p>
-                <span class="badge badge-secondary mt-2">Home</span>
-              </div>
-              <div>
-                <i class="fa fa-times"></i>
-              </div>
-            </a>
-          </li>
-          <hr class="mt-2 mb-3">
-          <li>
-            <a href="#" class="d-flex align-items-center justify-content-between">
-              <div>
-                <strong>David Hendrin Simbolon</strong>
-                <p style="line-height: 0">0821-1086-3133</p>
-                <p style="margin-top: 30px; margin-bottom: 0px; line-height: 0px">Perumahan alamanda 2, Blok EF
-                  RT.003/RW.006, Mustika jaya, Bekasi Timur, Jawa Barat, Indonesia, 13170.</p>
-              </div>
-              <div>
-                <i class="fa fa-times"></i>
+                <strong>
+                  {{ $address->name }}
+                  @if ($address->mark_as)
+                  <span class="badge badge-secondary ml-1">
+                    {{ $address->mark_as == "h" ? "Home" : "Office" }}
+                  </span>
+                  @endif
+                </strong>
+                <p style="line-height: 0">{{ $address->contact }}</p>
+                <p style="margin-top: 15px; margin-bottom: 0px; line-height: 20px">
+                  {{ $address->address }} {{ $address->city }}, {{ $address->country }}, {{ $address->post_code }}.
+                </p>
               </div>
             </a>
+            <div>
+              <a href="javascript:void(0)" wire:click="$set('idDeleteAddress', {{ $address->id }})" data-toggle="modal"
+                data-target="#deleteAddressModal">
+                <i class="fa fa-times"></i>
+              </a>
+            </div>
           </li>
-          <li class="mt-4" style="background: lightgray">
+          @if (count($allAddress) > 1)
+          <hr class="mt-2 mb-0">
+          @endif
+          @empty
+          <li class="d-flex align-items-center justify-content-center">
+            <div class="text-center py-2 mt-4">
+              <i class="fa fa-address-card-o" aria-hidden="true" style="font-size: 40px;"></i>
+              <p><em>Address is empty, No address has been registered yet.</em></p>
+            </div>
+          </li>
+          @endforelse
+          <li class="mt-0" style="background: lightgray">
             <a href="javascript:void(0)" class="text-center" data-toggle="modal" data-target="#modalAddAddress"><i
                 class="fa fa-plus-circle" aria-hidden="true"></i> Add More Address</a>
           </li>
@@ -205,7 +213,7 @@
                 <p>Fist Name<span>*</span></p>
                 <input wire:model="address_fname" type="text" placeholder="Enter first name">
                 @error("address_fname")
-                  <span class="text-danger">{{ $message }}</span>
+                <span class="text-danger">{{ $message }}</span>
                 @enderror
               </div>
             </div>
@@ -214,7 +222,7 @@
                 <p>Last Name<span>*</span></p>
                 <input wire:model="address_lname" type="text" placeholder="Enter last name">
                 @error("address_lname")
-                  <span class="text-danger">{{ $message }}</span>
+                <span class="text-danger">{{ $message }}</span>
                 @enderror
               </div>
             </div>
@@ -223,14 +231,15 @@
             <p>Phone<span>*</span></p>
             <input wire:model="address_contact" type="number" placeholder="Enter number phone">
             @error("address_contact")
-              <span class="text-danger">{{ $message }}</span>
+            <span class="text-danger">{{ $message }}</span>
             @enderror
           </div>
           <div class="checkout__input">
             <p>Address<span>*</span></p>
-            <input wire:model="address_address" type="text" placeholder="Street Address, Province, Subdistrict, Apartment, Housing Area, etc...">
+            <input wire:model="address_address" type="text"
+              placeholder="Street Address, Province, Subdistrict, Apartment, Housing Area, etc...">
             @error("address_address")
-              <span class="text-danger">{{ $message }}</span>
+            <span class="text-danger">{{ $message }}</span>
             @enderror
           </div>
           <div class="checkout__input">
@@ -242,31 +251,33 @@
               @endforeach
             </select>
             @error("address_country")
-              <span class="text-danger">{{ $message }}</span>
+            <span class="text-danger">{{ $message }}</span>
             @enderror
           </div>
           <div class="checkout__input">
             <p>Town/City<span>*</span></p>
             <input wire:model="address_city" type="text" placeholder="Enter town or city">
             @error("address_city")
-              <span class="text-danger">{{ $message }}</span>
+            <span class="text-danger">{{ $message }}</span>
             @enderror
           </div>
           <div class="checkout__input">
             <p>Postcode/ZIP<span>*</span></p>
             <input wire:model="address_post_code" type="text" placeholder="Enter postcode or ZIP">
             @error("address_post_code")
-              <span class="text-danger">{{ $message }}</span>
+            <span class="text-danger">{{ $message }}</span>
             @enderror
           </div>
           <div>
             <p class="mb-2">Address Mark</p>
             <div class="custom-control custom-radio custom-control-inline">
-              <input wire:model="address_mark_as" type="radio" id="radioMarkHome" name="radioAddressMark" class="custom-control-input" value="home">
+              <input wire:model="address_mark_as" type="radio" id="radioMarkHome" name="radioAddressMark"
+                class="custom-control-input" value="h">
               <label class="custom-control-label" for="radioMarkHome">Home</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-              <input wire:model="address_mark_as" type="radio" id="radioMarkOffice" name="radioAddressMark" class="custom-control-input" value="office">
+              <input wire:model="address_mark_as" type="radio" id="radioMarkOffice" name="radioAddressMark"
+                class="custom-control-input" value="o">
               <label class="custom-control-label" for="radioMarkOffice">Office</label>
             </div>
           </div>
@@ -278,9 +289,34 @@
       </div>
     </div>
   </div>
+
+  <div wire:ignore.self class="modal fade" id="deleteAddressModal" tabindex="-1" role="dialog"
+    aria-labelledby="logoutModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+
+          <img src="{{ asset('logo/logo2.png') }}" class="rounded mr-2" alt="" width="160px">
+          <button wire:click="$set('idDeleteAddress', null)" type="button" class="close" data-dismiss="modal"
+            aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-center">
+          Are you sure you want to delete this address?
+        </div>
+        <div class="modal-footer">
+          <button wire:click="$set('idDeleteAddress', null)" type="button" class="btn btn-primary btn-sm"
+            data-dismiss="modal">Batal</button>
+          <button wire:click="deleteAddress" type="button" class="btn btn-danger btn-sm">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <script>
   window.addEventListener('close-form-modal', event => {
     $('#modalAddAddress').modal('hide');
+    $('#deleteAddressModal').modal('hide');
   });
 </script>

@@ -22,4 +22,4 @@
 11. Jalankan printah 'php artisan serve'
 
 Taks Progress:
-Continue account profile
+Continue shopping cart

@@ -8,7 +8,8 @@
           <h6>
             <div class="breadcrumb__text">
               <h2 class="text-dark">Checkout <i class="fa fa-shopping-cart"></i></h2>
-              <a href="{{ route('shoping-cart') }}" class="text-dark" style="text-decoration: underline">&larr; back to cart</a>
+              <a href="{{ route('shoping-cart') }}" class="text-dark" style="text-decoration: underline">&larr; back to
+                cart</a>
             </div>
           </h6>
         </div>
@@ -20,30 +21,47 @@
             <div class="hero__categories mb-3" id="select_billing">
               <div class="hero__categories__all" id="select_all_billing" style="background: #f5f5f5">
                 <i class="fa fa-bars text-dark"></i>
-                <span class="text-dark">Arrival</span>
+                <span class="text-dark">Select Arrival</span>
               </div>
               <ul class="billing">
-                <li>
-                  <a href="#" class="d-flex align-items-center justify-content-between">
+                @forelse ($allAddress as $address)
+                <li class="pb-0" style="background: {{ $address->id == $activeIdAddress ? "#00784f1c" : "" }}">
+                  <a wire:click="$set('activeIdAddress', {{ $address->id }})" href="javascript:void(0)" class="d-flex align-items-center justify-content-between">
                     <div>
-                      <strong>David Hendrin Simbolon</strong>
-                      <p style="line-height: 0">0821-1086-3133</p>
-                      <p style="margin-top: 20px; line-height: 18px">Perumahan alamanda 2, Blok EF RT.003/RW.006, Mustika jaya, Bekasi Timur, Jawa Barat, Indonesia, 13170.</p>
+                      <strong>
+                        {{ $address->name }}
+                        @if ($address->mark_as)
+                        <span class="badge badge-secondary ml-1">
+                          {{ $address->mark_as == "h" ? "Home" : "Office" }}
+                        </span>
+                        @endif
+                      </strong>
+                      <p style="line-height: 0">{{ $address->contact }}</p>
+                      <p style="margin-top: 15px; line-height: 18px">
+                        {{ $address->address }} {{ $address->city }}, {{ $address->country }}, {{ $address->post_code }}.
+                      </p>
                     </div>
                     <div>
+                      @if ($address->id == $activeIdAddress)
                       <i class="fa fa-check"></i>
+                      @endif
                     </div>
                   </a>
                 </li>
+                @empty
+
+                @endforelse
+
                 <li style="background: lightgray">
-                  <a href="{{ route('account-setting', ["activeId" => 3]) }}" class="text-center"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add More Address</a>
+                  <a href="{{ route('account-setting', ["activeId"=> 3]) }}" class="text-center"><i
+                      class="fa fa-plus-circle" aria-hidden="true"></i> Add More Address</a>
                 </li>
               </ul>
             </div>
 
             <div class="checkout__input">
               <p class="mb-2">Order notes: </p>
-              <input type="text" placeholder="Notes about your order, e.g. special notes for delivery.">
+              <input type="text" style="border: 1px solid #a7a7a7;" placeholder="Notes about your order, e.g. special notes for delivery.">
             </div>
           </div>
           <div class="col-lg-5">
@@ -52,31 +70,33 @@
               <div class="checkout__order__products">Products <span>Total</span></div>
               <ul>
                 @forelse ($products as $item)
-                  <li>{{ $item->product->name }} x {{ $item->qty }} <span>{{ currency_IDR(($item->product->regular_price-$item->product->sale_price) * $item->qty) }}</span></li>
+                <li>{{ $item->product->name }} x {{ $item->qty }} <span>{{
+                    currency_IDR(($item->product->regular_price-$item->product->sale_price) * $item->qty) }}</span></li>
                 @empty
-                  <li>No product to checkout</li>
+                <li>No product to checkout</li>
                 @endforelse
               </ul>
               <div class="checkout__order__subtotal">Subtotal <span>{{ currency_IDR($subTotalPriveAll) }}</span></div>
               @if ($voucherCode)
-                <strong style="font-size: 18px;">"{{ $voucherCode }}"<span style="float: right">- {{ currency_IDR($voucherVal) }}</span></strong>
+              <strong style="font-size: 18px;">"{{ $voucherCode }}"<span style="float: right">- {{
+                  currency_IDR($voucherVal) }}</span></strong>
               @endif
               <div class="checkout__order__ppn">PPN 5% <span>{{ currency_IDR($ppn) }}</span></div>
               <div class="checkout__order__total">Total <span>{{ currency_IDR($totalPriceToCheckout) }}</span></div>
-              
+
               <strong style="font-size: 18px">Payment Method</strong>
               <p>Select your payment method.</p>
               <div class="checkout__input__checkbox">
-                <label for="payment">
-                  Check Payment
-                  <input type="checkbox" id="payment">
+                <label for="debit_card">
+                  Debit Card
+                  <input type="radio" id="debit_card" name="select_payment">
                   <span class="checkmark"></span>
                 </label>
               </div>
               <div class="checkout__input__checkbox">
                 <label for="paypal">
-                  Paypal
-                  <input type="checkbox" id="paypal">
+                  COD (Indonesia Region)
+                  <input type="radio" id="paypal" name="select_payment">
                   <span class="checkmark"></span>
                 </label>
               </div>

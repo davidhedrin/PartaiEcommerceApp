@@ -123,16 +123,24 @@ if (
             @endif
           </a>
         </li>
-        @if (Auth::user())
+        <li>
+          <a href="#">
+            <i class="fa fa-truck"></i>
+            @if (Auth::user())
+            <span>1</span>
+            @endif
+          </a>
+        </li>
+        {{-- @if (Auth::user())
         <li>
           <a href="{{ route('account-setting') }}">
             <i class="fa fa-user-circle-o"></i>
           </a>
         </li>
-        @endif
+        @endif --}}
       </ul>
       @if (Auth::user())
-      <div class="header__cart__price">Hallo, <span>{{ Auth::user()->name }}</span></div>
+      <div class="header__cart__price">Hallo, <a href="{{ route('account-setting') }}"><span>{{ Auth::user()->name }}</span></a></div>
       @else
       <div class="header__cart__price">Hallo, <span>Selamat datang!</span></div>
       @endif
@@ -260,16 +268,24 @@ if (
                   @endif
                 </a>
               </li>
-              @if (Auth::user())
+              <li>
+                <a href="#">
+                  <i class="fa fa-truck"></i>
+                  @if (Auth::user())
+                  <span>1</span>
+                  @endif
+                </a>
+              </li>
+              {{-- @if (Auth::user())
               <li>
                 <a href="{{ route('account-setting') }}">
                   <i class="fa fa-user-circle-o"></i>
                 </a>
               </li>
-              @endif
+              @endif --}}
             </ul>
             @if (Auth::user())
-            <div class="header__cart__price">Hallo, <span>{{ Auth::user()->name }}</span></div>
+            <div class="header__cart__price">Hallo, <a href="{{ route('account-setting') }}"><span>{{ Auth::user()->name }}</span></a></div>
             @else
             <div class="header__cart__price">Hallo, <span>Selamat datang!</span></div>
             @endif

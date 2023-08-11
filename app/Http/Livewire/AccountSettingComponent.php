@@ -78,6 +78,17 @@ class AccountSettingComponent extends Component
         }
     }
 
+    public function resetFormAddress(){
+        $this->address_fname = null;
+        $this->address_lname = null;
+        $this->address_contact = null;
+        $this->address_address = null;
+        $this->address_city = null;
+        $this->address_country = null;
+        $this->address_post_code = null;
+        $this->address_mark_as = null;
+    }
+
     public function saveUserDetail(){
         $throttleKey = request()->ip() . "saveUserDetail";
         $rateLimitNotExceeded = HalperFunctions::HitRateLimit($throttleKey, 5, 1);
@@ -186,39 +197,66 @@ class AccountSettingComponent extends Component
             "address_post_code" => "required",
         ]);
 
-        $user = Auth::user();
-        try{
-            $fullName = trim($this->address_lname) . " " .trim($this->address_lname);
-            $newAddress = new AddressUser;
-            $newAddress->user_id = $user->id;
-            $newAddress->name = $fullName;
-            $newAddress->contact = $this->address_contact;
-            $newAddress->address = $this->address_address;
-            $newAddress->city = $this->address_city;
-            $newAddress->country = $this->address_country;
-            $newAddress->post_code = $this->address_post_code;
-            $newAddress->save();
+        HalperFunctions::SaveWithTransaction(
+            function() {
+                $user = Auth::user();
+                if($this->address_mark_as){
+                    $findAddress = AddressUser::where("user_id", $user->id)->where("mark_as", $this->address_mark_as)->first();
+                    if($findAddress){
+                        $findAddress->mark_as = null;
+                        $findAddress->save();
+                    }
+                }
 
-            $this->dispatchBrowserEvent('close-form-modal');
-            session()->flash('msgAlert', 'The new address has been added successfully.');
-            session()->flash('msgStatus', 'Success');
-        }catch(Exception $e){
-            $error_msg = $e->getMessage();
-            $stackTrace = HalperFunctions::getTraceException($e);
-            HalperFunctions::insertLogError( $user->email, "saveNewAddress", "POST", $error_msg." | ".$stackTrace);
+        
+                $fullName = trim($this->address_fname) . " " .trim($this->address_lname);
+                $newAddress = new AddressUser;
+                $newAddress->user_id = $user->id;
+                $newAddress->name = $fullName;
+                $newAddress->contact = $this->address_contact;
+                $newAddress->address = $this->address_address;
+                $newAddress->city = $this->address_city;
+                $newAddress->country = $this->address_country;
+                $newAddress->post_code = $this->address_post_code;
+                $newAddress->mark_as = $this->address_mark_as;
+                $newAddress->save();
+        
+                $this->resetFormAddress();
+                $this->dispatchBrowserEvent('close-form-modal');
+                session()->flash('msgAlert', 'The new address has been added successfully.');
+                session()->flash('msgStatus', 'Success');
+            },
+            "saveNewAddress"
+        );
+    }
 
-            session()->flash('msgAlert', 'Something went wrong! Please try again in a moment.');
-            session()->flash('msgStatus', 'Danger');
+    public $idDeleteAddress;
+    public function deleteAddress(){
+        if($this->idDeleteAddress){
+            $findAddress = AddressUser::find($this->idDeleteAddress);
+            if($findAddress){
+                $findAddress->delete();
+                
+                $this->idDeleteAddress = null;
+                $this->dispatchBrowserEvent('close-form-modal');
+                session()->flash('msgAlert', 'Successful deletion, address data has been successfully deleted.');
+                session()->flash('msgStatus', 'Success');
+            }else{
+                session()->flash('msgAlert', 'Delete failed, address data not found!');
+                session()->flash('msgStatus', 'Warning');
+            }
         }
     }
 
     public function loadAddData(){
         $user = Auth::user();
         $allNational = Country::all();
+        $allAddress = AddressUser::where("user_id", $user->id)->get();
 
         return [
             "user" => $user,
             "countries" => $allNational,
+            "allAddress" => $allAddress,
         ];
     }
 
