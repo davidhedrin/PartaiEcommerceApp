@@ -1,4 +1,11 @@
 <div>
+  <style>
+    .img-icon-po{
+      height: 20px;
+      object-fit: cover;
+    }
+  </style>
+
   @include('livewire.component.toast-alert')
 
   <div class="checkout mt-4">
@@ -25,8 +32,9 @@
               </div>
               <ul class="billing">
                 @forelse ($allAddress as $address)
-                <li class="pb-0" style="background: {{ $address->id == $activeIdAddress ? "#00784f1c" : "" }}">
-                  <a wire:click="$set('activeIdAddress', {{ $address->id }})" href="javascript:void(0)" class="d-flex align-items-center justify-content-between">
+                <li class="pb-0" style="background: {{ $address->id == $activeIdAddress ? " #00784f1c" : "" }}">
+                  <a wire:click="$set('activeIdAddress', {{ $address->id }})" href="javascript:void(0)"
+                    class="d-flex align-items-center justify-content-between">
                     <div>
                       <strong>
                         {{ $address->name }}
@@ -38,7 +46,8 @@
                       </strong>
                       <p style="line-height: 0">{{ $address->contact }}</p>
                       <p style="margin-top: 15px; line-height: 18px">
-                        {{ $address->address }} {{ $address->city }}, {{ $address->country }}, {{ $address->post_code }}.
+                        {{ $address->address }} {{ $address->city }}, {{ $address->country }}, {{ $address->post_code
+                        }}.
                       </p>
                     </div>
                     <div>
@@ -49,19 +58,53 @@
                   </a>
                 </li>
                 @empty
-
+                <li class="d-flex align-items-center justify-content-center">
+                  <div class="text-center py-2 mt-4">
+                    <i class="fa fa-address-card-o" aria-hidden="true" style="font-size: 40px;"></i>
+                    <p><em>Address is empty, No address has been registered yet.</em></p>
+                  </div>
+                </li>
                 @endforelse
 
                 <li style="background: lightgray">
-                  <a href="{{ route('account-setting', ["activeId"=> 3]) }}" class="text-center"><i
+                  <a href="{{ route('account-setting', [" activeId"=> 3]) }}" class="text-center"><i
                       class="fa fa-plus-circle" aria-hidden="true"></i> Add More Address</a>
                 </li>
               </ul>
             </div>
 
             <div class="checkout__input">
+              <p class="mb-2">Payment Method: </p>
+              <select wire:model="select_payment_medhod" class="form-control">
+                <option value="">Select Payment Method</option>
+                <option value="1">Transfer VA (Indonesia)</option>
+                <option value="2">Debit Card</option>
+              </select>
+              @error('select_payment_medhod')
+              <span class="text-danger">{{ $message }}</span>
+              @enderror
+            </div>
+            <div>
+              <div class="row">
+                @if ($select_payment_medhod == "1")
+                @foreach ($allPayment1 as $paymet)
+                <div class="col-md-6">
+                  <div class="checkout__input__checkbox">
+                    <label for="{{ $paymet->code }}">
+                      <img src="{{ asset('po-img/' . $paymet->img) }}" class="img-icon-po" alt="gopay">
+                      <input type="radio" id="{{ $paymet->code }}" value="{{ $paymet->id }}" name="select_payment">
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+                </div>
+                @endforeach
+                @endif
+              </div>
+            </div>
+            <div class="checkout__input">
               <p class="mb-2">Order notes: </p>
-              <input type="text" style="border: 1px solid #a7a7a7;" placeholder="Notes about your order, e.g. special notes for delivery.">
+              <input type="text" style="border: 1px solid #a7a7a7;"
+                placeholder="Notes about your order, e.g. special notes for delivery.">
             </div>
           </div>
           <div class="col-lg-5">
@@ -84,19 +127,12 @@
               <div class="checkout__order__ppn">PPN 5% <span>{{ currency_IDR($ppn) }}</span></div>
               <div class="checkout__order__total">Total <span>{{ currency_IDR($totalPriceToCheckout) }}</span></div>
 
-              <strong style="font-size: 18px">Payment Method</strong>
-              <p>Select your payment method.</p>
+              <strong style="font-size: 18px">Finish Order</strong>
+              <p class="mb-1">Receipt invoice will be sent to the email address.</p>
               <div class="checkout__input__checkbox">
-                <label for="debit_card">
-                  Debit Card
-                  <input type="radio" id="debit_card" name="select_payment">
-                  <span class="checkmark"></span>
-                </label>
-              </div>
-              <div class="checkout__input__checkbox">
-                <label for="paypal">
-                  COD (Indonesia Region)
-                  <input type="radio" id="paypal" name="select_payment">
+                <label for="invoice_recipt">
+                  Recipt Invoice
+                  <input type="checkbox" id="invoice_recipt">
                   <span class="checkmark"></span>
                 </label>
               </div>

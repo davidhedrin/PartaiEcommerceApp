@@ -18,11 +18,11 @@ return new class extends Migration
             $table->string('no_ponsel')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->unsignedBigInteger('user_type')->default(2);// Default user
-            $table->foreign('user_type')->references('id')->on('roles')->onDelete('set null');
+            $table->unsignedBigInteger('user_type')->nullable()->default(2);
             $table->string('flag_active')->nullable()->default("Y");
             $table->rememberToken();
             $table->timestamps();
+            $table->foreign('user_type')->references('id')->on('roles')->onDelete('set null');
         });
     }
 

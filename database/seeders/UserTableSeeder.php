@@ -23,13 +23,12 @@ class UserTableSeeder extends Seeder
         }
         $passHash = Hash::make('david123');
         User::create([
-            'name' => 'Admin Ecommerce',
+            'name' => 'David Simbolon',
             'email' => $email,
             'no_ponsel' => '082110863133',
             'password' => $passHash,
             'user_type' => 1, //1 As admin
             'flag_active' => 'Y',
-            'alamat' => 'Admin ecommerce app laravel',
             'email_verified_at' => now(),
         ]);
     }

@@ -11,16 +11,27 @@ use App\Models\Product;
 use App\Models\ShopingCart;
 use App\Models\Voucher;
 use App\Models\AddressUser;
+use App\Models\PaymentMethod;
 use Carbon\Carbon;
 
 class CheckoutComponent extends Component
 {
     public $subTotalPriveAll = 0, $ppn = 0, $totalPriceToCheckout = 0;
     public $voucherVal = 0, $voucherCode;
-    public $activeIdAddress;
+    public $activeIdAddress, $select_payment_medhod;
+    public $allPayment1, $allPayment2;
+    
+    public function updated($fields){
+        $this->validateOnly($fields, [
+            "select_payment_medhod" => "required"
+        ]);
+    }
 
     public function mount($voucher = null){
         $this->voucherCode = $voucher;
+
+        $this->allPayment1 = PaymentMethod::where("flag_active", true)->where("type", 1)->get();
+        $this->allPayment2 = PaymentMethod::where("flag_active", true)->where("type", 2)->get();
 
         $user = Auth::user();
         $allAddress = AddressUser::where("user_id", $user->id)->get();
