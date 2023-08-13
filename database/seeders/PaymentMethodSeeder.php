@@ -59,7 +59,7 @@ class PaymentMethodSeeder extends Seeder
                 "name" => "Bank CIMB Niaga",
                 "code" => "po-004-gojek",
                 "type" => 1,
-                "img" => "icon-gopay.png",
+                "img" => "icon-cimbniaga.png",
                 "flag_active" => true,
                 "created_at" => now(),
                 "updated_at" => now(),

@@ -75,6 +75,20 @@ class HalperFunctions{
         return $otpCode;
     }
 
+    public static function generateRandomCode(int $length, $lower = false)
+    {
+        $lowerChar = 'abcdefghijklmnopqrstuvwxyz';
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $characters .= $lower ? $lowerChar : "";
+        $code = '';
+        
+        for ($i = 0; $i < $length; $i++) {
+            $code .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        
+        return $code;
+    }
+
     public static function mailDataOtp(){
         $auth = Auth::user();
         $setOtp = HalperFunctions::generateOtpCode(6);

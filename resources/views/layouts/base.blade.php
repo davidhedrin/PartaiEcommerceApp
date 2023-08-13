@@ -45,6 +45,7 @@ if (
 
   <!-- Css Styles -->
   <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" type="text/css">
+  <link rel="stylesheet" href="{{ asset('assetz/vendor/fonts/boxicons.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}" type="text/css">
   <link rel="stylesheet" href="{{ asset('assets/css/elegant-icons.css') }}" type="text/css">
   <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui.min.css') }}" type="text/css">
@@ -124,10 +125,10 @@ if (
           </a>
         </li>
         <li>
-          <a href="#">
+          <a href="{{ route('ordered-transaction') }}">
             <i class="fa fa-truck"></i>
             @if (Auth::user())
-            <span>1</span>
+            <span><livewire:component.ordered-counter></span>
             @endif
           </a>
         </li>
@@ -269,10 +270,10 @@ if (
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a href="{{ route('ordered-transaction') }}">
                   <i class="fa fa-truck"></i>
                   @if (Auth::user())
-                  <span>1</span>
+                  <span><livewire:component.ordered-counter></span>
                   @endif
                 </a>
               </li>

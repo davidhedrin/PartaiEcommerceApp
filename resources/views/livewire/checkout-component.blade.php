@@ -67,18 +67,24 @@
                 @endforelse
 
                 <li style="background: lightgray">
-                  <a href="{{ route('account-setting', [" activeId"=> 3]) }}" class="text-center"><i
+                  <a href="{{ route('account-setting', ["activeId"=> 3]) }}" class="text-center"><i
                       class="fa fa-plus-circle" aria-hidden="true"></i> Add More Address</a>
                 </li>
               </ul>
+
+              @error('activeIdAddress')
+                <span class="text-danger">{{ $message }}</span>
+              @enderror
             </div>
 
-            <div class="checkout__input">
+            <div class="checkout__input pt-2">
               <p class="mb-2">Payment Method: </p>
               <select wire:model="select_payment_medhod" class="form-control">
                 <option value="">Select Payment Method</option>
                 <option value="1">Transfer VA (Indonesia)</option>
-                <option value="2">Debit Card</option>
+                @if ($po_creditCard)
+                <option value="{{ $po_creditCard->id }}">{{ $po_creditCard->name }}</option>
+                @endif
               </select>
               @error('select_payment_medhod')
               <span class="text-danger">{{ $message }}</span>
@@ -91,8 +97,8 @@
                 <div class="col-md-6">
                   <div class="checkout__input__checkbox">
                     <label for="{{ $paymet->code }}">
-                      <img src="{{ asset('po-img/' . $paymet->img) }}" class="img-icon-po" alt="gopay">
-                      <input type="radio" id="{{ $paymet->code }}" value="{{ $paymet->id }}" name="select_payment">
+                      <img src="{{ asset('po-img/' . $paymet->img) }}" class="img-icon-po" alt="{{ $paymet->code }}">
+                      <input wire:model="selected_va" type="radio" id="{{ $paymet->code }}" value="{{ $paymet->id }}" name="select_payment">
                       <span class="checkmark"></span>
                     </label>
                   </div>
@@ -100,10 +106,13 @@
                 @endforeach
                 @endif
               </div>
+              @error('selected_va')
+                <span class="text-danger">{{ $message }}</span>
+              @enderror
             </div>
-            <div class="checkout__input">
+            <div class="checkout__input mt-2">
               <p class="mb-2">Order notes: </p>
-              <input type="text" style="border: 1px solid #a7a7a7;"
+              <input wire:model='order_notes' type="text" style="border: 1px solid #a7a7a7;"
                 placeholder="Notes about your order, e.g. special notes for delivery.">
             </div>
           </div>
@@ -132,11 +141,11 @@
               <div class="checkout__input__checkbox">
                 <label for="invoice_recipt">
                   Recipt Invoice
-                  <input type="checkbox" id="invoice_recipt">
+                  <input wire:model='recipt_invoice' type="checkbox" id="invoice_recipt">
                   <span class="checkmark"></span>
                 </label>
               </div>
-              <button type="submit" class="site-btn">PLACE ORDER</button>
+              <button wire:click='placeOrderCart' type="submit" class="site-btn">PLACE ORDER</button>
             </div>
           </div>
         </div>
