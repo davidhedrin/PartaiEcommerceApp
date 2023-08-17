@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('sortname')->nullable();
             $table->string('code')->nullable();
+            $table->string('phone_code')->nullable();
             $table->timestamps();
         });
     }

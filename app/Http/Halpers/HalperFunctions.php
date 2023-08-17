@@ -66,6 +66,35 @@ class HalperFunctions{
         $result = preg_replace('/\D/', '', $value);
         return $result;
     }
+    
+    public static function totalCheckoutProduct($products)
+    {
+        $result = 0;
+
+        foreach($products as $product){
+            $result += $product->sale ? $product->sale * $product->qty : $product->price * $product->qty;
+        }
+
+        return $result;
+    }
+    
+    public static function transactionWithVoucher($getTotal, $getVoucher = null)
+    {
+        $result = 0;
+        
+        if($getVoucher){
+            if($getVoucher->type == "fixed"){ // Voucher fixed
+                $result = $getVoucher->value;
+            }else{ // Voucher discount
+                $percent = ($getVoucher->value / 100);
+                $calculateDiscount = $getTotal * $percent;
+                $totalDiscount = $getVoucher->max_value_percent ? ($calculateDiscount > $getVoucher->max_value_percent ? $getVoucher->max_value_percent : $calculateDiscount) : $calculateDiscount;
+                $result = $totalDiscount;
+            }
+        }
+
+        return $result;
+    }
 
     public static function generateOtpCode(int $digit){
         $min = pow(10, $digit - 1);
@@ -144,11 +173,12 @@ class HalperFunctions{
         return $setListProduct;
     }
 
-    public static function HitRateLimit($throttleKey, $limit, $timeMinute){
+    public static function HitRateLimit($throttleKey, $limit, $timeMinute, $msg = null){
         if(RateLimiter::tooManyAttempts($throttleKey, $limit)){
             $seconds  = RateLimiter::availableIn($throttleKey, $timeMinute * 60);
             $displayMinutes = ceil($seconds / 60);
-            session()->flash('msgAlert', "Maaf, percobaan telah melewati batas! Coba lagi dalam waktu $displayMinutes menit.");
+            $msgAlert = $msg ? $msg : "Sorry, the try has crossed the line! Try again in $displayMinutes minute";
+            session()->flash('msgAlert', "$msgAlert.");
             session()->flash('msgStatus', 'Warning');
             return false;
         }

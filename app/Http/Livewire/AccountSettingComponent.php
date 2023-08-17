@@ -216,7 +216,7 @@ class AccountSettingComponent extends Component
                 $newAddress->contact = $this->address_contact;
                 $newAddress->address = $this->address_address;
                 $newAddress->city = $this->address_city;
-                $newAddress->country = $this->address_country;
+                $newAddress->country_id = $this->address_country;
                 $newAddress->post_code = $this->address_post_code;
                 $newAddress->mark_as = $this->address_mark_as;
                 $newAddress->save();

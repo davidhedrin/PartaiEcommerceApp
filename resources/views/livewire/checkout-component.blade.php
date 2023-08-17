@@ -46,7 +46,7 @@
                       </strong>
                       <p style="line-height: 0">{{ $address->contact }}</p>
                       <p style="margin-top: 15px; line-height: 18px">
-                        {{ $address->address }} {{ $address->city }}, {{ $address->country }}, {{ $address->post_code
+                        {{ $address->address }} {{ $address->city }}, {{ $address->country->name }}, {{ $address->post_code
                         }}.
                       </p>
                     </div>
@@ -79,12 +79,12 @@
 
             <div class="checkout__input pt-2">
               <p class="mb-2">Payment Method: </p>
-              <select wire:model="select_payment_medhod" class="form-control">
+              <select wire:model="select_payment_medhod" wire:change='paymentMethodFee($event.target.value)' class="form-control">
                 <option value="">Select Payment Method</option>
-                <option value="1">Transfer VA (Indonesia)</option>
-                @if ($po_creditCard)
-                <option value="{{ $po_creditCard->id }}">{{ $po_creditCard->name }}</option>
-                @endif
+                <option value="va">Transfer VA (Indonesia)</option>
+                @foreach ($po_creditCard as $po)
+                <option value="{{ $po->id }}" id="{{ $po->code }}">{{ $po->name }}</option>
+                @endforeach
               </select>
               @error('select_payment_medhod')
               <span class="text-danger">{{ $message }}</span>
@@ -92,13 +92,13 @@
             </div>
             <div>
               <div class="row">
-                @if ($select_payment_medhod == "1")
+                @if ($select_payment_medhod == "va")
                 @foreach ($allPayment1 as $paymet)
                 <div class="col-md-6">
                   <div class="checkout__input__checkbox">
                     <label for="{{ $paymet->code }}">
                       <img src="{{ asset('po-img/' . $paymet->img) }}" class="img-icon-po" alt="{{ $paymet->code }}">
-                      <input wire:model="selected_va" type="radio" id="{{ $paymet->code }}" value="{{ $paymet->id }}" name="select_payment">
+                      <input wire:model="selected_va" wire:change='paymentMethodFee($event.target.value)' type="radio" id="{{ $paymet->code }}" value="{{ $paymet->id }}" name="select_payment">
                       <span class="checkmark"></span>
                     </label>
                   </div>
@@ -122,16 +122,24 @@
               <div class="checkout__order__products">Products <span>Total</span></div>
               <ul>
                 @forelse ($products as $item)
-                <li>{{ $item->product->name }} x {{ $item->qty }} <span>{{
-                    currency_IDR(($item->product->regular_price-$item->product->sale_price) * $item->qty) }}</span></li>
+                <li>
+                  {{ $item->product->name }} x {{ $item->qty }} 
+                  <span>{{ currency_IDR(($item->product->regular_price-$item->product->sale_price) * $item->qty) }}</span>
+                </li>
                 @empty
                 <li>No product to checkout</li>
                 @endforelse
               </ul>
-              <div class="checkout__order__subtotal">Subtotal <span>{{ currency_IDR($subTotalPriveAll) }}</span></div>
+              <div class="checkout__order__subtotal">Subtotal <span>{{ currency_IDR($subTotalPriceAll) }}</span></div>
               @if ($voucherCode)
-              <strong style="font-size: 18px;">"{{ $voucherCode }}"<span style="float: right">- {{
-                  currency_IDR($voucherVal) }}</span></strong>
+              <div>
+                <strong style="font-size: 18px;">"{{ $voucherCode }}"<span style="float: right">- {{ currency_IDR($voucherVal) }}</span></strong>
+              </div>
+              @endif
+              @if($payment_fee_name)
+              <div>
+                <strong style="font-size: 18px;">{{ $payment_fee_name }}<span style="float: right">{{ currency_IDR($payment_fee_value) }}</span></strong>
+              </div>
               @endif
               <div class="checkout__order__ppn">PPN 5% <span>{{ currency_IDR($ppn) }}</span></div>
               <div class="checkout__order__total">Total <span>{{ currency_IDR($totalPriceToCheckout) }}</span></div>

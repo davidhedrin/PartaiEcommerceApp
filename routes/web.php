@@ -17,6 +17,7 @@ use App\Http\Livewire\CheckoutComponent;
 use App\Http\Livewire\WhitelistComponent;
 use App\Http\Livewire\AccountSettingComponent;
 use App\Http\Livewire\OrderedTransctions;
+use App\Http\Livewire\TransactionDetail;
 
 use App\Http\Livewire\Admin\DashboardComponent;
 use App\Http\Livewire\Admin\CategoryComponent;
@@ -61,6 +62,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
   Route::get('/whitelist-product', WhitelistComponent::class)->name('whitelist');
   Route::get('/account-setting/{activeId?}', AccountSettingComponent::class)->name('account-setting');
   Route::get('/ordered-transaction', OrderedTransctions::class)->name('ordered-transaction');
+});
+// Route for user owner login
+Route::middleware(['auth:sanctum', 'verified', 'auth_owner'])->group(function () {
+  Route::get('/transaction-detail/{trans_id}', TransactionDetail::class)->name('transaction-detail');
 });
 
 // Route for admin login

@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Transaction;
 
-class PaymentMethod extends Model
+class MidtransHistory extends Model
 {
     use HasFactory;
 
-    protected $table = 'payment_methods';
+    protected $table = 'midtrans_histories';
 
-    public function transactions(){
-        return $this->hasMany(Transaction::class, 'payment_id');
+    public function transaction()
+    {
+        return $this->belongsTo(Transaction::class, 'trans_id');
     }
 }

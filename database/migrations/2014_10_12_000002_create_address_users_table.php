@@ -18,11 +18,12 @@ return new class extends Migration
             $table->string('contact')->nullable();
             $table->text('address')->nullable();
             $table->string('city')->nullable();
-            $table->string('country')->nullable();
+            $table->unsignedBigInteger('country_id')->nullable();
             $table->string('post_code')->nullable();
             $table->enum('mark_as', ['h', 'o'])->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('set null');
         });
     }
 

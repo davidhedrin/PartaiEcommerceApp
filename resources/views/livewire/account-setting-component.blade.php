@@ -163,7 +163,7 @@
                 </strong>
                 <p style="line-height: 0">{{ $address->contact }}</p>
                 <p style="margin-top: 15px; margin-bottom: 0px; line-height: 20px">
-                  {{ $address->address }} {{ $address->city }}, {{ $address->country }}, {{ $address->post_code }}.
+                  {{ $address->address }} {{ $address->city }}, {{ $address->country->name }}, {{ $address->post_code }}.
                 </p>
               </div>
             </a>
@@ -247,7 +247,7 @@
             <select wire:model="address_country" class="custom-select mt-0">
               <option value="">Select your country</option>
               @foreach ($countries as $country)
-              <option value="{{ $country->name }}">{{ $country->name }}</option>
+              <option value="{{ $country->id }}">{{ $country->name }}</option>
               @endforeach
             </select>
             @error("address_country")

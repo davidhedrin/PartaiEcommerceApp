@@ -22,6 +22,7 @@ if (
   $curRouteName != 'verification.notice' &&
   $curRouteName != 'password.reset' &&
   $curRouteName != 'otp-admin' &&
+  $curRouteName != 'transaction-detail' &&
   $curRouteName != 'account-setting'
 ) {
   $logicNavCateg = true;
@@ -491,6 +492,16 @@ if (
     function hideToastAlert() {
       $('.toast').toast('hide');
       $('#overlay-bg-toast').hide();
+    }
+    
+    function copyTextClipboard(text){
+        const $tempInput = $('<input>');
+        $tempInput.val(text);
+
+        $(document.body).append($tempInput);
+        $tempInput.select();
+        document.execCommand('copy');
+        $tempInput.remove();
     }
   </script>
   @stack('scripts')

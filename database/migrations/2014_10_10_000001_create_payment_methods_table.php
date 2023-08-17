@@ -14,8 +14,12 @@ return new class extends Migration
         Schema::create('payment_methods', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->string('code')->nullable();
+            $table->string('code')->unique()->nullable();
+            $table->string('payment_type')->nullable();
+            $table->string('bank_transfer')->unique()->nullable();
             $table->integer('type')->nullable();
+            $table->decimal('fee_fixed')->nullable();
+            $table->double('fee_percent')->nullable();
             $table->string('img')->nullable();
             $table->boolean('flag_active')->nullable()->default(true);
             $table->timestamps();
