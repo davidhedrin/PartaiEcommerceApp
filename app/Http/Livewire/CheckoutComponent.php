@@ -233,8 +233,8 @@ class CheckoutComponent extends Component
                 $findPo = PaymentMethod::find($valuePaymentMethod);
 
                 $serverKeyMidtrans = config('midtrans.key');
-                $urlSendboxMidtrans = config('midtrans.url_sendbox');
-                $urlProdutionKeyMidtrans = config('midtrans.url_production');
+                $urlSendboxMidtrans = config('midtrans.url_sendbox') . "/charge";
+                $urlProdutionKeyMidtrans = config('midtrans.url_production') . "/charge";
 
                 $bodyMidtrans = [
                     "payment_type" => $findPo->payment_type,
@@ -305,6 +305,8 @@ class CheckoutComponent extends Component
                 $getVaNumberResponse = null;
                 if($findPo->code == "po-002" || $findPo->code == "po-003" || $findPo->code == "po-004"){
                     $getVaNumberResponse = $resObjMidtrans->va_numbers[0]->va_number;
+                }else if($findPo->code == "po-005"){
+                    $getVaNumberResponse = $resObjMidtrans->bill_key;
                 }else if($findPo->code == "po-006"){
                     $getVaNumberResponse = $resObjMidtrans->permata_va_number;
                 }

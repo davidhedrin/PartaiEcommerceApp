@@ -74,19 +74,10 @@
         <div class="col-md-3 mb-2 mt-1 text-center">
           <p class="mb-0">Order Status:</p>
           @if ($findTrans)
-          <span
-            class="badge {{ $findTrans->status == 1 ? 'badge-secondary' : ($findTrans->status == 5 ? 'badge-success' : 'badge-primary') }}">
+          <span class="badge {{ $findTrans->status->badge }}">
             <h6 class="text-light ml-1 mr-1">
-              @if ($findTrans->status == 1)
-              Waiting Payment
-              @elseif ($findTrans->status == 2)
-              Paid
-              @elseif ($findTrans->status == 3)
-              Packing
-              @elseif ($findTrans->status == 4)
-              Shipment
-              @elseif ($findTrans->status == 5)
-              Finished
+              @if ($findTrans->status)
+              {{ $findTrans->status->name }}
               @else
               -
               @endif
@@ -104,6 +95,7 @@
 
   <div class="row">
     <div class="col-lg-8">
+      @if ($findTrans->status_id != 6 && $findTrans->status_id != 7)
       <h5><strong>Payment Detail:</strong></h5>
       <div class="card mt-2 mb-4">
         <div class="card-body">
@@ -133,13 +125,21 @@
                 </div>
               </div>
               <div class="col-md-6 text-center pay-detail-col-right">
-                {{-- Generate QR Code Img {{ $responJson->actions[0]->url }} --}}
                 <img src="{{ asset('po-img/qr_icon.png') }}" alt="QR ICON" style="object-fit: contain; width: 120px">
-                <div class="mt-2">
-                  <a href="javascript:void(0)" class="text-info">Show QR</a>
-                  <span class="px-1">or</span>
-                  <a href="{{ $responJson ? $responJson->actions[1]->url : "javascript:void(0)" }}" target="_blank" class="text-info">Gopay App</a>
-                </div>
+                @if ($findTrans->status_id == 1)
+                  {{-- Generate QR Code Img {{ $responJson->actions[0]->url }} --}}
+                  <div class="mt-2">
+                    <a href="javascript:void(0)" class="text-info">Show QR</a>
+                    <span class="px-1">or</span>
+                    <a href="{{ $responJson ? $responJson->actions[1]->url : "javascript:void(0)" }}" target="_blank" class="text-info">Gopay App</a>
+                  </div>
+                @else
+                <h4>
+                  <strong>
+                    <span class="text-secondary">PAID</span>
+                  </strong>
+                </h4>
+                @endif
               </div>
             </div>
           </div>
@@ -176,11 +176,17 @@
                   @if($findTrans->transaction)
                   <h4>
                     <strong>
-                      {{ $findTrans->transaction->va }}
-                      <i class='bx bx-copy-alt' style="cursor: pointer" wire:click.prevent="copyToClipboard('{{ $findTrans->transaction->va }}')"></i>
+                      @if ($findTrans->status_id == 1)
+                        {{ $findTrans->transaction->va }}
+                        <i class='bx bx-copy-alt' style="cursor: pointer" wire:click.prevent="copyToClipboard('{{ $findTrans->transaction->va }}')"></i>
+                      @else
+                        <span class="text-secondary">PAID</span>
+                      @endif
                     </strong>
                   </h4>
+                  @if ($findTrans->status_id == 1)
                   Until - {{ formatDateFormal($findTrans->transaction->expiry_time, true) }}
+                  @endif
                   @else
                   -
                   @endif
@@ -235,11 +241,17 @@
                     @if($findTrans->transaction)
                     <h4>
                       <strong>
-                        {{ $responJson->bill_key }}
-                        <i class='bx bx-copy-alt' style="cursor: pointer" wire:click.prevent="copyToClipboard('{{ $responJson->bill_key }}')"></i>
+                        @if ($findTrans->status_id == 1)
+                          {{ $findTrans->transaction->va }}
+                          <i class='bx bx-copy-alt' style="cursor: pointer" wire:click.prevent="copyToClipboard('{{ $findTrans->transaction->va }}')"></i>
+                        @else
+                          <span class="text-secondary">PAID</span>
+                        @endif
                       </strong>
                     </h4>
+                    @if ($findTrans->status_id == 1)
                     Until - {{ formatDateFormal($findTrans->transaction->expiry_time, true) }}
+                    @endif
                     @else
                     -
                     @endif
@@ -270,6 +282,7 @@
           @endif
         </div>
       </div>
+      @endif
 
       <h5><strong>Billing Details:</strong></h5>
       <div class="card mt-2 mb-4">
@@ -390,7 +403,36 @@
         </div>
         @endif
 
-        <button type="submit" class="site-btn mt-2">PLACE ORDER</button>
+        {{-- <button type="submit" class="site-btn mt-2">Place Order</button> --}}
+        <hr>
+        @if ($findTrans->status_id < 4)
+        <button type="button" data-toggle="modal" data-target="#cancelTransModal" class="site-btn mt-2 mb-2" style="background: {{ $findTrans->status_id == 1 ? "#ff7f07" : "#3e77f1" }}">{{ $findTrans->status_id == 1 ? "Cancel" : "Refund" }}</button>
+        @if ($findTrans->status_id == 3)
+        <em>Refunds are valid during the packaging period</em>
+        @endif
+        @endif
+      </div>
+    </div>
+  </div>
+  
+  <div wire:ignore.self class="modal fade" id="cancelTransModal" tabindex="-1" role="dialog"
+    aria-labelledby="logoutModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+
+          <img src="{{ asset('logo/logo2.png') }}" class="rounded mr-2" alt="" width="160px">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-center">
+          Are you sure you want to cancel this order?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">No</button>
+          <button wire:click="cancelTransaction('{{ $findTrans->id }}')" type="button" class="btn btn-secondary btn-sm">Yes</button>
+        </div>
       </div>
     </div>
   </div>

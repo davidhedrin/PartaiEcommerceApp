@@ -12,11 +12,17 @@ use App\Models\Transaction;
 
 class OrderedTransctions extends Component
 {
-    public $activePage = 1;
+    public $mountAllTransaction, $activePage = 1;
+
+    public function mount($activeId = null){
+        $this->activePage = $activeId ? $activeId : 1;
+
+        $auth = Auth::user();
+        $this->mountAllTransaction = Transaction::where("user_id", $auth->id)->get();
+    }
 
     public function loadAllData(){
-        $auth = Auth::user();
-        $allTransaction = Transaction::where("user_id", $auth->id)->get();
+        $allTransaction = $this->mountAllTransaction->where("status_id", $this->activePage)->all();
 
         return[
             "allTransaction" => $allTransaction,

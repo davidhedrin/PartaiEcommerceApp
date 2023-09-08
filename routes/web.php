@@ -25,6 +25,7 @@ use App\Http\Livewire\Admin\ProductComponent;
 use App\Http\Livewire\Admin\EcomSettingComponent;
 use App\Http\Livewire\Admin\OtpVerfyComponent;
 use App\Http\Livewire\Admin\VoucherComponent;
+use App\Http\Livewire\Admin\AllOrderComponent;
 
 Auth::routes([
   'login' => false,
@@ -61,7 +62,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
   Route::get('/checkout-cart/{voucher?}', CheckoutComponent::class)->name('checkout-cart');
   Route::get('/whitelist-product', WhitelistComponent::class)->name('whitelist');
   Route::get('/account-setting/{activeId?}', AccountSettingComponent::class)->name('account-setting');
-  Route::get('/ordered-transaction', OrderedTransctions::class)->name('ordered-transaction');
+  Route::get('/ordered-transaction/{activeId?}', OrderedTransctions::class)->name('ordered-transaction');
 });
 // Route for user owner login
 Route::middleware(['auth:sanctum', 'verified', 'auth_owner'])->group(function () {
@@ -75,6 +76,7 @@ Route::middleware(['auth:sanctum', 'verified', 'auth_admin'])->group(function ()
   Route::get('/admin-product', ProductComponent::class)->name('adm-product');
   Route::get('/admin-ecomsetting', EcomSettingComponent::class)->name('adm-ecomsetting');
   Route::get('/admin-voucher', VoucherComponent::class)->name('adm-voucher');
+  Route::get('/admin-orders', AllOrderComponent::class)->name('adm-orders');
 });
 
 // Function for layouts

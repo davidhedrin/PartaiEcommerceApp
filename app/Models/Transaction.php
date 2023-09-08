@@ -11,6 +11,7 @@ use App\Models\CheckoutProduct;
 use App\Models\PaymentMethod;
 use App\Models\PaymentTransaction;
 use App\Models\AddressUser;
+use App\Models\StatusTransaction;
 
 class Transaction extends Model
 {
@@ -47,5 +48,10 @@ class Transaction extends Model
     public function address()
     {
         return $this->belongsTo(AddressUser::class, 'address_id');
+    }
+    
+    public function status()
+    {
+        return $this->belongsTo(StatusTransaction::class, 'status_id');
     }
 }

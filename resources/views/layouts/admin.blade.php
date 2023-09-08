@@ -94,8 +94,8 @@
           </li>
 
           <li class="menu-header small text-uppercase"><span class="menu-header-text">Ecommerce</span></li>
-          <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link">
+          <li class="menu-item {{ $curRouteName == 'adm-orders' ? 'active' : '' }}">
+            <a href="{{ route('adm-orders') }}" class="menu-link">
               <i class='menu-icon tf-icons bx bx-basket'></i>
               <div data-i18n="Tables">Pesanan <span class="badge rounded-pill bg-danger">12</span></div>
             </a>

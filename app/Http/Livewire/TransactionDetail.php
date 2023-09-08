@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Exception;
 
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\Http;
 use App\Models\CheckoutProduct;
 use App\Models\PaymentMethod;
 use App\Models\Transaction;
@@ -61,6 +62,37 @@ class TransactionDetail extends Component
             }
         } catch (Exception $e) {
         }
+    }
+    
+    public function cancelTransaction($order_id){
+        // $getStatusOrder = json_decode(HalperFunctions::getStatusTransactionMidtrans($order_id));
+        
+        // if($getStatusOrder->transaction_status == "pending"){
+        //     $uuid = Uuid::fromString($order_id);
+        //     $getTrans = Transaction::find($uuid);
+
+        //     if($getTrans->status_id == 1){
+        //         $serverKeyMidtrans = config('midtrans.key');
+        //         $urlSendboxMidtrans = config('midtrans.url_sendbox') . "/$order_id/cancel";
+        //         $urlProdutionKeyMidtrans = config('midtrans.url_production') . "/$order_id/cancel";
+                
+        //         $resJsonMidtrans = Http::withBasicAuth($serverKeyMidtrans, '')->post($urlSendboxMidtrans);
+        //         if($resJsonMidtrans->failed()){
+        //             HalperFunctions::insertLogError($getTrans->user->email, "cancelTransaction", "POST", json_decode($resJsonMidtrans)->status_message);
+        //             session()->flash('msgAlert', 'Transaction cannot be forwarded. Try again in a few moments!');
+        //             session()->flash('msgStatus', 'Info');
+        //             return false;
+        //         }
+    
+        //         $getTrans->status_id = 6;
+        //         $getTrans->flag_active = false;
+        //         $getTrans->save();
+    
+        //         session()->flash('msgAlert', 'Your transaction has been successfully cancelled');
+        //         session()->flash('msgStatus', 'Success');
+        //         return redirect()->route('transaction-detail', ['trans_id' => $order_id]);
+        //     }
+        // }
     }
     
     public function copyToClipboard($text){

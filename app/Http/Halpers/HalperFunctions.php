@@ -2,6 +2,7 @@
 
 namespace App\Http\Halpers;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
@@ -185,6 +186,15 @@ class HalperFunctions{
         
         RateLimiter::hit($throttleKey);
         return true;
+    }
+
+    public static function getStatusTransactionMidtrans($order_id){
+        $serverKeyMidtrans = config('midtrans.key');
+        $urlSendboxMidtrans = config('midtrans.url_sendbox') . "/$order_id/status";
+        $urlProdutionKeyMidtrans = config('midtrans.url_production') . "/$order_id/status";
+
+        $resJsonMidtrans = Http::withBasicAuth($serverKeyMidtrans, '')->get($urlSendboxMidtrans);
+        return $resJsonMidtrans;
     }
 
     public static function SaveWithTransaction(\Closure $trans, $function = null, $eventName = null) {

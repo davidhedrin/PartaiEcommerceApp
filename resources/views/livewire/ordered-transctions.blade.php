@@ -47,26 +47,26 @@
 
   <hr>
   <div class="row">
-    <div class="col-lg-3 text-center mb-3">
+    <div wire:click="$set('activePage', 1)" class="col-lg-3 text-center mb-3">
       <div class="contact__widget button-content-delivered {{ $activePage == 1 ? " active-page" : "" }}"> {{-- --}}
         <i class='bx bx-wallet'></i>
         <h4>Paying</h4>
       </div>
     </div>
-    <div class="col-lg-3 text-center mb-3">
-      <div class="contact__widget button-content-delivered">
+    <div wire:click="$set('activePage', 3)" class="col-lg-3 text-center mb-3">
+      <div class="contact__widget button-content-delivered {{ $activePage == 3 ? " active-page" : "" }}">
         <i class='bx bx-package'></i>
         <h4>Packaged</h4>
       </div>
     </div>
-    <div class="col-lg-3 text-center mb-3">
-      <div class="contact__widget button-content-delivered">
+    <div wire:click="$set('activePage', 4)" class="col-lg-3 text-center mb-3">
+      <div class="contact__widget button-content-delivered {{ $activePage == 4 ? " active-page" : "" }}">
         <i class='bx bxs-truck'></i>
         <h4>Deliver</h4>
       </div>
     </div>
-    <div class="col-lg-3 text-center mb-3">
-      <div class="contact__widget button-content-delivered">
+    <div wire:click="$set('activePage', 5)" class="col-lg-3 text-center mb-3">
+      <div class="contact__widget button-content-delivered {{ $activePage == 5 ? " active-page" : "" }}">
         <i class='bx bx-donate-heart'></i>
         <h4>Arrived</h4>
       </div>
@@ -75,7 +75,17 @@
   <hr>
 
   <div class="d-flex justify-content-between">
-    <h5 class="mb-3"><strong>Need to Paid</strong></h5>
+    <h5 class="mb-3"><strong>
+      @if ($activePage == 1)
+      Need to Paid
+      @elseif ($activePage == 3)
+      Waiting for Package
+      @elseif ($activePage == 4)
+      Package Delivery
+      @elseif ($activePage == 5)
+      Finish Delivery
+      @endif
+    </strong></h5>
     <h5><strong>{{ count($allTransaction) }} Item</strong></h5>
   </div>
   

@@ -36,20 +36,24 @@ class HandleNotifPaymentMidtransController extends Controller
                 function() use($uuid, $findTransaction, $payload){
                     $newHistory = new MidtransHistory;
                     $newHistory->trans_id = $uuid;
-                    $newHistory->status = $payload['transaction_status'];
+                    $newHistory->status_id = $payload['transaction_status'];
                     $newHistory->status_code = $payload['status_code'];
                     $newHistory->response = json_encode($payload);
                     $newHistory->save();
+
+                    $findPaymentTrans = $findTransaction->transaction;
             
                     if($payload['transaction_status'] == 'settlement' || $payload['transaction_status'] == 'capture'){
-                        $findTransaction->status = 2;
+                        $findTransaction->status_id = 3;
+                        $findPaymentTrans->payed_date = $payload['transaction_time'];
                     }
                     if($payload['transaction_status'] == 'expire' || $payload['transaction_status'] == 'failure'){
-                        $findTransaction->status = null;
+                        $findTransaction->status_id = 7;
                         $findTransaction->flag_active = false;
                     }
             
                     $findTransaction->save();
+                    $findPaymentTrans->save();
                 },
                 "HistoryAndUpdate"
             );
